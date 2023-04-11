@@ -118,6 +118,7 @@ darkmode: false
 menu:
   home: / || fa fa-home		#首页
   categories: /categories/ || fa fa-th	#分类
+  notes: /categories/笔记/ || fa fa-folder-open	#笔记
   read: /categories/阅读/ || fa fa-book	#阅读
   tags: /tags/ || fa fa-tags		#标签
   archives: /archives/ || fa fa-archive	#时间轴
