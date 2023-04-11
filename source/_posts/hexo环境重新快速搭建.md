@@ -17,13 +17,13 @@ description:
 ## #2.克隆main主分支，
 
 ```
-$ git clone -b main https://github.com/Leeyunhe/Leeyunhe.github.io.git
+$ git clone -b main https://github.com/XXX/XXX.github.io.git
 ```
 
 ## 3.克隆hexo_bak分支，
 
 ```
-$ git clone -b hexo_bak https://github.com/Leeyunhe/Leeyunhe.github.io.git
+$ git clone -b hexo_bak https://github.com/XXX/XXX.github.io.git
 ```
 
 ## 4.安装node.js(修改安装目录，默认安装)
