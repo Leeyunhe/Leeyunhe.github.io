@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Video for Linux two(简称v4l2)   一、概述 vl42是video for Linux 2的缩写，是一套Linux内核视频设备的驱动框架，该驱动框架为应用层提供一套统一的操作接口(一系列的ioctl)。包括一套数据结构和底层V4L2驱动接口。只能在Linux下使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Video for Linux two(简称v4l2)">
+<meta property="og:url" content="http://example.com/2023/04/13/1-V4l2/index.html">
+<meta property="og:site_name" content="Leeyunhe">
+<meta property="og:description" content="Video for Linux two(简称v4l2)   一、概述 vl42是video for Linux 2的缩写，是一套Linux内核视频设备的驱动框架，该驱动框架为应用层提供一套统一的操作接口(一系列的ioctl)。包括一套数据结构和底层V4L2驱动接口。只能在Linux下使用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/13/1-V4l2/1.png">
+<meta property="og:image" content="http://example.com/2023/04/13/1-V4l2/2.png">
+<meta property="og:image" content="http://example.com/2023/04/13/1-V4l2/3.png">
+<meta property="article:published_time" content="2023-04-13T03:56:11.000Z">
+<meta property="article:modified_time" content="2023-04-13T04:21:44.991Z">
+<meta property="article:author" content="Leeyunhe">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/13/1-V4l2/1.png">
+
+<link rel="canonical" href="http://example.com/2023/04/13/1-V4l2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Video for Linux two(简称v4l2) | Leeyunhe</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leeyunhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-notes">
+
+    <a href="/categories/%E7%AC%94%E8%AE%B0/" rel="section"><i class="fa fa-folder-open fa-fw"></i>笔记</a>
+
+  </li>
+        <li class="menu-item menu-item-read">
+
+    <a href="/categories/%E9%98%85%E8%AF%BB/" rel="section"><i class="fa fa-book fa-fw"></i>阅读</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/13/1-V4l2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.png">
+      <meta itemprop="name" content="Leeyunhe">
+      <meta itemprop="description" content="云淡风轻拂往事，执笔从容话人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leeyunhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Video for Linux two(简称v4l2)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-13 11:56:11 / 修改时间：12:21:44" itemprop="dateCreated datePublished" datetime="2023-04-13T11:56:11+08:00">2023-04-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>18k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div align = "center">Video for Linux two(简称v4l2)</div>
+
+
+<h1 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h1><p> vl42是video for Linux 2的缩写，是一套Linux内核视频设备的驱动框架，该驱动框架为应用层提供一套统一的操作接口(一系列的ioctl)。包括一套数据结构和底层V4L2驱动接口。只能在Linux下使用。</p>
+<span id="more"></span>
+
+<p>V4L2在设计时，是要支持很多广泛的设备的，它们之中只有一部分在本质上是真正的视频设备，可以支持多种设备,它可以有以下几种接口</p>
+<p>video capture interface：视频采集接口，这种接口应用于摄像头，v4l2在最初设计的时候就是应用于这种功能</p>
+<p>video output interface：视频输出接口，将静止图像或图像序列编码为模拟视频信号，通过此接口，应用程序可以控制编码过程并将图像从用户空间移动到驱动程序</p>
+<p>video overlay interface：视频直接传输接口，可以将采集到的视频数据直接传输到显示设备，不需要cpu参与，这种方式的显示图像的效率比其他方式高得多</p>
+<p>其他接口这里就不介绍了，下面来看一下v4l2的API</p>
+<h1 id="二、作用"><a href="#二、作用" class="headerlink" title="二、作用"></a>二、作用</h1><p>它使程序有发现设备和操作设备的能力。它主要是用一系列的回调函数来实现这些功能。像设置摄像头的频率、帧频、视频压缩格式和图像参数等等。并使得它们的输出标准化。当然也可以用于其他多媒体的开发，如音频等。</p>
+<h1 id="三、存放位置"><a href="#三、存放位置" class="headerlink" title="三、存放位置"></a>三、存放位置</h1><p>在Linux下，所有外设都被看成一种特殊的文件，成为“设备文件”，可以象访问普通文件一样对其进行读写。一般来说，采用V4L2驱动的摄像头设备文是&#x2F;dev&#x2F;v4l&#x2F;video0。为了通用，可以建立一个到&#x2F;dev&#x2F;video0的链接。V4L2支持两种方式来采集图像：内存映射方式(mmap)和直接读取方式(read)。V4L2在include&#x2F;linux&#x2F;videodev.h文件中定义了一些重要的数据结构，在采集图像的过程中，就是通过对这些数据的操作来获得最终的图像数据。Linux系统V4L2的能力可在Linux内核编译阶段配置，默认情况下都有此开发接口。V4L2从Linux 2.5.x版本的内核中开始出现。结构体详细参数可以在&#x2F;include&#x2F;uapi&#x2F;linux&#x2F;videodev2.h中查看。</p>
+<h1 id="四、V4l2框架操作流程"><a href="#四、V4l2框架操作流程" class="headerlink" title="四、V4l2框架操作流程"></a>四、V4l2框架操作流程</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.打开视频设备文件</span></span><br><span class="line"><span class="type">int</span> fd = open(<span class="string">&quot;/dev/video0&quot;</span>,O_RDWR);</span><br><span class="line"><span class="comment">//2.查询视频设备属性，如：是否具有视频输入或者音频输入输出等</span></span><br><span class="line">ioctl(fd,VIDIOC_QUERYCAP,&amp;cap);</span><br><span class="line"><span class="comment">//3.选择视频输入，一个视频设备可以有多个视频输入</span></span><br><span class="line"><span class="comment">//4.设置视频采集的参数:视频的制式，图像的采集窗口，帧格式，帧率，旋转方式</span></span><br><span class="line">ioctl(fd,VIDIOC_S_FMT,&amp;fmt);</span><br><span class="line"><span class="comment">//5.向驱动申请视频流数据的帧缓冲区，一般为4个。</span></span><br><span class="line">ioctl(fd, VIDIOC_REQBUFS, &amp;req);</span><br><span class="line"><span class="comment">//6.查询帧缓冲区在内核空间中的长度和偏移量 </span></span><br><span class="line">ioctl(fd, VIDIOC_QUERYBUF, &amp;buf);</span><br><span class="line"><span class="comment">//7.将申请到的帧缓冲映射到用户空间mmap，这样可以直接操作采集到的帧，不用复制</span></span><br><span class="line">buffers[i].length = buf.length;</span><br><span class="line">buffers[i].start = mmap(<span class="literal">NULL</span>, buffers[i].length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, buffers[i].offset);;</span><br><span class="line"><span class="comment">//8.将申请到的帧缓冲全部放入视频采集输出队列，以便存放采集的数据</span></span><br><span class="line">ioctl (fd, VIDIOC_QBUF, &amp;buf);</span><br><span class="line"><span class="comment">//9.开始视频采集</span></span><br><span class="line">ioctl (fd, VIDIOC_STREAMON, &amp;type);</span><br><span class="line"><span class="comment">//10.出列以取得已采集数据的帧缓冲，取得原始数据</span></span><br><span class="line">ioctl (fd, VIDIOC_DQBUF, &amp;buf);</span><br><span class="line"><span class="comment">//此时应用程序处理该帧缓冲区的数据，如：进行数据的处理和保存，</span></span><br><span class="line">fp = fopen(picture.yuv,<span class="string">&quot;w&quot;</span>);<span class="comment">//保存图片&quot;w&quot;，保存视频&quot;a&quot;追加写</span></span><br><span class="line">fwrite(addr,<span class="number">1</span>,length,fp);</span><br><span class="line">fclose(fp);</span><br><span class="line"><span class="comment">//11.处理完后，将该帧缓冲区重新入列,这样便可以循环采集数据，直到停止采集</span></span><br><span class="line">ioctl (fd, VIDIOC_QBUF, &amp;buf);</span><br><span class="line"><span class="comment">//12.停止视频的采集</span></span><br><span class="line">ioctl (fd, VIDIOC_STREAMOFF, &amp;type);</span><br><span class="line"><span class="comment">//13.释放申请的视频帧缓冲区</span></span><br><span class="line">unmap;</span><br><span class="line"><span class="comment">//14.关闭视频设备文件</span></span><br><span class="line">close(fd);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="五、V4l2的常用IOCTL接口命令–-gt-gt-结构体介绍"><a href="#五、V4l2的常用IOCTL接口命令–-gt-gt-结构体介绍" class="headerlink" title="五、V4l2的常用IOCTL接口命令–&gt;&gt;结构体介绍"></a>五、V4l2的常用IOCTL接口命令–&gt;&gt;结构体介绍</h1><h2 id="1、常用的IOCTL接口命令"><a href="#1、常用的IOCTL接口命令" class="headerlink" title="1、常用的IOCTL接口命令"></a>1、常用的IOCTL接口命令</h2><p>在内核目录include&#x2F;linux&#x2F;videodev2.h中定义</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">VIDIOC_QUERYCAP        <span class="comment">//查询驱动功能 </span></span><br><span class="line">VIDIOC_QUERYSTD     <span class="comment">//检查当前视频设备支持的标准，例如PAL或NTSC。</span></span><br><span class="line">VIDIOC_S_INPUT</span><br><span class="line">VIDIOC_ENUMINPUT	<span class="comment">//枚举所有可用的输入</span></span><br><span class="line">VIDIOC_S_PARM</span><br><span class="line">VIDIOC_ENUM_FMT        <span class="comment">//获取当前驱动支持的视频格式 </span></span><br><span class="line">VIDIOC_S_FMT        <span class="comment">//设置当前驱动的频捕获格式 </span></span><br><span class="line">VIDIOC_G_FMT        <span class="comment">//读取当前驱动的频捕获格式 </span></span><br><span class="line">VIDIOC_TRY_FMT        <span class="comment">//验证当前驱动的显示格式 </span></span><br><span class="line">VIDIOC_CROPCAP        <span class="comment">//查询驱动的修剪能力 </span></span><br><span class="line">VIDIOC_S_CROP        <span class="comment">//设置视频信号的矩形边框 </span></span><br><span class="line">VIDIOC_G_CROP        <span class="comment">//读取视频信号的矩形边框</span></span><br><span class="line">VIDIOC_REQBUFS		 <span class="comment">//分配内存 </span></span><br><span class="line">VIDIOC_QUERYBUF <span class="comment">//把VIDIOC_REQBUFS中分配的数据缓存转换成物理地址</span></span><br><span class="line">VIDIOC_QBUF        <span class="comment">//把数据从缓存中读取出来 </span></span><br><span class="line">VIDIOC_DQBUF        <span class="comment">//把数据放回缓存队列 </span></span><br><span class="line">VIDIOC_STREAMON        <span class="comment">//开始视频显示函数 </span></span><br><span class="line">VIDIOC_STREAMOFF        <span class="comment">//结束视频显示函数 </span></span><br><span class="line">VIDIOC_EXPBUF        <span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、常用的结构体"><a href="#2、常用的结构体" class="headerlink" title="2、常用的结构体"></a>2、常用的结构体</h2><p>在内核目录include&#x2F;linux&#x2F;videodev2.h中定义。参见&#x2F;include&#x2F;uapi&#x2F;linux&#x2F;videodev2.h</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_capability</span>        //视频设备的功能，对应命令<span class="title">VIDIOC_QUERYCAP</span> </span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_std_id</span>        //视频制式</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_input</span>        //视频输入信息，对应命令<span class="title">VIDIOC_ENUMINPUT</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_streamparm</span> //结构体<span class="title">v4l2_streamparm</span>来描述视频流的属性</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_standard</span>        //视频的制式，比如<span class="title">PAL</span>，<span class="title">NTSC</span>，对应命令<span class="title">VIDIOC_ENUMSTD</span> </span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_format</span>        //帧的格式，对应命令<span class="title">VIDIOC_G_FMT</span>、<span class="title">VIDIOC_S_FMT</span>等</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_crop</span>        //视频信号矩形边框</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_requestbuffers</span>        //申请帧缓冲，对应命令<span class="title">VIDIOC_REQBUFS</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_buffer</span>        //驱动中的一帧图像缓存，对应命令<span class="title">VIDIOC_QUERYBUF</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_exportbuffer</span> //导出<span class="title">fd</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1、v4l2-capability"><a href="#1、v4l2-capability" class="headerlink" title="1、v4l2_capability"></a>1、v4l2_capability</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_capability</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	u8 driver[<span class="number">16</span>]; <span class="comment">// 驱动名字</span></span><br><span class="line">	u8 card[<span class="number">32</span>]; <span class="comment">// 设备名字</span></span><br><span class="line">	u8 bus_info[<span class="number">32</span>]; <span class="comment">// 设备在系统中的位置</span></span><br><span class="line">	u32 version; <span class="comment">// 驱动版本号</span></span><br><span class="line">	u32 capabilities; <span class="comment">// 设备支持的操作</span></span><br><span class="line">	u32 reserved[<span class="number">4</span>]; <span class="comment">// 保留字段</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其中域 capabilities 代表设备支持的操作模式，常见的值有 V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING 表示是一个视频捕捉设备并且具有数据流控制模式；另外 driver 域需要和 struct video_device 中的 name 匹配。</p>
+<h3 id="2、v4l2-input"><a href="#2、v4l2-input" class="headerlink" title="2、v4l2_input"></a>2、v4l2_input</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_input</span> &#123;</span></span><br><span class="line">	__u32	     index;		<span class="comment">/*  Which input */</span></span><br><span class="line">	__u8	     name[<span class="number">32</span>];		<span class="comment">/*  Label */</span></span><br><span class="line">	__u32	     type;		<span class="comment">/*  Type of input */</span></span><br><span class="line">	__u32	     audioset;		<span class="comment">/*  Associated audios (bitfield) */</span></span><br><span class="line">	__u32        tuner;             <span class="comment">/*  Associated tuner */</span></span><br><span class="line">	v4l2_std_id  <span class="built_in">std</span>;</span><br><span class="line">	__u32	     status;</span><br><span class="line">	__u32	     reserved[<span class="number">4</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>视频捕获的应用首先要通过VIDIOC_ENUMINPUT命令来枚举所有可用的输入。在V4L2层，这个调用会转换成调用一个驱动中对应的回调函数：<br> int (*vidioc_enum_input)(struct file *file, void *private_data,  struct v4l2_input *input);</p>
+<h3 id="3、v4l2-format"><a href="#3、v4l2-format" class="headerlink" title="3、v4l2_format"></a>3、v4l2_format</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_format</span> &#123;</span> </span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_buf_type</span> <span class="title">type</span>;</span> </span><br><span class="line">    <span class="class"><span class="keyword">union</span> &#123;</span> </span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_pix_format</span>         <span class="title">pix</span>;</span>     <span class="comment">/* V4L2_BUF_TYPE_VIDEO_CAPTURE */</span> </span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_window</span>             <span class="title">win</span>;</span>     <span class="comment">/* V4L2_BUF_TYPE_VIDEO_OVERLAY */</span> </span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_vbi_format</span>         <span class="title">vbi</span>;</span>     <span class="comment">/* V4L2_BUF_TYPE_VBI_CAPTURE */</span> </span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_sliced_vbi_format</span>  <span class="title">sliced</span>;</span>  <span class="comment">/* V4L2_BUF_TYPE_SLICED_VBI_CAPTURE */</span> </span><br><span class="line">        __u8   raw_data[<span class="number">200</span>];                   <span class="comment">/* user-defined */</span> </span><br><span class="line">    &#125; fmt; </span><br><span class="line">&#125;; </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">v4l2_buf_type</span> &#123;</span> </span><br><span class="line">    V4L2_BUF_TYPE_VIDEO_CAPTURE        = <span class="number">1</span>, <span class="comment">//视频捕获模式</span></span><br><span class="line">    V4L2_BUF_TYPE_VIDEO_OUTPUT         = <span class="number">2</span>, </span><br><span class="line">    V4L2_BUF_TYPE_VIDEO_OVERLAY        = <span class="number">3</span>, </span><br><span class="line">    ... </span><br><span class="line">    V4L2_BUF_TYPE_PRIVATE              = <span class="number">0x80</span>, </span><br><span class="line">&#125;; </span><br><span class="line">   </span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_pix_format</span> &#123;</span> </span><br><span class="line">    __u32                   width; <span class="comment">//视频的宽</span></span><br><span class="line">    __u32                   height; <span class="comment">//视频的高</span></span><br><span class="line">    __u32                   pixelformat; <span class="comment">//视频数据格式</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_field</span>         <span class="title">field</span>;</span> </span><br><span class="line">    __u32                   bytesperline;   <span class="comment">/* for padding, zero if unused */</span> </span><br><span class="line">    __u32                   sizeimage; </span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_colorspace</span>    <span class="title">colorspace</span>;</span> </span><br><span class="line">    __u32                   priv;           <span class="comment">/* private data, depends on pixelformat */</span> </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>常见的捕获模式为 V4L2_BUF_TYPE_VIDEO_CAPTURE 即视频捕捉模式，在此模式下 fmt 联合体采用域 v4l2_pix_format：其中 width 为视频的宽、height 为视频的高、pixelformat 为视频数据格式（常见的值有 V4L2_PIX_FMT_YUV422P | V4L2_PIX_FMT_RGB565）、bytesperline 为一行图像占用的字节数、sizeimage 则为图像占用的总字节数、colorspace 指定设备的颜色空间。</p>
+<h3 id="4、v4l2-requestbuffers"><a href="#4、v4l2-requestbuffers" class="headerlink" title="4、v4l2_requestbuffers"></a>4、v4l2_requestbuffers</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_requestbuffers</span> &#123;</span></span><br><span class="line">    __u32                   count;</span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_buf_type</span>      <span class="title">type</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_memory</span>        <span class="title">memory</span>;</span></span><br><span class="line">    __u32                   reserved[<span class="number">2</span>];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">v4l2_memory</span> &#123;</span></span><br><span class="line">    V4L2_MEMORY_MMAP             = <span class="number">1</span>,</span><br><span class="line">    V4L2_MEMORY_USERPTR          = <span class="number">2</span>,</span><br><span class="line">    V4L2_MEMORY_OVERLAY          = <span class="number">3</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>VIDIOC_REQBUFS 命令通过结构 v4l2_requestbuffers 请求驱动申请一片连续的内存用于缓存视频信息;count 指定根据图像占用空间大小申请的缓存区个数，type 为视频捕获模式，memory 为内存区的使用方式.</p>
+<h3 id="5、v4l2-buffer"><a href="#5、v4l2-buffer" class="headerlink" title="5、v4l2_buffer"></a>5、v4l2_buffer</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_buffer</span> &#123;</span></span><br><span class="line">    __u32   index;	<span class="comment">//buffer 序号 </span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_buf_type</span>    <span class="title">type</span>;</span>	<span class="comment">//buffer 类型 </span></span><br><span class="line">    __u32    bytesused;	<span class="comment">//缓存已使用空间大小，buffer 中已使用的字节数</span></span><br><span class="line">    __u32    flags;	<span class="comment">//区分是MMAP 还是USERPTR</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_field</span>  <span class="title">field</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timeval</span>    <span class="title">timestamp</span>;</span>	<span class="comment">//获取第一个字节时的系统时间 </span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_timecode</span>   <span class="title">timecode</span>;</span></span><br><span class="line">    __u32     sequence;	<span class="comment">//队列中的序号</span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">/* memory location */</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">v4l2_memory</span>    <span class="title">memory</span>;</span>	<span class="comment">//缓存使用方式</span></span><br><span class="line">    <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">            __u32   offset;<span class="comment">//当前缓存与内存区起始地址的偏移，缓冲帧地址，只对MMAP 有效  </span></span><br><span class="line">            <span class="type">unsigned</span> <span class="type">long</span>   userptr;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_plane</span> *<span class="title">planes</span>;</span></span><br><span class="line">    &#125; m;</span><br><span class="line">    __u32    length;	<span class="comment">//缓冲帧长度</span></span><br><span class="line">    __u32    input;</span><br><span class="line">    __u32    reserved;	<span class="comment">//一般用于传递物理地址值</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_plane</span> &#123;</span></span><br><span class="line">	__u32			bytesused;</span><br><span class="line">	__u32			length;</span><br><span class="line">	<span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">		__u32		mem_offset;<span class="comment">//offset是放在m.mem_offset中返回用户空间的</span></span><br><span class="line">		<span class="type">unsigned</span> <span class="type">long</span>	userptr;</span><br><span class="line">		__s32		fd;</span><br><span class="line">	&#125; m;</span><br><span class="line">	__u32			data_offset;</span><br><span class="line">	__u32			reserved[<span class="number">11</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>flags 为缓存当前状态（常见值有 V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_QUEUED | V4L2_BUF_FLAG_DONE，分别代表当前缓存已经映射、缓存可以采集数据、缓存可以提取数据）</p>
+<p>另外 VIDIOC_QUERYBUF，VIDIOC_QBUF 和 VIDIOC_DQBUF 命令都采用结构 v4l2_buffer 与驱动通信：VIDIOC_QBUF 命令向驱动传递应用程序已经处理完的缓存，即将缓存加入空闲可捕获视频的队列，传递的主要参数为 index；VIDIOC_DQBUF 命令向驱动获取已经存放有视频数据的缓存，v4l2_buffer 的各个域几乎都会被更新，但主要的参数也是 index，应用程序会根据 index 确定可用数据的起始地址和范围。</p>
+<h3 id="6、v4l2-captureparm"><a href="#6、v4l2-captureparm" class="headerlink" title="6、v4l2_captureparm"></a>6、v4l2_captureparm</h3><p>设置Stream参数。(主要是采集帧数)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_streamparm</span> <span class="title">parms</span>;</span></span><br><span class="line">parms.parm.capture.timeperframe.numerator=<span class="number">1</span>;</span><br><span class="line">parms.parm.capture.timeperframe.denominator=<span class="number">60</span>;</span><br><span class="line">rel = ioctl(fdUsbCam,VIDIOC_S_PARM, setfps);</span><br></pre></td></tr></table></figure>
+
+<p>对于捕获设备而言，parm.capture字段是要关注的内容，这个结构体如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_captureparm</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">       __u32             capability;</span><br><span class="line">       __u32             capturemode;</span><br><span class="line">       structv4l2_fract  timeperframe;</span><br><span class="line">       __u32             extendedmode;</span><br><span class="line">       __u32          readbuffers;</span><br><span class="line">       __u32             reserved[<span class="number">4</span>];</span><br><span class="line">   &#125;; </span><br><span class="line">timeperframe字段用于指定想要使用的帧频率，它又是一个结构体：</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_fract</span>&#123;</span></span><br><span class="line">       __u32  numerator;</span><br><span class="line">       __u32  denominator;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>numerator和denominator所描述的系数给出的是成功的帧之间的时间间隔。numerator 分子， denominator 分母。主要表达每次帧之间时间间隔。 numerator&#x2F; denominator秒一帧。</p>
+<h3 id="7、v4l2-exportbuffer"><a href="#7、v4l2-exportbuffer" class="headerlink" title="7、v4l2_exportbuffer"></a>7、v4l2_exportbuffer</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_exportbuffer</span> &#123;</span></span><br><span class="line">	__u32		type; <span class="comment">/* enum v4l2_buf_type */</span></span><br><span class="line">	__u32		index;</span><br><span class="line">	__u32		plane;</span><br><span class="line">	__u32		flags;</span><br><span class="line">	__s32		fd;</span><br><span class="line">	__u32		reserved[<span class="number">11</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="六、应用程序代码分析"><a href="#六、应用程序代码分析" class="headerlink" title="六、应用程序代码分析"></a>六、应用程序代码分析</h1><h2 id="1、保存图像picture-yuv"><a href="#1、保存图像picture-yuv" class="headerlink" title="1、保存图像picture.yuv"></a>1、保存图像picture.yuv</h2><p>见code中，camera_app_pic.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/videodev2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ioctl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/mman.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">VideoBuffer</span> &#123;</span></span><br><span class="line">	<span class="type">void</span>   *start;<span class="comment">//帧缓存mmap映射后的首地址</span></span><br><span class="line">	<span class="type">size_t</span>  length;<span class="comment">//缓存大小</span></span><br><span class="line">&#125; VideoBuffer;</span><br><span class="line">VideoBuffer *buffers;<span class="comment">//用来存放映射后的帧缓存区地址</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">camera_device_open</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> fd;</span><br><span class="line">	<span class="comment">//用阻塞模式打开摄像头设备</span></span><br><span class="line">	fd = open(<span class="string">&quot;/dev/video0&quot;</span>,O_RDWR,<span class="number">0</span>);<span class="comment">//设备节点</span></span><br><span class="line">	<span class="keyword">if</span>(fd &lt; <span class="number">0</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;open /dev/video0 is fail.\n&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> fd;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">init_camera_attribute</span><span class="params">(<span class="type">int</span> fd)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> numBufs;<span class="comment">//</span></span><br><span class="line">	v4l2_std_id id;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_format</span> <span class="title">fmt</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_requestbuffers</span>  <span class="title">req</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_buffer</span>    <span class="title">buf</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//检查当前视频设备支持的标准</span></span><br><span class="line">	ioctl(fd,VIDIOC_QUERYSTD,&amp;id);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//设置视频捕获格式</span></span><br><span class="line">	<span class="built_in">memset</span>(&amp;fmt,<span class="number">0</span>,<span class="keyword">sizeof</span>(fmt));</span><br><span class="line">	fmt.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;<span class="comment">//视频捕获模式</span></span><br><span class="line">	fmt.fmt.pix.width = <span class="number">640</span>;<span class="comment">//视频的宽</span></span><br><span class="line">	fmt.fmt.pix.height = <span class="number">480</span>;<span class="comment">//视频的高</span></span><br><span class="line">	fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;<span class="comment">//视频数据格式YUYV</span></span><br><span class="line"><span class="comment">//	fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YVU420;</span></span><br><span class="line">	fmt.fmt.pix.field = V4L2_FIELD_INTERLACED;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(ioctl(fd,VIDIOC_S_FMT,&amp;fmt) == <span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;set VIDIOC_S_FMT is fail&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//分配内存，申请帧缓存，</span></span><br><span class="line">	<span class="built_in">memset</span>(&amp;req,<span class="number">0</span>,<span class="keyword">sizeof</span>(req));</span><br><span class="line">	req.count = <span class="number">4</span>;<span class="comment">//帧缓存的个数，一般不大于5</span></span><br><span class="line">	req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;</span><br><span class="line">	req.memory = V4L2_MEMORY_MMAP;<span class="comment">//内存区的使用方式，mmap映射</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(ioctl(fd,VIDIOC_REQBUFS,&amp;req) == <span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;set VIDIOC_REQBUFS is fail&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取并记录缓存的物理空间</span></span><br><span class="line">	buffers = <span class="built_in">calloc</span>(req.count,<span class="keyword">sizeof</span>(*buffers));</span><br><span class="line">	<span class="keyword">for</span>(numBufs = <span class="number">0</span>; numBufs &lt; req.count; numBufs ++)&#123;</span><br><span class="line">		<span class="built_in">memset</span>(&amp;buf,<span class="number">0</span>,<span class="keyword">sizeof</span>(buf));</span><br><span class="line">		buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;</span><br><span class="line">		buf.memory = V4L2_MEMORY_MMAP;</span><br><span class="line">		buf.index = numBufs;<span class="comment">//缓存编号，4帧缓存</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//读取缓存，查询帧缓冲区在内核空间中的长度和偏移量</span></span><br><span class="line">		<span class="keyword">if</span>(ioctl(fd,VIDIOC_QUERYBUF,&amp;buf) == <span class="number">-1</span>)&#123;</span><br><span class="line">			perror(<span class="string">&quot;set VIDIOC_REQBUFS is fail&quot;</span>);</span><br><span class="line">			<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">		&#125;</span><br><span class="line">		 <span class="comment">// 转换成相对地址，将申请到的帧缓冲映射到用户空间mmap</span></span><br><span class="line">		buffers[numBufs].length = buf.length;</span><br><span class="line">		buffers[numBufs].start  = mmap(<span class="literal">NULL</span>,buf.length,PROT_READ|PROT_WRITE,</span><br><span class="line">				MAP_SHARED,fd,buf.m.offset);</span><br><span class="line">		<span class="keyword">if</span>(buffers[numBufs].start == MAP_FAILED)&#123;</span><br><span class="line">			perror(<span class="string">&quot;mmap is fail&quot;</span>);</span><br><span class="line">			<span class="built_in">exit</span>(EXIT_FAILURE);	</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 放入缓存队列</span></span><br><span class="line">		<span class="keyword">if</span>(ioctl(fd,VIDIOC_QBUF,&amp;buf) == <span class="number">-1</span>)&#123;</span><br><span class="line">			perror(<span class="string">&quot;set VIDIOC_QBUF is fail&quot;</span>);</span><br><span class="line">			<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">start_capturing</span><span class="params">(<span class="type">int</span> fd)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">v4l2_buf_type</span> <span class="title">type</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//开始采集数据</span></span><br><span class="line">	type = V4L2_BUF_TYPE_VIDEO_CAPTURE;</span><br><span class="line">	<span class="keyword">if</span>(ioctl(fd,VIDIOC_STREAMON,&amp;type) == <span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;start capturing is fail&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//保存图片</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">build_picture</span><span class="params">(<span class="type">void</span> *addr,<span class="type">int</span> length)</span></span><br><span class="line">&#123;</span><br><span class="line">	FILE *fp;</span><br><span class="line">	<span class="type">static</span> <span class="type">int</span> num=<span class="number">0</span>;</span><br><span class="line">	<span class="type">char</span> picture_name[<span class="number">20</span>];</span><br><span class="line">	<span class="built_in">sprintf</span>(picture_name,<span class="string">&quot;picture%d.yuv&quot;</span>,num++);</span><br><span class="line">	</span><br><span class="line">	fp = fopen(picture_name,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span>(fp == <span class="literal">NULL</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;fail to open &quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fwrite(addr,<span class="number">1</span>,length,fp);</span><br><span class="line"></span><br><span class="line">	fclose(fp);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">read_image</span><span class="params">(<span class="type">int</span> fd)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_buffer</span> <span class="title">buf</span>;</span></span><br><span class="line">	<span class="built_in">memset</span>(&amp;buf,<span class="number">0</span>,<span class="keyword">sizeof</span>(buf));</span><br><span class="line">	buf.type=V4L2_BUF_TYPE_VIDEO_CAPTURE;</span><br><span class="line">	buf.memory=V4L2_MEMORY_MMAP;</span><br><span class="line">	buf.index=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//读取缓存，出列以取得已采集数据的帧缓冲，取得原始数据</span></span><br><span class="line">	<span class="keyword">if</span>(ioctl(fd,VIDIOC_DQBUF,&amp;buf) == <span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;set VIDIOC_DQBUF is fail&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//将数据存为图片</span></span><br><span class="line">	build_picture(buffers[buf.index].start,buffers[buf.index].length);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//重新放入缓存队列，处理完后，将该帧缓冲区重新入列,这样便可以循环采集数据，直到停止采集</span></span><br><span class="line">	<span class="keyword">if</span>(ioctl(fd,VIDIOC_QBUF,&amp;buf) == <span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;reset VIDIOC_QBUF is fail&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">when_to_read</span><span class="params">(<span class="type">int</span> fd)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)<span class="comment">//保存三张图片</span></span><br><span class="line">	&#123;</span><br><span class="line">		fd_set rfds;<span class="comment">//指定内核监测的文件描述符集合</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">tv</span>;</span><span class="comment">//设置超时时间</span></span><br><span class="line">		<span class="type">int</span> retval;</span><br><span class="line"></span><br><span class="line">		FD_ZERO(&amp;rfds);<span class="comment">//清空集合</span></span><br><span class="line">		FD_SET(fd, &amp;rfds);<span class="comment">//将fd添加到集合中</span></span><br><span class="line"></span><br><span class="line">		tv.tv_sec = <span class="number">2</span>;</span><br><span class="line">		tv.tv_usec = <span class="number">0</span>;</span><br><span class="line">		<span class="comment">//当有数据采集好在缓冲区准备好时，开始读取缓存数据</span></span><br><span class="line">		retval = select(fd+<span class="number">1</span>, &amp;rfds, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;tv);</span><br><span class="line">		<span class="keyword">if</span>(retval == <span class="number">-1</span>)&#123;</span><br><span class="line">			 perror(<span class="string">&quot;select()&quot;</span>);</span><br><span class="line">			 <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(retval == <span class="number">0</span>)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;select is timeout\n&quot;</span>);</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			read_image(fd);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">stop_capturing</span><span class="params">(<span class="type">int</span> fd)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">enum</span> <span class="title">v4l2_buf_type</span> <span class="title">type</span>;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//停止采集数据</span></span><br><span class="line">	type = V4L2_BUF_TYPE_VIDEO_CAPTURE;</span><br><span class="line">	<span class="keyword">if</span>(ioctl(fd,VIDIOC_STREAMOFF,&amp;type) == <span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">&quot;stop capturing is fail&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">uninit_camera</span><span class="params">(<span class="type">int</span> fd)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="comment">//释放申请的视频帧缓冲区</span></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(<span class="number">-1</span> == munmap(buffers[i].start,buffers[i].length))</span><br><span class="line">		&#123;</span><br><span class="line">			perror(<span class="string">&quot;munmap is fail&quot;</span>);</span><br><span class="line">			<span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">free</span>(buffers);</span><br><span class="line">	<span class="comment">//关闭视频设备文件</span></span><br><span class="line">	close(fd);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> fd;</span><br><span class="line">	fd = camera_device_open();	</span><br><span class="line">	</span><br><span class="line">	init_camera_attribute(fd);</span><br><span class="line">	</span><br><span class="line">	start_capturing(fd);</span><br><span class="line">	</span><br><span class="line">	when_to_read(fd);</span><br><span class="line"></span><br><span class="line">	stop_capturing(fd);</span><br><span class="line">	</span><br><span class="line">	uninit_camera(fd);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2、保存视频video-yuv"><a href="#2、保存视频video-yuv" class="headerlink" title="2、保存视频video.yuv"></a>2、保存视频video.yuv</h2><p>见code中，camera_app_mp4.c</p>
+<p>主要区别：fp &#x3D; fopen(video_name,”a”)，追加写的方式打开，进行采集</p>
+<h1 id="七、V4l2驱动框架"><a href="#七、V4l2驱动框架" class="headerlink" title="七、V4l2驱动框架"></a>七、V4l2驱动框架</h1><h2 id="1、主要对象"><a href="#1、主要对象" class="headerlink" title="1、主要对象"></a>1、主要对象</h2><h3 id="1、video-device"><a href="#1、video-device" class="headerlink" title="1、video_device"></a>1、video_device</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">video_device</span></span></span><br><span class="line"><span class="class">		&#123;</span></span><br><span class="line">			<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_file_operations</span> *<span class="title">fops</span>;</span> </span><br><span class="line">			<span class="comment">//操作方法结构体</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">cdev</span> *<span class="title">cdev</span>;</span>	（file_opreations）	</span><br><span class="line">			<span class="comment">//字符设备驱动</span></span><br><span class="line">			<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_device</span> *<span class="title">v4l2_dev</span>;</span>	<span class="comment">/* v4l2_device parent */</span></span><br><span class="line">			<span class="type">char</span> name[<span class="number">32</span>]; </span><br><span class="line">			<span class="comment">//驱动的名字</span></span><br><span class="line">			<span class="type">int</span> minor;</span><br><span class="line">			<span class="comment">//次设备号</span></span><br><span class="line">			<span class="type">void</span> (*release)(<span class="keyword">struct</span> video_device *vdev);</span><br><span class="line">			<span class="comment">//释放资源的函数</span></span><br><span class="line">			<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_ioctl_ops</span> *<span class="title">ioctl_ops</span>;</span></span><br><span class="line">			<span class="comment">//ioctl的操作方法</span></span><br><span class="line">		&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>  一个字符设备，为用户空间提供设备节点(&#x2F;dev&#x2F;videox)，提供系统调用的相关操作(open、ioctl…) </p>
+<p>可以看到video_device中含有一个cdev还有v4l2_device，此外还有fops和ioctl_ops，从应用层进行系统调用会经过v4l2的核心层回调到这里 </p>
+<h4 id="v4l2-file-operations"><a href="#v4l2-file-operations" class="headerlink" title="v4l2_file_operations"></a>v4l2_file_operations</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_file_operations</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">module</span> *<span class="title">owner</span>;</span></span><br><span class="line">	<span class="type">ssize_t</span> (*read) (<span class="keyword">struct</span> file *, <span class="type">char</span> __user *, <span class="type">size_t</span>, <span class="type">loff_t</span> *);</span><br><span class="line">	<span class="type">ssize_t</span> (*write) (<span class="keyword">struct</span> file *, <span class="type">const</span> <span class="type">char</span> __user *, <span class="type">size_t</span>, <span class="type">loff_t</span> *);</span><br><span class="line">	<span class="type">unsigned</span> <span class="title function_">int</span> <span class="params">(*poll)</span> <span class="params">(<span class="keyword">struct</span> file *, <span class="keyword">struct</span> poll_table_struct *)</span>;</span><br><span class="line">	<span class="type">long</span> (*ioctl) (<span class="keyword">struct</span> file *, <span class="type">unsigned</span> <span class="type">int</span>, <span class="type">unsigned</span> <span class="type">long</span>);</span><br><span class="line">	<span class="type">long</span> (*unlocked_ioctl) (<span class="keyword">struct</span> file *, <span class="type">unsigned</span> <span class="type">int</span>, <span class="type">unsigned</span> <span class="type">long</span>);</span><br><span class="line">	<span class="type">unsigned</span> <span class="title function_">long</span> <span class="params">(*get_unmapped_area)</span> <span class="params">(<span class="keyword">struct</span> file *, <span class="type">unsigned</span> <span class="type">long</span>,</span></span><br><span class="line"><span class="params">				<span class="type">unsigned</span> <span class="type">long</span>, <span class="type">unsigned</span> <span class="type">long</span>, <span class="type">unsigned</span> <span class="type">long</span>)</span>;</span><br><span class="line">	<span class="type">int</span> (*mmap) (<span class="keyword">struct</span> file *, <span class="keyword">struct</span> vm_area_struct *);</span><br><span class="line">	<span class="type">int</span> (*open) (<span class="keyword">struct</span> file *);</span><br><span class="line">	<span class="type">int</span> (*release) (<span class="keyword">struct</span> file *);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="v4l2-ioctl-ops"><a href="#v4l2-ioctl-ops" class="headerlink" title="v4l2_ioctl_ops"></a>v4l2_ioctl_ops</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_ioctl_ops</span> &#123;</span></span><br><span class="line">	<span class="type">int</span> (*vidioc_querycap)(<span class="keyword">struct</span> file *file, <span class="type">void</span> *fh, <span class="keyword">struct</span> v4l2_capability *cap);</span><br><span class="line">	<span class="comment">/* Buffer handlers */</span></span><br><span class="line">	<span class="type">int</span> (*vidioc_reqbufs) (<span class="keyword">struct</span> file *file, <span class="type">void</span> *fh, <span class="keyword">struct</span> v4l2_requestbuffers *b);</span><br><span class="line">	<span class="type">int</span> (*vidioc_querybuf)(<span class="keyword">struct</span> file *file, <span class="type">void</span> *fh, <span class="keyword">struct</span> v4l2_buffer *b);</span><br><span class="line">	<span class="type">int</span> (*vidioc_qbuf)    (<span class="keyword">struct</span> file *file, <span class="type">void</span> *fh, <span class="keyword">struct</span> v4l2_buffer *b);</span><br><span class="line">	<span class="type">int</span> (*vidioc_dqbuf)   (<span class="keyword">struct</span> file *file, <span class="type">void</span> *fh, <span class="keyword">struct</span> v4l2_buffer *b);</span><br><span class="line">    <span class="comment">/* Stream on/off */</span></span><br><span class="line">	<span class="type">int</span> (*vidioc_streamon) (<span class="keyword">struct</span> file *file, <span class="type">void</span> *fh, <span class="keyword">enum</span> v4l2_buf_type i);</span><br><span class="line">	<span class="type">int</span> (*vidioc_streamoff)(<span class="keyword">struct</span> file *file, <span class="type">void</span> *fh, <span class="keyword">enum</span> v4l2_buf_type i);</span><br><span class="line">   	...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> v4l2有很多ioctl操作，具体实现都在这里 </p>
+<h3 id="2、v4l2-device"><a href="#2、v4l2-device" class="headerlink" title="2、v4l2_device"></a>2、v4l2_device</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_device</span> &#123;</span></span><br><span class="line">	<span class="comment">/* used to keep track of the registered subdevs */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">subdevs</span>;</span></span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>  嵌入到video_device中，表示一个v4l2设备的实例 </p>
+<p>可以看到v4l2_device中有一个v4l2_subdev的链表，v4l2_device的主要目的时用来管理v4l2_subdev </p>
+<h3 id="3、v4l2-subdev"><a href="#3、v4l2-subdev" class="headerlink" title="3、v4l2_subdev"></a>3、v4l2_subdev</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_subdev</span> &#123;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">list</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_device</span> *<span class="title">v4l2_dev</span>;</span></span><br><span class="line">	<span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_subdev_ops</span> *<span class="title">ops</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> 依附在v4l2_device之下，并表示一个v4l2设备的子设备，一个v4l2_devide下可以有多个sub_device </p>
+<p> v4l2_subdev中有一个v4l2_subdev_ops，实现了一系列的操作，供v4l2_device调用 </p>
+<p> <strong>subdev的设计目的是为了多路复用，就是用一个v4l2_device可以服务多个v4l2_subdev</strong> </p>
+<h3 id="4、V4l2提供的注册接口"><a href="#4、V4l2提供的注册接口" class="headerlink" title="4、V4l2提供的注册接口"></a>4、V4l2提供的注册接口</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">video_register_device</span><span class="params">(<span class="keyword">struct</span> video_device *vdev, <span class="type">int</span> type, <span class="type">int</span> nr)</span>;<span class="comment">//video_device注册</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">video_unregister_device</span><span class="params">(<span class="keyword">struct</span> video_device *vdev)</span>;<span class="comment">//video_device注销</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">v4l2_device_register</span><span class="params">(<span class="keyword">struct</span> device *dev, <span class="keyword">struct</span> v4l2_device *v4l2_dev)</span>;<span class="comment">//v4l2_device注册</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">v4l2_device_unregister</span><span class="params">(<span class="keyword">struct</span> v4l2_device *v4l2_dev)</span>;<span class="comment">//v4l2_device注销</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">v4l2_device_register_subdev</span><span class="params">(<span class="keyword">struct</span> v4l2_device *v4l2_dev,<span class="keyword">struct</span> v4l2_subdev *sd)</span>;<span class="comment">//v4l2_subdev注册</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">v4l2_device_unregister_subdev</span><span class="params">(<span class="keyword">struct</span> v4l2_subdev *sd)</span>;<span class="comment">//v4l2_subdev注销</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2、图示"><a href="#2、图示" class="headerlink" title="2、图示"></a>2、图示</h2><img src="1.png"  />
+
+<img src="2.png"  />
+
+<img src="3.png" style="zoom:80%;" />
+
+<h2 id="3、主要框架"><a href="#3、主要框架" class="headerlink" title="3、主要框架"></a>3、主要框架</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;...&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">video_device</span>* <span class="title">video_dev</span>;</span></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_device</span> <span class="title">v4l2_dev</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 实现各种系统调用 */</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_file_operations</span> <span class="title">video_dev_fops</span> =</span> &#123;</span><br><span class="line">	.owner		    = THIS_MODULE,</span><br><span class="line">	.release        = vdev_close,</span><br><span class="line">	.read           = vdev_read,</span><br><span class="line">	.poll		    = vdev_poll,</span><br><span class="line">	.ioctl          = video_ioctl2,</span><br><span class="line">	.mmap           = vdev_mmap,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 实现各种系统调用 */</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_ioctl_ops</span> <span class="title">video_dev_ioctl_ops</span> =</span> &#123;</span><br><span class="line">	.vidioc_querycap      = vidioc_querycap,</span><br><span class="line">	.vidioc_enum_fmt_vid_cap  = vidioc_enum_fmt_vid_cap,</span><br><span class="line">	.vidioc_g_fmt_vid_cap     = vidioc_g_fmt_vid_cap,</span><br><span class="line">	.vidioc_try_fmt_vid_cap   = vidioc_try_fmt_vid_cap,</span><br><span class="line">	.vidioc_s_fmt_vid_cap     = vidioc_s_fmt_vid_cap,</span><br><span class="line">	.vidioc_reqbufs       = vidioc_reqbufs,</span><br><span class="line">	.vidioc_querybuf      = vidioc_querybuf,</span><br><span class="line">	.vidioc_qbuf          = vidioc_qbuf,</span><br><span class="line">	.vidioc_dqbuf         = vidioc_dqbuf,</span><br><span class="line">	.vidioc_enum_input    = vidioc_enum_input,</span><br><span class="line">	.vidioc_g_input       = vidioc_g_input,</span><br><span class="line">	.vidioc_s_input       = vidioc_s_input,</span><br><span class="line">	.vidioc_streamon      = vidioc_streamon,</span><br><span class="line">	.vidioc_streamoff     = vidioc_streamoff,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> __init <span class="title function_">video_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* 分配并设置一个video_device */</span></span><br><span class="line">    video_dev = video_device_alloc();</span><br><span class="line">    video_dev-&gt;fops = &amp;video_dev_fops;</span><br><span class="line">    video_dev-&gt;ioctl_ops = &amp;video_dev_ioctl_ops;</span><br><span class="line">    video_dev-&gt;release = video_device_release;</span><br><span class="line">    video_dev-&gt;tvnorms = V4L2_STD_525_60;</span><br><span class="line">    video_dev-&gt;current_norm = V4L2_STD_NTSC_M;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 注册一个v4l2_device */</span></span><br><span class="line">    v4l2_device_register(video_dev-&gt;dev, &amp;v4l2_dev);    </span><br><span class="line">    video_dev-&gt;v4l2_dev = &amp;video_dev;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 注册一个video_device字符设备 */</span></span><br><span class="line">    video_register_device(video_dev, VFL_TYPE_GRABBER, <span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __exit <span class="title function_">video_exit</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//注销</span></span><br><span class="line">    video_unregister_device(video_dev);</span><br><span class="line">    v4l2_device_unregister(&amp;v4l2_dev);</span><br><span class="line">    video_device_release(video_dev);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(video_init);</span><br><span class="line">module_exit(video_exit);</span><br><span class="line">MODULE_LICENSE(<span class="string">&quot;GPL&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="八、多路video输入分析"><a href="#八、多路video输入分析" class="headerlink" title="八、多路video输入分析"></a>八、多路video输入分析</h1><h2 id="1、多路操作流程"><a href="#1、多路操作流程" class="headerlink" title="1、多路操作流程"></a>1、多路操作流程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.设备初始化</span></span><br><span class="line">_Init()&#123;</span><br><span class="line">    _open()｛</span><br><span class="line">        fd[i] = open(dev_name[i], O_RDWR <span class="comment">/* required */</span>  | O_NONBLOCK, <span class="number">0</span>);</span><br><span class="line">    ioctl(fd[i], VIDIOC_S_INPUT, &amp;inp);<span class="comment">//设置输入</span></span><br><span class="line">    ioctl(fd[i], VIDIOC_S_PARM, &amp;parms);<span class="comment">//主要用来设置采集帧数</span></span><br><span class="line">        ｝;<span class="comment">//打开设备节点</span></span><br><span class="line">    _Fmtset()｛</span><br><span class="line">        ioctl(fd[i], VIDIOC_S_FMT, &amp;fmt);<span class="comment">//设置</span></span><br><span class="line">        ioctl(fd[i], VIDIOC_G_FMT, &amp;fmt);<span class="comment">//查询，判断设置是否成功</span></span><br><span class="line">        ｝;<span class="comment">//设置视频捕获模式</span></span><br><span class="line">    _BuffReq()｛</span><br><span class="line">        ioctl(fd[i], VIDIOC_REQBUFS, &amp;req);</span><br><span class="line">        ioctl(fd[i], VIDIOC_QUERYBUF, &amp;buf);</span><br><span class="line">        ioctl(fd[i], VIDIOC_QBUF, &amp;buf);</span><br><span class="line">        ｝;<span class="comment">//申请帧缓存，查询缓存转换地址，放入队列</span></span><br><span class="line">    _ON&#123;</span><br><span class="line">        ioctl(fd[i], VIDIOC_STREAMON, &amp;type);</span><br><span class="line">    &#125;;<span class="comment">//开启视频捕获</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//2.创建多线程</span></span><br><span class="line">pthread_create(&amp;capture_pth, <span class="literal">NULL</span>,Video_Capture, <span class="literal">NULL</span>);</span><br><span class="line"><span class="comment">//3.采集数据</span></span><br><span class="line">Video_Capture()&#123;</span><br><span class="line">    <span class="comment">//用select监视文件描述符，等待采集，如果有准备好的</span></span><br><span class="line">    select(fd[<span class="number">3</span>] + <span class="number">1</span>, &amp;fdr, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;tv);<span class="comment">//IO多路复用</span></span><br><span class="line">    <span class="comment">//当准备好时，采用互斥锁的方式，唤醒休眠的数据处理函数</span></span><br><span class="line">    <span class="keyword">if</span>( FD_ISSET(fd[<span class="number">0</span>],&amp;fdr) &amp;&amp; FD_ISSET(fd[<span class="number">1</span>],&amp;fdr) &amp;&amp; \</span><br><span class="line">		FD_ISSET(fd[<span class="number">2</span>],&amp;fdr) &amp;&amp; FD_ISSET(fd[<span class="number">3</span>],&amp;fdr))</span><br><span class="line">		&#123;</span><br><span class="line">            _Queryaddr()&#123;</span><br><span class="line">                ioctl(fd[i], VIDIOC_DQBUF, &amp;buf);<span class="comment">//出列</span></span><br><span class="line">                VideoPhyAddr[i] = buf.m.planes[<span class="number">0</span>].m.mem_offset;</span><br><span class="line">                ioctl(fd[i], VIDIOC_QBUF, &amp;buf);<span class="comment">//入列</span></span><br><span class="line">            &#125;;</span><br><span class="line">            pthread_mutex_lock(&amp;VideoMutex);<span class="comment">//上锁</span></span><br><span class="line">            pthread_cond_signal(&amp;VideoCond);<span class="comment">//唤醒休眠</span></span><br><span class="line">            pthread_mutex_unlock(&amp;VideoMutex);<span class="comment">//解锁</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//4.数据处理</span></span><br><span class="line">_LoadVideoData()&#123;</span><br><span class="line">    pthread_mutex_lock(&amp;VideoMutex);<span class="comment">//上锁</span></span><br><span class="line">	pthread_cond_wait(&amp;VideoCond, &amp;VideoMutex);<span class="comment">//休眠</span></span><br><span class="line">	pthread_mutex_unlock(&amp;VideoMutex);<span class="comment">//解锁</span></span><br><span class="line">    <span class="comment">//************************</span></span><br><span class="line">    <span class="comment">//***原始视频流数据处理***</span></span><br><span class="line">    <span class="comment">//************************</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/11/hexo%E7%8E%AF%E5%A2%83%E9%87%8D%E6%96%B0%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA/" rel="prev" title="更换电脑hexo环境如何快速重新搭建？">
+      <i class="fa fa-chevron-left"></i> 更换电脑hexo环境如何快速重新搭建？
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">二、作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">三、存放位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81V4l2%E6%A1%86%E6%9E%B6%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">四、V4l2框架操作流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81V4l2%E7%9A%84%E5%B8%B8%E7%94%A8IOCTL%E6%8E%A5%E5%8F%A3%E5%91%BD%E4%BB%A4%E2%80%93-gt-gt-%E7%BB%93%E6%9E%84%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">五、V4l2的常用IOCTL接口命令–&gt;&gt;结构体介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%B8%B8%E7%94%A8%E7%9A%84IOCTL%E6%8E%A5%E5%8F%A3%E5%91%BD%E4%BB%A4"><span class="nav-number">5.1.</span> <span class="nav-text">1、常用的IOCTL接口命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">5.2.</span> <span class="nav-text">2、常用的结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81v4l2-capability"><span class="nav-number">5.2.1.</span> <span class="nav-text">1、v4l2_capability</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81v4l2-input"><span class="nav-number">5.2.2.</span> <span class="nav-text">2、v4l2_input</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81v4l2-format"><span class="nav-number">5.2.3.</span> <span class="nav-text">3、v4l2_format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81v4l2-requestbuffers"><span class="nav-number">5.2.4.</span> <span class="nav-text">4、v4l2_requestbuffers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81v4l2-buffer"><span class="nav-number">5.2.5.</span> <span class="nav-text">5、v4l2_buffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81v4l2-captureparm"><span class="nav-number">5.2.6.</span> <span class="nav-text">6、v4l2_captureparm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81v4l2-exportbuffer"><span class="nav-number">5.2.7.</span> <span class="nav-text">7、v4l2_exportbuffer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">六、应用程序代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%BF%9D%E5%AD%98%E5%9B%BE%E5%83%8Fpicture-yuv"><span class="nav-number">6.1.</span> <span class="nav-text">1、保存图像picture.yuv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BF%9D%E5%AD%98%E8%A7%86%E9%A2%91video-yuv"><span class="nav-number">6.2.</span> <span class="nav-text">2、保存视频video.yuv</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81V4l2%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6"><span class="nav-number">7.</span> <span class="nav-text">七、V4l2驱动框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%B8%BB%E8%A6%81%E5%AF%B9%E8%B1%A1"><span class="nav-number">7.1.</span> <span class="nav-text">1、主要对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81video-device"><span class="nav-number">7.1.1.</span> <span class="nav-text">1、video_device</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#v4l2-file-operations"><span class="nav-number">7.1.1.1.</span> <span class="nav-text">v4l2_file_operations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#v4l2-ioctl-ops"><span class="nav-number">7.1.1.2.</span> <span class="nav-text">v4l2_ioctl_ops</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81v4l2-device"><span class="nav-number">7.1.2.</span> <span class="nav-text">2、v4l2_device</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81v4l2-subdev"><span class="nav-number">7.1.3.</span> <span class="nav-text">3、v4l2_subdev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81V4l2%E6%8F%90%E4%BE%9B%E7%9A%84%E6%B3%A8%E5%86%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">7.1.4.</span> <span class="nav-text">4、V4l2提供的注册接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%9B%BE%E7%A4%BA"><span class="nav-number">7.2.</span> <span class="nav-text">2、图示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E4%B8%BB%E8%A6%81%E6%A1%86%E6%9E%B6"><span class="nav-number">7.3.</span> <span class="nav-text">3、主要框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%A4%9A%E8%B7%AFvideo%E8%BE%93%E5%85%A5%E5%88%86%E6%9E%90"><span class="nav-number">8.</span> <span class="nav-text">八、多路video输入分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%A4%9A%E8%B7%AF%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">8.1.</span> <span class="nav-text">1、多路操作流程</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Leeyunhe"
+      src="/images/touxiang.png">
+  <p class="site-author-name" itemprop="name">Leeyunhe</p>
+  <div class="site-description" itemprop="description">云淡风轻拂往事，执笔从容话人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>Music</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyunhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">29k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">26 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/click.js"></script>
