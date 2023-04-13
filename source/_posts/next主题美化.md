@@ -169,5 +169,38 @@ symbols_count_time:
     margin-top: 12px;
   }
   ```
+## 5，插入图片
+
+  ### 	全局资源文件夹
+
+  ​		资源（Asset）代表 `source` 文件夹中除了文章以外的所有文件，例如图片、CSS、JS 文件等。比方说，如果你的Hexo项目中只有少量图片，那最简单的方法就是将它们放在 `source/images` 文件夹中。然后通过类似于 `![](/images/image.jpg)` 的方法访问它们。
 
   
+
+  ### 	文章资源文件夹
+
+  ​		对于那些想要更有规律地提供图片和其他资源以及想要将他们的资源分布在各个文章上的人来说，Hexo也提供了更组织化的方式来管理资源。这个稍微有些复杂但是管理资源非常方便的功能可以通过将 `config.yml` 文件中的 `post_asset_folder` 选项设为 `true` 来打开。
+
+  ```yaml
+  _config.yml
+  post_asset_folder: true
+  ```
+
+   		
+
+  ​	当资源文件管理功能打开后，Hexo将会在你每一次通过 `hexo new [layout] ` 命令创建新文章时自动创建一个文件夹。这个资源文件夹将会有与这个文章文件一样的名字。将所有与你的文章有关的资源放在这个关联文件夹中之后，你可以通过相对路径来引用它们，这样你就得到了一个更简单而且方便得多的工作流。 
+
+  
+
+  ### 	图片插件
+
+  ​	插件hexo-renderer-marked解决了这个问题。可以只用`npm install hexo-renderer-marked`命令直接安装，之后在`config.yaml`中更改配置如下：
+
+```yaml
+post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true
+```
+
+​		之后就可以在使用`![](image.jpg)`的方式愉快的插入图片了。
