@@ -169,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/G2D/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/4-FBO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touxiang.png">
@@ -183,7 +183,97 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/04/14/G2D/" class="post-title-link" itemprop="url">G2D</a>
+            <a href="/2023/04/14/4-FBO/" class="post-title-link" itemprop="url">帧缓存对象FBO</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-14 21:13:11 / 修改时间：21:18:06" itemprop="dateCreated datePublished" datetime="2023-04-14T21:13:11+08:00">2023-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="帧缓存对象FBO"><a href="#帧缓存对象FBO" class="headerlink" title="帧缓存对象FBO"></a>帧缓存对象FBO</h1><p>（Frame Buffer Object）</p>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统生成和管理，由OpenGL使用。这个默认的帧缓存被称作“window系统生成”（window-system-provided）的帧缓存。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/14/4-FBO/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/3-G2D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.png">
+      <meta itemprop="name" content="Leeyunhe">
+      <meta itemprop="description" content="云淡风轻拂往事，执笔从容话人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leeyunhe">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/14/3-G2D/" class="post-title-link" itemprop="url">G2D</a>
         </h2>
 
         <div class="post-meta">
@@ -237,7 +327,7 @@
 <h2 id="1-什么是跟g2d？"><a href="#1-什么是跟g2d？" class="headerlink" title="1.什么是跟g2d？"></a>1.什么是跟g2d？</h2><p>​	G2D也就是我们说的2d加速。很久以前，绘图工作全部是由我们伟大而神圣的 CPU 来完成的，那时候的显卡，就是真正意义上用来“显示东西的卡”。它的工作就是把 CPU 处理好的数据“搬”到显示器上来。那时候 CPU 的工作可真是辛苦。现在好了，CPU 越来越快，可是做的工作却越来越少了。先来说说图形加速的几个阶段。2D 图像加速，Windows 加速 和 3D 图像加速。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2023/04/14/G2D/#more" rel="contents">
+              <a class="btn" href="/2023/04/14/3-G2D/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -791,7 +881,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -804,7 +894,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -848,12 +938,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">47k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">43 分钟</span>
+    <span title="站点阅读时长">57 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

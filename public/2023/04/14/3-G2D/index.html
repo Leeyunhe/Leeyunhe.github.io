@@ -20,19 +20,19 @@
   <meta name="description" content="G2D   1.什么是跟g2d？​	G2D也就是我们说的2d加速。很久以前，绘图工作全部是由我们伟大而神圣的 CPU 来完成的，那时候的显卡，就是真正意义上用来“显示东西的卡”。它的工作就是把 CPU 处理好的数据“搬”到显示器上来。那时候 CPU 的工作可真是辛苦。现在好了，CPU 越来越快，可是做的工作却越来越少了。先来说说图形加速的几个阶段。2D 图像加速，Windows 加速 和 3D 图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="G2D">
-<meta property="og:url" content="http://example.com/2023/04/14/G2D/index.html">
+<meta property="og:url" content="http://example.com/2023/04/14/3-G2D/index.html">
 <meta property="og:site_name" content="Leeyunhe">
 <meta property="og:description" content="G2D   1.什么是跟g2d？​	G2D也就是我们说的2d加速。很久以前，绘图工作全部是由我们伟大而神圣的 CPU 来完成的，那时候的显卡，就是真正意义上用来“显示东西的卡”。它的工作就是把 CPU 处理好的数据“搬”到显示器上来。那时候 CPU 的工作可真是辛苦。现在好了，CPU 越来越快，可是做的工作却越来越少了。先来说说图形加速的几个阶段。2D 图像加速，Windows 加速 和 3D 图">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/04/14/G2D/1.png">
+<meta property="og:image" content="http://example.com/2023/04/14/3-G2D/1.png">
 <meta property="article:published_time" content="2023-04-14T10:08:11.000Z">
 <meta property="article:modified_time" content="2023-04-14T10:20:11.322Z">
 <meta property="article:author" content="Leeyunhe">
 <meta property="article:tag" content="嵌入式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/04/14/G2D/1.png">
+<meta name="twitter:image" content="http://example.com/2023/04/14/3-G2D/1.png">
 
-<link rel="canonical" href="http://example.com/2023/04/14/G2D/">
+<link rel="canonical" href="http://example.com/2023/04/14/3-G2D/">
 
 
 <script id="page-configurations">
@@ -175,7 +175,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/G2D/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/3-G2D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touxiang.png">
@@ -246,7 +246,7 @@
 <p>​	有了 2D 加速呢，CPU 所做的事，减轻了很多，不过还是要指导 显示芯片 来干这搬运工的活。CPU 的工作：1、找到窗口在显存中的地址，2、给 显卡发送 “拷贝这一行到目的地”的命令。3、重复 2 直到拷贝完所有的行。初看起来好像和没有加速以前差不多，可是第 2 步就是关键所在哦。 </p>
 <p>​	现在让我们把第二步分解来看：没有 2D 加速：1、读 32 Bit 数据(入门篇里的哦！)，把这 32 Bit 数据写入目的地。2、重复 1 直到一行所有的像素被处理完。而有了 2D 加速后的工作只有：1、发送命令让显卡去拷贝这一行。这样看来，2D 加速确实能很大程度的释放 CPU 的负担。所以大家现在随便提起一个窗口移动一下，很平滑不是吗？显卡负责了窗口的移动。</p>
 <h2 id="2-支持的功能有哪些"><a href="#2-支持的功能有哪些" class="headerlink" title="2.支持的功能有哪些?"></a>2.支持的功能有哪些?</h2><p>​	转码，缩放，位块传输……(不同芯片支持的具体功能不尽相同)</p>
-<p><img src="/2023/04/14/G2D/1.png"></p>
+<p><img src="/2023/04/14/3-G2D/1.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">支持图层大小最高至2048*2048像素点</span><br><span class="line">支持输入/输出格式：YUV422（sp、planner）、YUV420（sp、planer）......</span><br><span class="line">支持水平和垂直翻转，顺时针 0/90/180/270度 旋转</span><br></pre></td></tr></table></figure>
 
 
@@ -310,7 +310,10 @@
     <a href="/2023/04/13/2-YUV&RGB/" rel="prev" title="图像格式之 YUV & RGB">
       <i class="fa fa-chevron-left"></i> 图像格式之 YUV & RGB
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-FBO/" rel="next" title="帧缓存对象FBO">
+      帧缓存对象FBO <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -385,7 +388,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -398,7 +401,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -442,12 +445,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">47k</span>
+    <span title="站点总字数">63k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">43 分钟</span>
+    <span title="站点阅读时长">57 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
