@@ -17,23 +17,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="帧缓存对象FBO（Frame Buffer Object） Overview在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统生成和管理，由Ope">
+  <meta name="description" content="OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统">
 <meta property="og:type" content="article">
-<meta property="og:title" content="帧缓存对象FBO">
-<meta property="og:url" content="http://example.com/2023/04/14/4-FBO/index.html">
+<meta property="og:title" content="OpenGl ES---FBO">
+<meta property="og:url" content="http://example.com/2023/04/14/4-5-FBO/index.html">
 <meta property="og:site_name" content="Leeyunhe">
-<meta property="og:description" content="帧缓存对象FBO（Frame Buffer Object） Overview在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统生成和管理，由Ope">
+<meta property="og:description" content="OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/04/14/4-FBO/25.png">
-<meta property="article:published_time" content="2023-04-14T13:13:11.000Z">
-<meta property="article:modified_time" content="2023-04-14T13:18:06.810Z">
+<meta property="og:image" content="http://example.com/2023/04/14/4-5-FBO/25.png">
+<meta property="article:published_time" content="2023-04-14T13:47:11.000Z">
+<meta property="article:modified_time" content="2023-04-14T13:49:05.863Z">
 <meta property="article:author" content="Leeyunhe">
 <meta property="article:tag" content="嵌入式">
 <meta property="article:tag" content="OpenGL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/04/14/4-FBO/25.png">
+<meta name="twitter:image" content="http://example.com/2023/04/14/4-5-FBO/25.png">
 
-<link rel="canonical" href="http://example.com/2023/04/14/4-FBO/">
+<link rel="canonical" href="http://example.com/2023/04/14/4-5-FBO/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>帧缓存对象FBO | Leeyunhe</title>
+  <title>OpenGl ES---FBO | Leeyunhe</title>
   
 
 
@@ -176,7 +176,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/4-FBO/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/4-5-FBO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/touxiang.png">
@@ -189,7 +189,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          帧缓存对象FBO
+          OpenGl ES---FBO
         </h1>
 
         <div class="post-meta">
@@ -200,7 +200,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-04-14 21:13:11 / 修改时间：21:18:06" itemprop="dateCreated datePublished" datetime="2023-04-14T21:13:11+08:00">2023-04-14</time>
+              <time title="创建时间：2023-04-14 21:47:11 / 修改时间：21:49:05" itemprop="dateCreated datePublished" datetime="2023-04-14T21:47:11+08:00">2023-04-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="帧缓存对象FBO"><a href="#帧缓存对象FBO" class="headerlink" title="帧缓存对象FBO"></a>帧缓存对象FBO</h1><p>（Frame Buffer Object）</p>
+        <h1 id="OpenGl-ES—FBO"><a href="#OpenGl-ES—FBO" class="headerlink" title="OpenGl ES—FBO"></a>OpenGl ES—FBO</h1><p>（Frame Buffer Object帧缓存对象）</p>
 <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统生成和管理，由OpenGL使用。这个默认的帧缓存被称作“window系统生成”（window-system-provided）的帧缓存。</p>
 <span id="more"></span>
 
@@ -246,7 +246,7 @@
 <p>有两种类型的“帧缓存关联图像”：纹理图像（texture images）和渲染缓存图像（renderbuffer images）。如果纹理对象的图像数据关联到帧缓存，OpenGL执行的是“渲染到纹理”（render to texture）操作。如果渲染缓存的图像数据关联到帧缓存，OpenGL执行的是离线渲染（offscreen rendering）。</p>
 <p>这里要提到的是，渲染缓存对象是在GL_EXT_framebuffer_object扩展中定义的一种新的存储类型。在渲染过程中它被用作存储单幅二维图像。</p>
 <p>下面这幅图显示了帧缓存对象、纹理对象和渲染缓存对象之间的联系。多多个纹理对象或者渲染缓存对象能够通过关联点关联到一个帧缓存对象上。</p>
-<p><img src="/2023/04/14/4-FBO/25.png"></p>
+<p><img src="/2023/04/14/4-5-FBO/25.png"></p>
 <p>在一个帧缓存对象中有多个颜色关联点（GL_COLOR_ATTACHMENT0_EXT,…,GL_COLOR_ATTACHMENTn_EXT），一个深度关联点（GL_DEPTH_ATTACHMENT_EXT），和一个模板关联点（GL_STENCIL_ATTACHMENT_EXT）。每个FBO中至少有一个颜色关联点，其数目与实体显卡相关。可以通过GL_MAX_COLOR_ATTACHMENTS_EXT来查询颜色关联点的最大数目。FBO有多个颜色关联点的原因是这样可以同时将颜色而换成渲染到多个FBO关联区。这种“多渲染目标”（multiple rendertargets,MRT）可以通过GL_ARB_draw_buffers扩展实现。需要注意的是：FBO本身并没有任何图像存储区，只有多个关联点。</p>
 <p>FBO提供了一种高效的切换机制；将前面的帧缓存关联图像从FBO分离，然后把新的帧缓存关联图像关联到FBO。在帧缓存关联图像之间切换比在FBO之间切换要快得多。FBO提供了glFramebufferTexture2DEXT()来切换2D纹理对象和glFramebufferRenderbufferEXT()来切换渲染缓存对象。</p>
 <h2 id="1、帧缓冲创建"><a href="#1、帧缓冲创建" class="headerlink" title="1、帧缓冲创建"></a>1、帧缓冲创建</h2><p> 使用glGenFrameBuffer函数来创建一个帧缓冲（FBO） </p>
@@ -293,10 +293,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/14/3-G2D/" rel="prev" title="G2D">
-      <i class="fa fa-chevron-left"></i> G2D
+    <a href="/2023/04/14/4-4-OpenGL%20ES%202.0%20API/" rel="prev" title="OpenGL ES 2.0 API">
+      <i class="fa fa-chevron-left"></i> OpenGL ES 2.0 API
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-6-VBO%E4%B8%8EVAO/" rel="next" title="OpenGl ES---VBO,VAO">
+      OpenGl ES---VBO,VAO <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -355,7 +358,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%A7%E7%BC%93%E5%AD%98%E5%AF%B9%E8%B1%A1FBO"><span class="nav-number">1.</span> <span class="nav-text">帧缓存对象FBO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%B8%A7%E7%BC%93%E5%86%B2%E5%88%9B%E5%BB%BA"><span class="nav-number">1.2.</span> <span class="nav-text">1、帧缓冲创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%B8%A7%E7%BC%93%E5%86%B2%E4%B8%8A%E5%8F%AF%E4%BB%A5%E9%99%84%E7%9D%80%E7%9A%84%E4%B8%A4%E7%A7%8D%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">2、帧缓冲上可以附着的两种附件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E7%BA%B9%E7%90%86%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1、纹理附件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E6%B8%B2%E6%9F%93%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2、渲染附件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text">3、示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E5%88%B02D%E7%BA%B9%E7%90%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">1，离屏渲染到2D纹理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E5%88%B0%E5%A4%96%E9%83%A8OES%E7%BA%B9%E7%90%86"><span class="nav-number">1.4.2.</span> <span class="nav-text">2，离屏渲染到外部OES纹理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%932D%E6%88%96OES%E7%BA%B9%E7%90%86%EF%BC%88%E5%AE%8F%E6%96%B9%E5%BC%8F%E5%88%87%E6%8D%A2%EF%BC%89"><span class="nav-number">1.4.3.</span> <span class="nav-text">3，离屏渲染2D或OES纹理（宏方式切换）</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenGl-ES%E2%80%94FBO"><span class="nav-number">1.</span> <span class="nav-text">OpenGl ES—FBO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%B8%A7%E7%BC%93%E5%86%B2%E5%88%9B%E5%BB%BA"><span class="nav-number">1.2.</span> <span class="nav-text">1、帧缓冲创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%B8%A7%E7%BC%93%E5%86%B2%E4%B8%8A%E5%8F%AF%E4%BB%A5%E9%99%84%E7%9D%80%E7%9A%84%E4%B8%A4%E7%A7%8D%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">2、帧缓冲上可以附着的两种附件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E7%BA%B9%E7%90%86%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1、纹理附件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E6%B8%B2%E6%9F%93%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2、渲染附件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text">3、示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E5%88%B02D%E7%BA%B9%E7%90%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">1，离屏渲染到2D纹理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E5%88%B0%E5%A4%96%E9%83%A8OES%E7%BA%B9%E7%90%86"><span class="nav-number">1.4.2.</span> <span class="nav-text">2，离屏渲染到外部OES纹理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%932D%E6%88%96OES%E7%BA%B9%E7%90%86%EF%BC%88%E5%AE%8F%E6%96%B9%E5%BC%8F%E5%88%87%E6%8D%A2%EF%BC%89"><span class="nav-number">1.4.3.</span> <span class="nav-text">3，离屏渲染2D或OES纹理（宏方式切换）</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -371,7 +374,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -428,12 +431,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">63k</span>
+    <span title="站点总字数">121k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">57 分钟</span>
+    <span title="站点阅读时长">1:50</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

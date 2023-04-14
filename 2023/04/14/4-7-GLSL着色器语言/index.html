@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="GLSL着色器语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GLSL着色器语言">
+<meta property="og:url" content="http://example.com/2023/04/14/4-7-GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80/index.html">
+<meta property="og:site_name" content="Leeyunhe">
+<meta property="og:description" content="GLSL着色器语言">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/14/4-7-GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80/21.webp">
+<meta property="article:published_time" content="2023-04-14T13:53:11.000Z">
+<meta property="article:modified_time" content="2023-04-14T13:53:39.662Z">
+<meta property="article:author" content="Leeyunhe">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="OpenGL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/14/4-7-GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80/21.webp">
+
+<link rel="canonical" href="http://example.com/2023/04/14/4-7-GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>GLSL着色器语言 | Leeyunhe</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leeyunhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-notes">
+
+    <a href="/categories/%E7%AC%94%E8%AE%B0/" rel="section"><i class="fa fa-folder-open fa-fw"></i>笔记</a>
+
+  </li>
+        <li class="menu-item menu-item-read">
+
+    <a href="/categories/%E9%98%85%E8%AF%BB/" rel="section"><i class="fa fa-book fa-fw"></i>阅读</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/4-7-GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.png">
+      <meta itemprop="name" content="Leeyunhe">
+      <meta itemprop="description" content="云淡风轻拂往事，执笔从容话人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leeyunhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GLSL着色器语言
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-14 21:53:11 / 修改时间：21:53:39" itemprop="dateCreated datePublished" datetime="2023-04-14T21:53:11+08:00">2023-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="GLSL着色器语言"><a href="#GLSL着色器语言" class="headerlink" title="GLSL着色器语言"></a>GLSL着色器语言</h1><span id="more"></span>
+
+<h2 id="1-OpenGL-ES-2-0"><a href="#1-OpenGL-ES-2-0" class="headerlink" title="1.OpenGL ES 2.0"></a>1.OpenGL ES 2.0</h2><p>（ES2.0也支持OES外部纹理）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***********************GLRender Normal texture***********************************/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> CommonVertshader_Normal[] =</span><br><span class="line"><span class="comment">//&quot; #version 300 es \n &quot;//着色器版本声明OpenGL ES 3.0</span></span><br><span class="line"><span class="string">&quot; #version 100 es \n &quot;</span><span class="comment">//不添加版本声明或者使用 #version 100 es 声明版本则指定使用 OpenGL ES 2.0</span></span><br><span class="line"><span class="string">&quot; precision mediump float;\n &quot;</span><span class="comment">//指定float类型默认的mediump中精度（-2^14 ~ 2^14）</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//&quot; layout(location = 0) in vec4 vPosition; \n &quot;//输入vPosition顶点坐标</span></span><br><span class="line"><span class="comment">//&quot; layout(location = 1) in vec2 vTexCoord; \n &quot;//输入vTexCoord纹理坐标vec2</span></span><br><span class="line"><span class="comment">//&quot; out vec3 TexCoord; \n &quot;//输出纹理坐标vec3</span></span><br><span class="line"><span class="string">&quot; attribute vec4 vPosition; \n &quot;</span><span class="comment">//ES2.0中attribute，ES3.0中in</span></span><br><span class="line"><span class="string">&quot; attribute vec2 vTexCoord; \n &quot;</span><span class="comment">//ES2.0中attribute，ES3.0中in</span></span><br><span class="line"><span class="string">&quot; varying vec3 TexCoord; \n &quot;</span><span class="comment">//ES2.0中varying，ES3.0中out</span></span><br><span class="line">    </span><br><span class="line"><span class="string">&quot; uniform mat4 mvp; \n&quot;</span><span class="comment">//uniform用于ES传入数据mvp</span></span><br><span class="line"><span class="string">&quot; void main() \n &quot;</span><span class="comment">//主函数</span></span><br><span class="line"><span class="string">&quot; &#123; \n &quot;</span></span><br><span class="line">	<span class="string">&quot;vec4 temPosition = mvp * vec4(vPosition.x, vPosition.y, vPosition.z, 1); \n&quot;</span></span><br><span class="line">    <span class="string">&quot; gl_Position = vec4(temPosition.x, -temPosition.y, temPosition.z, temPosition.a); \n &quot;</span><span class="comment">//内建变量gl_Position顶点坐标</span></span><br><span class="line">    <span class="string">&quot; TexCoord = vec3(vTexCoord, vPosition.w); \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#125; \n &quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> CommonFragshader_Normal[] =</span><br><span class="line"><span class="comment">//&quot;#version 300 es \n&quot;</span></span><br><span class="line"><span class="string">&quot;#extension GL_OES_EGL_image_external : require \n&quot;</span><span class="comment">//启用扩展（ES2.0也支持OES外部纹理）</span></span><br><span class="line"><span class="string">&quot; precision mediump float;\n &quot;</span><span class="comment">//Fragshader使用浮点型时必须指定精度，指定float类型默认的mediump中精度（-2^14 ~ 2^14）</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//&quot; in vec3 TexCoord; \n &quot;//输入vTexCoord纹理坐标vec3,从Vertshader中传入的</span></span><br><span class="line"><span class="comment">//&quot; out vec4 fragColor; \n &quot;//输出片元颜色</span></span><br><span class="line"><span class="string">&quot; attribute vec3 TexCoord; \n &quot;</span><span class="comment">//ES2.0中attribute，ES3.0中in</span></span><br><span class="line"><span class="string">&quot; varying vec4 fragColor; \n &quot;</span><span class="comment">//ES2.0中varying，ES3.0中out</span></span><br><span class="line">    </span><br><span class="line"><span class="string">&quot;uniform sampler2D myTexture;\n&quot;</span><span class="comment">//ES 2.0支持sample2D纹理和sampleCube纹理</span></span><br><span class="line"><span class="string">&quot; uniform vec4 myGain; \n &quot;</span><span class="comment">//uniform用于ES传入数据myGain</span></span><br><span class="line"><span class="string">&quot; void main() \n &quot;</span><span class="comment">//主函数</span></span><br><span class="line"><span class="string">&quot; &#123;\n &quot;</span></span><br><span class="line"><span class="comment">//&quot;  		fragColor = vec4(texture(myTexture, TexCoord.xy).rgb, TexCoord.z)+vec4(myGain.xyz,0.0); \n &quot;//2.25</span></span><br><span class="line"><span class="string">&quot;  		fragColor = vec4(texture(myTexture, TexCoord.xy).rgb, 1.0); \n &quot;</span><span class="comment">//2.25</span></span><br><span class="line"><span class="comment">//&quot;	 fragColor = vec4(0.3, 0.4, 0.5, TexCoord.z)+vec4(myGain.xyz,0.0); \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#125;\n &quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-OpenGL-ES-3-0"><a href="#2-OpenGL-ES-3-0" class="headerlink" title="2.OpenGL ES 3.0"></a>2.OpenGL ES 3.0</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***********************GLRender Normal texture***********************************/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> CommonVertshader_Normal[] =</span><br><span class="line"><span class="string">&quot; #version 300 es \n &quot;</span></span><br><span class="line"><span class="string">&quot; precision mediump float;\n &quot;</span></span><br><span class="line"><span class="string">&quot; layout(location = 0) in vec4 vPosition; \n &quot;</span></span><br><span class="line"><span class="string">&quot; layout(location = 1) in vec2 vTexCoord; \n &quot;</span></span><br><span class="line"><span class="string">&quot; out vec3 TexCoord; \n &quot;</span></span><br><span class="line"><span class="string">&quot; uniform mat4 mvp; \n&quot;</span></span><br><span class="line"><span class="string">&quot; void main() \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#123; \n &quot;</span></span><br><span class="line">	<span class="string">&quot;vec4 temPosition = mvp * vec4(vPosition.x, vPosition.y, vPosition.z, 1); \n&quot;</span></span><br><span class="line">    <span class="string">&quot; gl_Position = vec4(temPosition.x, -temPosition.y, temPosition.z, temPosition.a); \n &quot;</span></span><br><span class="line">    <span class="string">&quot; TexCoord = vec3(vTexCoord, vPosition.w); \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#125; \n &quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> CommonFragshader_Normal[] =</span><br><span class="line"><span class="string">&quot;#version 300 es \n&quot;</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> (!VT_SAMPLE2D_SELECTED &amp;&amp; !FIX_CAMERA_IMAGE)</span></span><br><span class="line"><span class="string">&quot;#extension GL_OES_EGL_image_external : require \n&quot;</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="string">&quot; precision mediump float;\n &quot;</span></span><br><span class="line"><span class="string">&quot; in vec3 TexCoord; \n &quot;</span></span><br><span class="line"><span class="string">&quot; out vec4 fragColor; \n &quot;</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> (VT_SAMPLE2D_SELECTED || FIX_CAMERA_IMAGE)</span></span><br><span class="line"><span class="string">&quot;uniform sampler2D myTexture;\n&quot;</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="string">&quot; uniform samplerExternalOES myTexture; \n &quot;</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="string">&quot; uniform vec4 myGain; \n &quot;</span></span><br><span class="line"><span class="string">&quot; void main() \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#123;\n &quot;</span></span><br><span class="line"><span class="comment">//&quot;  		fragColor = vec4(texture(myTexture, TexCoord.xy).rgb, TexCoord.z)+vec4(myGain.xyz,0.0); \n &quot;//2.25</span></span><br><span class="line"><span class="string">&quot;  		fragColor = vec4(texture(myTexture, TexCoord.xy).rgb, 1.0); \n &quot;</span><span class="comment">//2.25</span></span><br><span class="line"><span class="comment">//&quot;	 fragColor = vec4(0.3, 0.4, 0.5, TexCoord.z)+vec4(myGain.xyz,0.0); \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#125;\n &quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-着色器语言简介"><a href="#3-着色器语言简介" class="headerlink" title="3.着色器语言简介"></a>3.着色器语言简介</h2><p>OpenGLES的着色器语言GLSL是一种高级的图形化编程语言，其源自应用广泛的C语言。与传统的C语言不同的是，它提供了更加丰富的针对于图像处理的原生类型，诸如向量、矩阵之类。OpenGLES 主要包含以下特性：</p>
+<ul>
+<li>GLSL是一种面向过程的语言，和Java的面向对象是不同的。</li>
+<li>GLSL的基本语法与C&#x2F;C++基本相同。</li>
+<li>它完美的支持向量和矩阵操作。</li>
+<li>它是通过限定符操作来管理输入输出类型的。</li>
+<li>GLSL提供了大量的内置函数来提供丰富的扩展功能。</li>
+</ul>
+<h2 id="4-数据类型"><a href="#4-数据类型" class="headerlink" title="4.数据类型"></a>4.数据类型</h2><p>GLSL中的数据类型主要分为标量、向量、矩阵、采样器、结构体、数组、空类型七种类型：</p>
+<ul>
+<li>标量：标量表示的是只有大小没有方向的量，在GLSL中标量只有bool、int和float三种。对于int，和C一样，可以写为十进制（16）、八进制（020）或者十六进制（0x10）。关于进制不了解的，得自己补补，这是编程基础。<strong>对于标量的运算，我们最需要注意的是精度，防止溢出问题</strong>。</li>
+<li>向量：向量我们可以看做是数组，在GLSL通常用于储存颜色、坐标等数据，针对维数，可分为二维、三维和四位向量。针对存储的标量类型，可以分为bool、int和float。共有vec2、vec3、vec4，ivec2、ivec3、ivec4、bvec2、bvec3和bvec4九种类型，数组代表维数、i表示int类型、b表示bool类型。<strong>需要注意的是，GLSL中的向量表示竖向量，所以与矩阵相乘进行变换时，矩阵在前，向量在后（与DirectX正好相反）</strong>。向量在GPU中由硬件支持运算，比CPU快的多。</li>
+</ul>
+<blockquote>
+<ol>
+<li>作为颜色向量时，用rgba表示分量，就如同取数组的中具体数据的索引值。三维颜色向量就用rgb表示分量。比如对于颜色向量vec4 color，color[0]和color.r都表示color向量的第一个值，也就是红色的分量。其他相同。</li>
+<li>作为位置向量时，用xyzw表示分量，xyz分别表示xyz坐标，w表示向量的模。三维坐标向量为xyz表示分量，二维向量为xy表示分量。</li>
+<li>作为纹理向量时，用stpq表示分量，三维用stp表示分量，二维用st表示分量。</li>
+</ol>
+</blockquote>
+<ul>
+<li>矩阵：在GLSL中矩阵拥有2<em>2、3</em>3、4*4三种类型的矩阵，分别用mat2、mat3、mat4表示。我们可以把矩阵看做是一个二维数组，也可以用二维数组下表的方式取里面具体位置的值。</li>
+<li>采样器：采样器是专门用来对纹理进行采样工作的，在GLSL中一般来说，一个采样器变量表示一副或者一套纹理贴图。所谓的纹理贴图可以理解为我们看到的物体上的皮肤。</li>
+<li>结构体：和C语言中的结构体相同，用struct来定义结构体，关于结构体参考C语言中的结构体。</li>
+<li>数组：数组知识也和C中相同，不同的是数组声明时可以不指定大小，但是建议在不必要的情况下，还是指定大小的好。</li>
+<li>空类型：空类型用void表示，仅用来声明不返回任何值得函数。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> a=<span class="number">1.0</span>;</span><br><span class="line"><span class="type">int</span> b=<span class="number">1</span>;</span><br><span class="line"><span class="type">bool</span> c=<span class="literal">true</span>;</span><br><span class="line">vec2 d=vec2(<span class="number">1.0</span>,<span class="number">2.0</span>);</span><br><span class="line">vec3 e=vec3(<span class="number">1.0</span>,<span class="number">2.0</span>,<span class="number">3.0</span>)</span><br><span class="line">vec4 f=vec4(vec3,<span class="number">1.2</span>);</span><br><span class="line">vec4 g=vec4(<span class="number">0.2</span>);  <span class="comment">//相当于vec(0.2,0.2,0.2,0.2)</span></span><br><span class="line">vec4 h=vec4(a,a,<span class="number">1.3</span>,a);</span><br><span class="line">mat2 i=mat2(<span class="number">0.1</span>,<span class="number">0.5</span>,<span class="number">1.2</span>,<span class="number">2.4</span>);</span><br><span class="line">mat2 j=mat2(<span class="number">0.8</span>);   <span class="comment">//相当于mat2(0.8,0.8,0.8,0.8)</span></span><br><span class="line">mat3 k=mat3(e,e,<span class="number">1.2</span>,<span class="number">1.6</span>,<span class="number">1.8</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-运算符"><a href="#5-运算符" class="headerlink" title="5.运算符"></a>5.运算符</h2><p>GLSL中的运算符有（越靠前，运算优先级越高）：</p>
+<ol>
+<li>索引：[]</li>
+<li>前缀自加和自减：++，–</li>
+<li>一元非和逻辑非：~，！</li>
+<li>加法和减法：+，-</li>
+<li>等于和不等于：&#x3D;&#x3D;，！&#x3D;</li>
+<li>逻辑异或：^^</li>
+<li>三元运算符号，选择：？:</li>
+<li>成员选择与混合：.</li>
+<li>后缀自加和自减：++，–</li>
+<li>乘法和除法：*，&#x2F;</li>
+<li>关系运算符：&gt;，&lt;，&#x3D;，&gt;&#x3D;，&lt;&#x3D;，&lt;&gt;</li>
+<li>逻辑与：&amp;&amp;</li>
+<li>逻辑或：||</li>
+<li>赋值预算：&#x3D;，+&#x3D;，-&#x3D;，*&#x3D;，&#x2F;&#x3D;</li>
+</ol>
+<h2 id="6-类型转换"><a href="#6-类型转换" class="headerlink" title="6.类型转换"></a>6.类型转换</h2><p>GLSL的类型转换与C不同。在GLSL中类型不可以自动提升，比如float a&#x3D;1;就是一种错误的写法，必须严格的写成float a&#x3D;1.0，也不可以强制转换，即float a&#x3D;(float)1;也是错误的写法，但是可以用内置函数来进行转换，如float a&#x3D;float(1);还有float a&#x3D;float(true);（true为1.0，false为0.0）等，值得注意的是，<strong>低精度的int不能转换为低精度的float</strong>。</p>
+<h2 id="7-限定符"><a href="#7-限定符" class="headerlink" title="7.限定符"></a>7.限定符</h2><p>GLSL中的限定符号主要有：</p>
+<ul>
+<li>attritude：一般用于各个顶点各不相同的量。如顶点颜色、坐标等。</li>
+<li>uniform：一般用于对于3D物体中所有顶点都相同的量。比如光源位置，统一变换矩阵等。</li>
+<li>varying：表示易变量，一般用于顶点着色器传递到片元着色器的量。</li>
+<li>const：常量。</li>
+</ul>
+<p>限定符与java限定符类似，放在变量类型之前，并且只能用于全局变量。在GLSL中，没有默认限定符一说。</p>
+<h2 id="8-流程控制"><a href="#8-流程控制" class="headerlink" title="8.流程控制"></a>8.流程控制</h2><p>GLSL中的流程控制与C中基本相同，主要有：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>()&#123;&#125;、<span class="keyword">if</span>()&#123;&#125;<span class="keyword">else</span>&#123;&#125;、<span class="keyword">if</span>()&#123;&#125;<span class="keyword">else</span> <span class="keyword">if</span>()&#123;&#125;<span class="keyword">else</span>&#123;&#125;</span><br><span class="line"><span class="keyword">while</span>()&#123;&#125;和<span class="keyword">do</span>&#123;&#125;<span class="keyword">while</span>()</span><br><span class="line"><span class="keyword">for</span>(;;)&#123;&#125;</span><br><span class="line"><span class="keyword">break</span>和<span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="9-函数"><a href="#9-函数" class="headerlink" title="9.函数"></a>9.函数</h2><p>GLSL中也可以定义函数，定义函数的方式也与C语言基本相同。函数的返回值可以是GLSL中的除了采样器的任意类型。对于GLSL中函数的参数，可以用参数用途修饰符来进行修饰，常用修饰符如下：</p>
+<ul>
+<li>in：输入参数，无修饰符时默认为此修饰符。</li>
+<li>out：输出参数。</li>
+<li>inout：既可以作为输入参数，又可以作为输出参数。</li>
+</ul>
+<h2 id="10-浮点精度"><a href="#10-浮点精度" class="headerlink" title="10.浮点精度"></a>10.浮点精度</h2><p>与顶点着色器不同的是，在片元着色器中使用浮点型时，必须指定浮点类型的精度，否则编译会报错。精度有三种，分别为：</p>
+<ul>
+<li>lowp：低精度。8位。</li>
+<li>mediump：中精度。10位。</li>
+<li>highp：高精度。16位。</li>
+</ul>
+<p>具体如下表：</p>
+<p><img src="/2023/04/14/4-7-GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80/21.webp"></p>
+<p>不仅仅是float可以制定精度，其他（除了bool相关）类型也同样可以，但是int、采样器类型并不一定要求指定精度。加精度的定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uniform lowp <span class="type">float</span> a=<span class="number">1.0</span>;</span><br><span class="line">varying mediump vec4 c;</span><br></pre></td></tr></table></figure>
+
+<p>当然，也可以在片元着色器中设置默认精度，只需要在片元着色器最上面加上precision &lt;精度&gt; &lt;类型&gt;即可制定某种类型的默认精度。其他情况相同的话，精度越高，画质越好，使用的资源也越多。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">precision mediump <span class="type">float</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-程序结构"><a href="#11-程序结构" class="headerlink" title="11.程序结构"></a>11.程序结构</h2><p>GLSL程序的结构和C语言差不多，main()方法表示入口函数，可以在其上定义函数和变量，在main中可以引用这些变量和函数。定义在函数体以外的叫做全局变量，定义在函数体内的叫做局部变量。与高级语言不通的是，变量和函数在使用前必须声明，不能再使用的后面声明变量或者函数。</p>
+<h2 id="12-内建变量"><a href="#12-内建变量" class="headerlink" title="12.内建变量"></a>12.内建变量</h2><p>在着色器中我们一般都会声明变量来在程序中使用，但是着色器中还有一些特殊的变量，不声明也可以使用。这些变量叫做内建变量。內建变量，相当于着色器硬件的输入和输出点，使用者利用这些输入点输入之后，就会看到屏幕上的输出。通过输出点可以知道输出的某些数据内容。当然，实际上肯定不会这样简单，这么说只是为了帮助理解。在顶点着色器中的内建变量和片元着色器的内建变量是不相同的。着色器中的内建变量有很多，在此，我们只列出最常用的集中内建变量。</p>
+<p> 顶点着色器的内建变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入变量：</span><br><span class="line">    gl_Position：顶点坐标</span><br><span class="line">    gl_PointSize：点的大小，没有赋值则为默认值1，通常设置绘图为点绘制才有意义。</span><br></pre></td></tr></table></figure>
+
+<p>片元着色器的内建变量</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 输入变量</span><br><span class="line">    gl_FragCoord：当前片元相对窗口位置所处的坐标。</span><br><span class="line">    gl_FragFacing：<span class="type">bool</span>型，表示是否为属于光栅化生成此片元的对应图元的正面。</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> 输出变量</span><br><span class="line">    gl_FragColor：当前片元颜色</span><br><span class="line">    gl_FragData：vec4类型的数组。向其写入的信息，供渲染管线的后继过程使用。</span><br></pre></td></tr></table></figure>
+
+<h2 id="13-常用内置函数"><a href="#13-常用内置函数" class="headerlink" title="13.常用内置函数"></a>13.常用内置函数</h2><h3 id="13-1常见函数"><a href="#13-1常见函数" class="headerlink" title="13.1常见函数"></a>13.1常见函数</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">radians(x)：角度转弧度</span><br><span class="line">degrees(x)：弧度转角度</span><br><span class="line">sin(x)：正弦函数，传入值为弧度。相同的还有cos余弦函数、tan正切函数、asin反正弦、acos反余弦、atan反正切</span><br><span class="line">pow(x,y)：xy</span><br><span class="line">exp(x)：ex</span><br><span class="line">exp2(x)：<span class="number">2</span>x</span><br><span class="line">log(x)：logex</span><br><span class="line">log2(x)：log2x</span><br><span class="line">sqrt(x)：x√</span><br><span class="line">inversesqr(x)：<span class="number">1</span>x√</span><br><span class="line">abs(x)：取x的绝对值</span><br><span class="line">sign(x)：x&gt;<span class="number">0</span>返回<span class="number">1.0</span>，x&lt;<span class="number">0</span>返回-<span class="number">1.0</span>，否则返回<span class="number">0.0</span></span><br><span class="line">ceil(x)：返回大于或者等于x的整数</span><br><span class="line">floor(x)：返回小于或者等于x的整数</span><br><span class="line">fract(x)：返回x-floor(x)的值</span><br><span class="line">mod(x,y)：取模（求余）</span><br><span class="line">min(x,y)：获取xy中小的那个</span><br><span class="line">max(x,y)：获取xy中大的那个</span><br><span class="line">mix(x,y,<span class="selector-tag">a</span>)：返回x∗(<span class="number">1</span>−<span class="selector-tag">a</span>)+y∗<span class="selector-tag">a</span></span><br><span class="line">step(x,<span class="selector-tag">a</span>)：x&lt; <span class="selector-tag">a</span>返回<span class="number">0.0</span>，否则返回<span class="number">1.0</span></span><br><span class="line">smoothstep(x,y,<span class="selector-tag">a</span>)：<span class="selector-tag">a</span> &lt; x返回<span class="number">0.0</span>，<span class="selector-tag">a</span>&gt;y返回<span class="number">1.0</span>，否则返回<span class="number">0.0</span>-<span class="number">1.0</span>之间平滑的Hermite插值。</span><br><span class="line">dFdx(<span class="selector-tag">p</span>)：<span class="selector-tag">p</span>在x方向上的偏导数</span><br><span class="line">dFdy(<span class="selector-tag">p</span>)：<span class="selector-tag">p</span>在y方向上的偏导数</span><br><span class="line">fwidth(<span class="selector-tag">p</span>)：<span class="selector-tag">p</span>在x和y方向上的偏导数的绝对值之和</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-2几何函数"><a href="#13-2几何函数" class="headerlink" title="13.2几何函数"></a>13.2几何函数</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">length(x)：计算向量x的长度</span><br><span class="line">distance(x,y)：返回向量xy之间的距离</span><br><span class="line">dot(x,y)：返回向量xy的点积</span><br><span class="line">cross(x,y)：返回向量xy的差积</span><br><span class="line">normalize(x)：返回与x向量方向相同，长度为<span class="number">1</span>的向量</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-3矩阵函数"><a href="#13-3矩阵函数" class="headerlink" title="13.3矩阵函数"></a>13.3矩阵函数</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">matrixCompMult(x,y)：将矩阵相乘</span><br><span class="line">lessThan(x,y)：返回向量xy的各个分量执行x&lt; y的结果，类似的有greaterThan,equal,notEqual</span><br><span class="line">lessThanEqual(x,y)：返回向量xy的各个分量执行x&lt;= y的结果，类似的有类似的有greaterThanEqual</span><br><span class="line">any(bvec x)：x有一个元素为true，则为true</span><br><span class="line"><span class="attribute">all</span>(bvec x)：x所有元素为true，则返回true，否则返回false</span><br><span class="line">not(bvec x)：x所有分量执行逻辑非运算</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-4纹理采样函数"><a href="#13-4纹理采样函数" class="headerlink" title="13.4纹理采样函数"></a>13.4纹理采样函数</h3><p>纹理采样函数有texture2D、texture2DProj、texture2DLod、texture2DProjLod、textureCube、textureCubeLod及texture3D、texture3DProj、texture3DLod、texture3DProjLod等。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">texture表示纹理采样，<span class="number">2</span>D表示对<span class="number">2</span>D纹理采样，<span class="number">3</span>D表示对<span class="number">3</span>D纹理采样</span><br><span class="line">Lod后缀，只适用于顶点着色器采样</span><br><span class="line">Proj表示纹理坐标st会除以<span class="selector-tag">q</span></span><br></pre></td></tr></table></figure>
+
+<p>纹理采样函数中，3D在OpenGLES2.0并不是绝对支持。我们再次暂时不管3D纹理采样函数。重点只对texture2D函数进行说明。texture2D拥有三个参数，第一个参数表示纹理采样器。第二个参数表示纹理坐标，可以是二维、三维、或者四维。第三个参数加入后只能在片元着色器中调用，且只对采样器为mipmap类型纹理时有效。</p>
+<h2 id="14-attribute、uniform、varying、in、out"><a href="#14-attribute、uniform、varying、in、out" class="headerlink" title="14.attribute、uniform、varying、in、out"></a>14.attribute、uniform、varying、in、out</h2><h3 id="1-attribute"><a href="#1-attribute" class="headerlink" title="1.attribute:"></a>1.attribute:</h3><p>根据OpenGL2.0和OpenGLES2.0标准，仅用在VertexShader中，至少支持8个attribute属性。OpenGL3.0里，至少支持16个。通常用来存储位置坐标、法向量、纹理坐标和颜色等。我们在上一阶段的OpenGL学习中每个Shader都有用到。 </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">attribute vec4 <span class="attribute">position</span>;</span><br><span class="line">attribute vec4 <span class="attribute">color</span>;</span><br><span class="line">attribute vec4 texcoord;</span><br><span class="line">attribute vec4 <span class="attribute">normal</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>在C++中先获取在哪个属性组： </p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mPositionLocation = glGetAttribLocation(mProgram, &quot;<span class="attribute">position</span>&quot;);</span><br><span class="line">mColorLocation = glGetAttribLocation(mProgram, &quot;<span class="attribute">color</span>&quot;);</span><br><span class="line">mTexcoordLocation = glGetAttribLocation(mProgram, &quot;texcoord&quot;);</span><br><span class="line">mNormalLocation = glGetAttribLocation(mProgram, &quot;<span class="attribute">normal</span>&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>设置VBO与通用属性组关系：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">glEnableVertexAttribArray</span>(mPositionLocation);</span><br><span class="line"><span class="built_in">glVertexAttribPointer</span>(mPositionLocation, <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="built_in">sizeof</span>(Vertex), <span class="number">0</span>);</span><br><span class="line"><span class="built_in">glEnableVertexAttribArray</span>(mColorLocation);</span><br><span class="line"><span class="built_in">glVertexAttribPointer</span>(mColorLocation, <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="built_in">sizeof</span>(Vertex), (<span class="type">void</span>*)(<span class="built_in">sizeof</span>(<span class="type">float</span>) * <span class="number">4</span>));</span><br><span class="line"><span class="built_in">glEnableVertexAttribArray</span>(mTexcoordLocation);</span><br><span class="line"><span class="built_in">glVertexAttribPointer</span>(mTexcoordLocation, <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="built_in">sizeof</span>(Vertex), (<span class="type">void</span>*)(<span class="built_in">sizeof</span>(<span class="type">float</span>) * <span class="number">8</span>));</span><br><span class="line"><span class="built_in">glEnableVertexAttribArray</span>(mNormalLocation);</span><br><span class="line"><span class="built_in">glVertexAttribPointer</span>(mNormalLocation, <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="built_in">sizeof</span>(Vertex), (<span class="type">void</span>*)(<span class="built_in">sizeof</span>(<span class="type">float</span>) * <span class="number">12</span>));</span><br></pre></td></tr></table></figure>
+
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">GLbyte vertexShaderSrc[] =</span><br><span class="line"><span class="string">&quot;attribute vec4 a_position; \n&quot;</span></span><br><span class="line"><span class="string">&quot;attribute vec4 a_color; \n&quot;</span></span><br><span class="line"><span class="string">&quot;varying vec4 v_color; \n&quot;</span></span><br><span class="line"><span class="string">&quot;void main() \n&quot;</span></span><br><span class="line"><span class="string">&quot;&#123; \n&quot;</span></span><br><span class="line"><span class="string">&quot; v_color = a_color; \n&quot;</span></span><br><span class="line"><span class="string">&quot; gl_Position = a_position; \n&quot;</span></span><br><span class="line"><span class="string">&quot;&#125;&quot;</span>;</span><br><span class="line">GLbyte fragmentShaderSrc[] =</span><br><span class="line"><span class="string">&quot;varying vec4 v_color; \n&quot;</span></span><br><span class="line"><span class="string">&quot;void main() \n&quot;</span></span><br><span class="line"><span class="string">&quot;&#123; \n&quot;</span></span><br><span class="line"><span class="string">&quot; gl_FragColor = v_color; \n&quot;</span></span><br><span class="line"><span class="string">&quot;&#125;&quot;</span>;</span><br><span class="line">GLfloat color[<span class="number">4</span>] = &#123; <span class="number">1.0f</span>, <span class="number">0.0f</span>, <span class="number">0.0f</span>, <span class="number">1.0f</span> &#125;;</span><br><span class="line">GLfloat vertexPos[<span class="number">3</span> * <span class="number">3</span>]; <span class="comment">// 3 vertices, with (x,y,z) per-vertex</span></span><br><span class="line">GLuint shaderObject[<span class="number">2</span>];</span><br><span class="line">GLuint programObject;</span><br><span class="line">shaderObject[<span class="number">0</span>] = <span class="built_in">LoadShader</span>(vertexShaderSrc, GL_VERTEX_SHADER);</span><br><span class="line">shaderObject[<span class="number">1</span>] = <span class="built_in">LoadShader</span>(fragmentShaderSrc, GL_FRAGMENT_SHADER);</span><br><span class="line">programObject = <span class="built_in">glCreateProgram</span>();</span><br><span class="line"><span class="built_in">glAttachShader</span>(programObject, shaderObject[<span class="number">0</span>]);</span><br><span class="line"><span class="built_in">glAttachShader</span>(programObject, shaderObject[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line"><span class="built_in">glVertexAttrib4fv</span>(<span class="number">0</span>, color);</span><br><span class="line"><span class="built_in">glVertexAttribPointer</span>(<span class="number">1</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, <span class="number">0</span>, vertexPos);</span><br><span class="line"><span class="built_in">glEnableVertexAttribArray</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">glBindAttribLocation</span>(programObject, <span class="number">0</span>, <span class="string">&quot;a_color&quot;</span>);</span><br><span class="line"><span class="built_in">glBindAttribLocation</span>(programObject, <span class="number">1</span>, <span class="string">&quot;a_position&quot;</span>);</span><br><span class="line"><span class="built_in">glLinkProgram</span>(programObject);</span><br><span class="line"><span class="built_in">glUseProgram</span>(programObject);</span><br><span class="line"><span class="built_in">glDrawArrays</span>(GL_TRIANGLES, <span class="number">0</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-unifrom"><a href="#2-unifrom" class="headerlink" title="2.unifrom:"></a>2.unifrom:</h3><p>可存在所有shader中，OpenGL2.0中，数量至少有128个。可存放矩阵、材质等任何attribute放不下的属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uniform mat4 ModelMatrix;</span><br><span class="line">uniform mat4 ViewMatrix;</span><br><span class="line">uniform mat4 ProjectionMatrix;</span><br></pre></td></tr></table></figure>
+
+<p>在C++中，先获取位置：c</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mModelMatrixLocation = glGetUniformLocation(mProgram, &quot;ModelMatrix&quot;);</span><br><span class="line">mViewMatrixLocation = glGetUniformLocation(mProgram, &quot;ViewMatrix&quot;);</span><br><span class="line">mProjectionMatrixLocation = glGetUniformLocation(mProgram, &quot;ProjectionMatrix&quot;);</span><br></pre></td></tr></table></figure>
+
+
+<p>设置参数：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">glUniformMatrix4fv(mModelMatrixLocation, <span class="number">1</span>, GL_FALSE, M);</span><br><span class="line">glUniformMatrix4fv(mViewMatrixLocation, <span class="number">1</span>, GL_FALSE, V);</span><br><span class="line">glUniformMatrix4fv(mProjectionMatrixLocation, <span class="number">1</span>, GL_FALSE, <span class="selector-tag">P</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-varying"><a href="#3-varying" class="headerlink" title="3.varying:"></a>3.varying:</h3><p>用于shader之间的数据传递，在OpenGL2.0。最多传递8个Vec4大小的数据，即2个mat4矩阵。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">varying vec4 V_Texcoord;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-in"><a href="#4-in" class="headerlink" title="4.in:"></a>4.in:</h3><p>表示某个Shader阶段的输入。varying可以改为in。即fs中的输入为vs中的输出。</p>
+<h3 id="5-out"><a href="#5-out" class="headerlink" title="5.out:"></a>5.out:</h3><p>代表每个shader的输出。也可以代替varying。in和out在3.0之后的版本使用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-6-VBO%E4%B8%8EVAO/" rel="prev" title="OpenGl ES---VBO,VAO">
+      <i class="fa fa-chevron-left"></i> OpenGl ES---VBO,VAO
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-8-OpenGL%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%97-GLM%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="next" title="OpenGL矩阵运算---GLM库的使用">
+      OpenGL矩阵运算---GLM库的使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">GLSL着色器语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-OpenGL-ES-2-0"><span class="nav-number">1.1.</span> <span class="nav-text">1.OpenGL ES 2.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-OpenGL-ES-3-0"><span class="nav-number">1.2.</span> <span class="nav-text">2.OpenGL ES 3.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80%E7%AE%80%E4%BB%8B"><span class="nav-number">1.3.</span> <span class="nav-text">3.着色器语言简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">4.数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.5.</span> <span class="nav-text">5.运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.6.</span> <span class="nav-text">6.类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%99%90%E5%AE%9A%E7%AC%A6"><span class="nav-number">1.7.</span> <span class="nav-text">7.限定符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="nav-number">1.8.</span> <span class="nav-text">8.流程控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E5%87%BD%E6%95%B0"><span class="nav-number">1.9.</span> <span class="nav-text">9.函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E6%B5%AE%E7%82%B9%E7%B2%BE%E5%BA%A6"><span class="nav-number">1.10.</span> <span class="nav-text">10.浮点精度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-number">1.11.</span> <span class="nav-text">11.程序结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E5%86%85%E5%BB%BA%E5%8F%98%E9%87%8F"><span class="nav-number">1.12.</span> <span class="nav-text">12.内建变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-%E5%B8%B8%E7%94%A8%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="nav-number">1.13.</span> <span class="nav-text">13.常用内置函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#13-1%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0"><span class="nav-number">1.13.1.</span> <span class="nav-text">13.1常见函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-2%E5%87%A0%E4%BD%95%E5%87%BD%E6%95%B0"><span class="nav-number">1.13.2.</span> <span class="nav-text">13.2几何函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-3%E7%9F%A9%E9%98%B5%E5%87%BD%E6%95%B0"><span class="nav-number">1.13.3.</span> <span class="nav-text">13.3矩阵函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-4%E7%BA%B9%E7%90%86%E9%87%87%E6%A0%B7%E5%87%BD%E6%95%B0"><span class="nav-number">1.13.4.</span> <span class="nav-text">13.4纹理采样函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-attribute%E3%80%81uniform%E3%80%81varying%E3%80%81in%E3%80%81out"><span class="nav-number">1.14.</span> <span class="nav-text">14.attribute、uniform、varying、in、out</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-attribute"><span class="nav-number">1.14.1.</span> <span class="nav-text">1.attribute:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A"><span class="nav-number">1.14.1.1.</span> <span class="nav-text">方法一：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A"><span class="nav-number">1.14.1.2.</span> <span class="nav-text">方法二：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-unifrom"><span class="nav-number">1.14.2.</span> <span class="nav-text">2.unifrom:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-varying"><span class="nav-number">1.14.3.</span> <span class="nav-text">3.varying:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-in"><span class="nav-number">1.14.4.</span> <span class="nav-text">4.in:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-out"><span class="nav-number">1.14.5.</span> <span class="nav-text">5.out:</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Leeyunhe"
+      src="/images/touxiang.png">
+  <p class="site-author-name" itemprop="name">Leeyunhe</p>
+  <div class="site-description" itemprop="description">云淡风轻拂往事，执笔从容话人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>Music</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyunhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">121k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/click.js"></script>
