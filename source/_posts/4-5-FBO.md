@@ -1,16 +1,16 @@
 ---
-title: 帧缓存对象FBO
-date: 2023-4-14 21:13:11
+title: OpenGl ES---FBO
+date: 2023-4-14 21:47:11
 categories: 笔记
 tags: [嵌入式,OpenGL]
 comments: false
 description:
-typora-root-url: FBO
+typora-root-url: 4-5-FBO
 ---
 
-# 帧缓存对象FBO
+# OpenGl ES---FBO
 
-（Frame Buffer Object）
+（Frame Buffer Object帧缓存对象）
 
 ## Overview
 
