@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="G2D ## 1.什么是跟g2d？  ​	G2D也就是我们说的2d加速。很久以前，绘图工作全部是由我们伟大而神圣的 CPU 来完成的，那时候的显卡，就是真正意义上用来“显示东西的卡”。它的工作就是把 CPU 处理好的数据“搬”到显示器上来。那时候 CPU 的工作可真是辛苦。现在好了，CPU 越来越快，可是做的工作却越来越少了。先来说说图形加速的几个阶段。2D 图像加速，Windows 加速 和 3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="G2D">
+<meta property="og:url" content="http://example.com/2023/04/14/G2D/index.html">
+<meta property="og:site_name" content="Leeyunhe">
+<meta property="og:description" content="G2D ## 1.什么是跟g2d？  ​	G2D也就是我们说的2d加速。很久以前，绘图工作全部是由我们伟大而神圣的 CPU 来完成的，那时候的显卡，就是真正意义上用来“显示东西的卡”。它的工作就是把 CPU 处理好的数据“搬”到显示器上来。那时候 CPU 的工作可真是辛苦。现在好了，CPU 越来越快，可是做的工作却越来越少了。先来说说图形加速的几个阶段。2D 图像加速，Windows 加速 和 3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/14/G2D/1.png">
+<meta property="article:published_time" content="2023-04-14T10:08:11.000Z">
+<meta property="article:modified_time" content="2023-04-14T10:16:05.460Z">
+<meta property="article:author" content="Leeyunhe">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/14/G2D/1.png">
+
+<link rel="canonical" href="http://example.com/2023/04/14/G2D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>G2D | Leeyunhe</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leeyunhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-notes">
+
+    <a href="/categories/%E7%AC%94%E8%AE%B0/" rel="section"><i class="fa fa-folder-open fa-fw"></i>笔记</a>
+
+  </li>
+        <li class="menu-item menu-item-read">
+
+    <a href="/categories/%E9%98%85%E8%AF%BB/" rel="section"><i class="fa fa-book fa-fw"></i>阅读</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/G2D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.png">
+      <meta itemprop="name" content="Leeyunhe">
+      <meta itemprop="description" content="云淡风轻拂往事，执笔从容话人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leeyunhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          G2D
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-14 18:08:11 / 修改时间：18:16:05" itemprop="dateCreated datePublished" datetime="2023-04-14T18:08:11+08:00">2023-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div align = "center">G2D</div>
+## 1.什么是跟g2d？
+
+<p>​	G2D也就是我们说的2d加速。很久以前，绘图工作全部是由我们伟大而神圣的 CPU 来完成的，那时候的显卡，就是真正意义上用来“显示东西的卡”。它的工作就是把 CPU 处理好的数据“搬”到显示器上来。那时候 CPU 的工作可真是辛苦。现在好了，CPU 越来越快，可是做的工作却越来越少了。先来说说图形加速的几个阶段。2D 图像加速，Windows 加速 和 3D 图像加速。</p>
+<span id="more"></span>
+
+<p>​	2D 加速，是早就有的产物了。它的作用是用 显示芯片 来代替 CPU，整块整块的移动显存里的数据。比如，你要移动一个窗口，在没有 2D 加速的时代，CPU 所作的工作：1、找到窗口在显存中的地址，2、把一行数据拷贝到目的地址，3、重复 2 直到拷贝完所有的行。完成。这样一来，当窗口很大的时候，CPU 要处理的数据量就会成倍的增长，导致窗口的移动比蜗牛爬还慢…. 想体验一下吗？好，进入设备管理器，把你的显卡驱动删掉，然后重起…. 好好享受啊！呵呵 </p>
+<p>​	有了 2D 加速呢，CPU 所做的事，减轻了很多，不过还是要指导 显示芯片 来干这搬运工的活。CPU 的工作：1、找到窗口在显存中的地址，2、给 显卡发送 “拷贝这一行到目的地”的命令。3、重复 2 直到拷贝完所有的行。初看起来好像和没有加速以前差不多，可是第 2 步就是关键所在哦。 </p>
+<p>​	现在让我们把第二步分解来看：没有 2D 加速：1、读 32 Bit 数据(入门篇里的哦！)，把这 32 Bit 数据写入目的地。2、重复 1 直到一行所有的像素被处理完。而有了 2D 加速后的工作只有：1、发送命令让显卡去拷贝这一行。这样看来，2D 加速确实能很大程度的释放 CPU 的负担。所以大家现在随便提起一个窗口移动一下，很平滑不是吗？显卡负责了窗口的移动。</p>
+<h2 id="2-支持的功能有哪些"><a href="#2-支持的功能有哪些" class="headerlink" title="2.支持的功能有哪些?"></a>2.支持的功能有哪些?</h2><p>​	转码，缩放，位块传输……(不同芯片支持的具体功能不尽相同)</p>
+<p><img src="/2023/04/14/G2D/1.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">支持图层大小最高至2048*2048像素点</span><br><span class="line">支持输入/输出格式：YUV422（sp、planner）、YUV420（sp、planer）......</span><br><span class="line">支持水平和垂直翻转，顺时针 0/90/180/270度 旋转</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-函数接口命令"><a href="#3-函数接口命令" class="headerlink" title="3.函数接口命令"></a>3.函数接口命令</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//fd:G2D设备文件标识符，cmd:命令码，arg:对应结构体指针</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">ioctl</span><span class="params">(<span class="type">int</span> * fd, <span class="type">int</span> cmd, <span class="type">unsigned</span> <span class="type">long</span> arg)</span></span>;</span><br><span class="line"><span class="comment">//常见cmd功能、与结构体对应关系</span></span><br><span class="line">G2D_CMD_BITBLT_H <span class="comment">//实现单幅图的缩放，格式转换。实现foreground带缩放的ROP2处理 &gt;&gt; g2d_blt_h</span></span><br><span class="line">G2D_CMD_BITBLT <span class="comment">//实现两个图层的运算，如：源拷贝到目标；源旋转放入目标；源和目标做alpha blending /colorkey 后拷到目标。&gt;&gt; g2d_blt </span></span><br><span class="line">G2D_CMD_STRETCHBLT	<span class="comment">//实现两个图层的运算，如：源缩放到目标大小后拷贝到目标；源缩放到目标大小后旋转放入目标；源缩放到目标大小后和目标做做alpha blending /colorkey 后拷到目标。&gt;&gt; g2d_stretchblt</span></span><br><span class="line">G2D_CMD_MEM_REQUEST <span class="comment">//为测试程序提供内存申请接口 &gt;&gt;arg为申请buffer的size</span></span><br><span class="line">G2D_CMD_MEM_GETADR <span class="comment">//为测试程序提供内存物理地址 &gt;&gt;arg为申请buffer的编号（1~10）</span></span><br><span class="line">G2D_CMD_MEM_RELEALSE <span class="comment">//为测试程序提供内存物理地址 &gt;&gt;arg为申请buffer的编号（1~10）</span></span><br></pre></td></tr></table></figure>
+
+<p>​	注意：G2D使用时，传入的地址只能是物理地址，不能是应用空间申请的虚拟地址。所以测试时，需要alloc_mem的方式申请一片内存空间，得到其物理地址，才能进行G2D调用。</p>
+<h2 id="4-数据结构"><a href="#4-数据结构" class="headerlink" title="4.数据结构"></a>4.数据结构</h2><h3 id="g2d-blt-h"><a href="#g2d-blt-h" class="headerlink" title="g2d_blt_h"></a>g2d_blt_h</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    g2d_blt_flags_h	flag_h;<span class="comment">//blt操作flag标志</span></span><br><span class="line">    g2d_image_enh	src_image_h;<span class="comment">//源图像信息</span></span><br><span class="line">    g2d_image_enh	dst_image_h;<span class="comment">//目标图像信息</span></span><br><span class="line">    __u32			color;<span class="comment">//colorkey颜色</span></span><br><span class="line">    __u32			alpha;<span class="comment">//面alpha值</span></span><br><span class="line">&#125; g2d_blt_h;</span><br></pre></td></tr></table></figure>
+
+<h3 id="g2d-blt"><a href="#g2d-blt" class="headerlink" title="g2d_blt"></a>g2d_blt</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    g2d_blt_flags	flag;<span class="comment">//blt操作flag标志</span></span><br><span class="line">    g2d_image		src_image;<span class="comment">//源图像信息</span></span><br><span class="line">    g2d_rect		src_rect;<span class="comment">//源矩形信息，x/y/w/h-左上角x/左上角y/宽/高</span></span><br><span class="line">    g2d_image		dst_image;<span class="comment">//目标图像信息</span></span><br><span class="line">    __s32			dst_x;<span class="comment">//目标矩阵左上角x</span></span><br><span class="line">    __s32			dst_y;<span class="comment">//目标矩阵左上角y</span></span><br><span class="line">    __u32			color;<span class="comment">//colorkey颜色</span></span><br><span class="line">    __u32			alpha;<span class="comment">//面alpha值</span></span><br><span class="line">&#125;g2d_blt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="g2d-stretchblt"><a href="#g2d-stretchblt" class="headerlink" title="g2d_stretchblt"></a>g2d_stretchblt</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    g2d_blt_flags	flag;<span class="comment">//blt操作flag标志</span></span><br><span class="line">    g2d_image		src_image;<span class="comment">//源图像信息</span></span><br><span class="line">    g2d_rect		src_rect;<span class="comment">//源矩形信息，x/y/w/h-左上角x/左上角y/宽/高</span></span><br><span class="line">    g2d_image		dst_image;<span class="comment">//目标图像信息</span></span><br><span class="line">	g2d_rect		dst_rect;<span class="comment">//目标矩形信息，x/y/w/h-左上角x/左上角y/宽/高</span></span><br><span class="line">    __u32			color;<span class="comment">//colorkey颜色</span></span><br><span class="line">    __u32			alpha;<span class="comment">//面alpha值</span></span><br><span class="line">&#125;g2d_stretchblt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="g2d-image"><a href="#g2d-image" class="headerlink" title="g2d_image"></a>g2d_image</h3><p>主要用于描述image属性信息</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    __u32	addr[<span class="number">3</span>];<span class="comment">//图像帧的基地址，对于UV combined ，addr[0,1]有效，planner类型addr[0,1,2]有效，其他addr[0]有效</span></span><br><span class="line">    __u32	w;<span class="comment">//图像帧的宽</span></span><br><span class="line">    __u32	h;<span class="comment">//图像帧的高</span></span><br><span class="line">    g2d_data_fmt	format;<span class="comment">//图像帧buffer的像素格式</span></span><br><span class="line">    g2d_pixel_seq	pixel_seq;<span class="comment">//图像帧buffer的像素序列</span></span><br><span class="line">&#125;g2d_image;</span><br></pre></td></tr></table></figure>
+
+<h3 id="g2d-image-enh"><a href="#g2d-image-enh" class="headerlink" title="g2d_image_enh"></a>g2d_image_enh</h3><p>​	主要描述图片的宽高、存放地址、是否做Clip处理，是否为预乘等</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">int</span>		bbuff;</span><br><span class="line">    g2d_fmt_enh	format;<span class="comment">//图格式</span></span><br><span class="line">    __u32	laddr[<span class="number">3</span>];<span class="comment">//起始低位地址</span></span><br><span class="line">    __u32	haddr[<span class="number">3</span>];<span class="comment">//起始高位地址</span></span><br><span class="line">    __u32	width;<span class="comment">//图宽</span></span><br><span class="line">    __u32	height;<span class="comment">//图高</span></span><br><span class="line">    __u32	align[<span class="number">3</span>];</span><br><span class="line">    g2d_rect		clip_rect;<span class="comment">//ROI矩形</span></span><br><span class="line">    __u32	gamut;<span class="comment">//图的色域</span></span><br><span class="line">    <span class="type">int</span>		bpremul;<span class="comment">//是否为预乘</span></span><br><span class="line">    __u8	alpha;<span class="comment">//面alpha值</span></span><br><span class="line">    g2d_alpha_mode_enh	mode;<span class="comment">//alpha模式设置</span></span><br><span class="line">&#125;g2d_image_enh;</span><br></pre></td></tr></table></figure>
+
+<p>​	laddr以及haddr是针对32为以及64位处理器的一个适配，32位处理器只需要填充laddr，64位则需要填充laddr和haddr</p>
+<h3 id="g2d-blt-flags"><a href="#g2d-blt-flags" class="headerlink" title="g2d_blt_flags"></a>g2d_blt_flags</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span>&#123;</span><br><span class="line">    G2D_BLT_NONE			= <span class="number">0x00000000</span>,<span class="comment">//纯拷贝</span></span><br><span class="line">    G2D_BLT_PIXEL_ALPHA		= <span class="number">0x00000001</span>,<span class="comment">//点alpha标志</span></span><br><span class="line">    G2D_BLT_PLANE_ALPHA 	= <span class="number">0x00000002</span>,<span class="comment">//面alpha标志</span></span><br><span class="line">    G2D_BLT_MULTI_ALPHA 	=<span class="number">0x00000004</span>,<span class="comment">//混合alpha标志</span></span><br><span class="line">    G2D_BLT_SRC_COLORKEY 	= <span class="number">0x00000008</span>,<span class="comment">//源colorkey标志</span></span><br><span class="line">    G2D_BLT_DST_COLORKEY 	= <span class="number">0x00000010</span>,<span class="comment">//目标colorkey标志</span></span><br><span class="line">    G2D_BLT_FLIP_HORIZONTAL = <span class="number">0x00000020</span>,<span class="comment">//水平翻转</span></span><br><span class="line">    G2D_BLT_VERTICAL		= <span class="number">0x00000040</span>,<span class="comment">//垂直翻转</span></span><br><span class="line">    G2D_BLT_ROTATE90		= <span class="number">0x00000080</span>,<span class="comment">//逆时针旋转90度</span></span><br><span class="line">    G2D_BLT_ROTATE180 		= <span class="number">0x00000100</span>,<span class="comment">//逆时针旋转180度</span></span><br><span class="line">    G2D_BLT_ROTATE270 		= <span class="number">0x00000200</span>,<span class="comment">//逆时针旋转270度</span></span><br><span class="line">    G2D_BLT_MIRROR45 		= <span class="number">0x00000400</span>,<span class="comment">//镜像45度</span></span><br><span class="line">    G2D_BLT_MIRROR135		 = <span class="number">0x00000800</span>,<span class="comment">//镜像135度</span></span><br><span class="line">&#125;g2d_blt_flags</span><br></pre></td></tr></table></figure>
+
+<h3 id="g2d-blt-flags-h"><a href="#g2d-blt-flags-h" class="headerlink" title="g2d_blt_flags_h"></a>g2d_blt_flags_h</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-举例"><a href="#5-举例" class="headerlink" title="5.举例"></a>5.举例</h2><p>1.可参考虚拟机中…&#x2F;sdk_demo&#x2F;G2dDemo。</p>
+<p>2.也可参考全志G2D开发指南</p>
+<h3 id="1-旋转，缩放与格式转换"><a href="#1-旋转，缩放与格式转换" class="headerlink" title="1.旋转，缩放与格式转换"></a>1.旋转，缩放与格式转换</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">g2d_blt_h blit;<span class="comment">//实例化一个对象，进行参数填充</span></span><br><span class="line"></span><br><span class="line">blit.flag_h = G2D_BLT_NONE_0;<span class="comment">//修改此参数实现旋转。如：G2D_ROT_90旋转90度</span></span><br><span class="line">blit.src_image_h.fd = src_buffd;<span class="comment">//源图像</span></span><br><span class="line"><span class="comment">//blit.src_image_h.format = G2D_FORMAT_YUV420_PLANAR;</span></span><br><span class="line">blit.src_image_h.format = G2D_FORMAT_ARGB8888;</span><br><span class="line">blit.src_image_h.mode = G2D_GLOBAL_ALPHA;</span><br><span class="line">blit.src_image_h.clip_rect.x = <span class="number">0</span>;</span><br><span class="line">blit.src_image_h.clip_rect.y = <span class="number">0</span>;</span><br><span class="line">blit.src_image_h.clip_rect.w = <span class="number">320</span>;</span><br><span class="line">blit.src_image_h.clip_rect.h = <span class="number">480</span>;</span><br><span class="line"> blit.src_image_h.width = <span class="number">320</span>;</span><br><span class="line">blit.src_image_h.height = <span class="number">480</span>;</span><br><span class="line">blit.src_image_h.alpha = <span class="number">0xff</span>;</span><br><span class="line">blit.dst_image_h.fd = dst_buffd;<span class="comment">//目标图像</span></span><br><span class="line"><span class="comment">//blit.dst_image_h.format = G2D_FORMAT_YUV420_PLANAR;	</span></span><br><span class="line">blit.dst_image_h.format = G2D_FORMAT_ARGB8888;<span class="comment">//修改此格式可改变输出格式</span></span><br><span class="line">blit.dst_image_h.mode = G2D_GLOBAL_ALPHA;</span><br><span class="line">blit.dst_image_h.clip_rect.x = <span class="number">0</span>;</span><br><span class="line">blit.dst_image_h.clip_rect.y = <span class="number">0</span>;</span><br><span class="line">blit.dst_image_h.clip_rect.w = <span class="number">320</span>;<span class="comment">//修改此参数可实现缩放</span></span><br><span class="line">blit.dst_image_h.clip_rect.h = <span class="number">480</span>;<span class="comment">//修改此参数可实现缩放</span></span><br><span class="line">blit.dst_image_h.alpha = <span class="number">0xff</span>; </span><br><span class="line">blit.dst_image_h.width = <span class="number">320</span>;<span class="comment">//与上保持一致</span></span><br><span class="line">blit.dst_image_h.height = <span class="number">480</span>;<span class="comment">//与上保持一致</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">ioctl</span>(g2d_fd,  G2D_CMD_BITBLT_H ,(<span class="type">unsigned</span> <span class="type">long</span>)(&amp;blit)) &lt; <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;[%d][%s][%s]G2D_CMD_BITBLT_H failure!\n&quot;</span>,__LINE__, __FILE__,__FUNCTION__);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-输入输出"><a href="#2-输入输出" class="headerlink" title="2.输入输出"></a>2.输入输出</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">g2d_blt blit;</span><br><span class="line"><span class="comment">//设置BITBLT flag标志位</span></span><br><span class="line">blit.color = <span class="number">0xff</span>;</span><br><span class="line">blit.alpha = <span class="number">0xff</span>;</span><br><span class="line">blit.flag = G2D_BLT_NONE;<span class="comment">//纯拷贝</span></span><br><span class="line"><span class="comment">//设置源image和rect</span></span><br><span class="line">blit.src_image.addr[<span class="number">0</span>] = memin;</span><br><span class="line">blit.src_image.w = <span class="number">800</span>;</span><br><span class="line">blit.src_image.h = <span class="number">480</span>;</span><br><span class="line">blit.src_image.format = G2D_FMT_RGBA8888;	</span><br><span class="line">blit.src_image.pixel_seq = G2D_SEQ_NORMAL;</span><br><span class="line">blit.src_rect.x = <span class="number">0</span>;</span><br><span class="line">blit.src_rect.y = <span class="number">0</span>;</span><br><span class="line">blit.src_rect.w = <span class="number">480</span>;</span><br><span class="line">blit.src_rect.h = <span class="number">272</span>;</span><br><span class="line"><span class="comment">//设置目标image和rect</span></span><br><span class="line">blit.dst_image.addr[<span class="number">0</span>] = memout;</span><br><span class="line">blit.dst_image.w = <span class="number">800</span>;</span><br><span class="line">blit.dst_image.h = <span class="number">480</span>;</span><br><span class="line">blit.dst_image.format = G2D_FMT_RGBA8888;</span><br><span class="line">blit.dst_image.pixel_seq = G2D_SEQ_NORMAL;</span><br><span class="line">blit.dst_x = <span class="number">0</span>;</span><br><span class="line">blit.dst_y = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">ioctl</span>(g2d_fd, G2D_CMD_BITBLT, &amp;blit_para) &lt; <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;G2D_CMD_BITBLT failure!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-缩放"><a href="#3-缩放" class="headerlink" title="3.缩放"></a>3.缩放</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">g2d_stretchblt scale;</span><br><span class="line">	<span class="type">int</span> retval = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">	scale.flag = G2D_BLT_NONE;</span><br><span class="line">	scale.src_image.addr[<span class="number">0</span>] = (<span class="type">unsigned</span> <span class="type">long</span>)psrc;</span><br><span class="line">	<span class="comment">//scale.src_image.addr[1] = (unsigned long)psrc + src_w * src_h;</span></span><br><span class="line">	scale.src_image.w = src_w;</span><br><span class="line">	scale.src_image.h = src_h;</span><br><span class="line">	<span class="comment">//scale.src_image.format = G2D_FMT_PYUV420UVC;</span></span><br><span class="line">	scale.src_image.format = G2D_FMT_XRGB8888;</span><br><span class="line">	scale.src_image.pixel_seq = G2D_SEQ_NORMAL;</span><br><span class="line">	scale.src_rect.x = src_crop_x;</span><br><span class="line">	scale.src_rect.y = src_crop_y;</span><br><span class="line">	scale.src_rect.w = src_crop_w;</span><br><span class="line">	scale.src_rect.h = src_crop_h;</span><br><span class="line">	scale.dst_image.addr[<span class="number">0</span>] = (<span class="type">unsigned</span> <span class="type">long</span>)pdst;</span><br><span class="line">	<span class="comment">//scale.dst_image.addr[1] = (unsigned long)pdst + dst_w * dst_h;</span></span><br><span class="line">	scale.dst_image.w = dst_w;</span><br><span class="line">	scale.dst_image.h = dst_h;</span><br><span class="line">	<span class="comment">//scale.dst_image.format = G2D_FMT_PYUV420UVC;	</span></span><br><span class="line">	scale.dst_image.format = G2D_FMT_XRGB8888;</span><br><span class="line">	scale.dst_image.pixel_seq = G2D_SEQ_NORMAL;</span><br><span class="line">	scale.dst_rect.x = dst_crop_x;</span><br><span class="line">	scale.dst_rect.y = dst_crop_y;</span><br><span class="line">	scale.dst_rect.w = dst_crop_w;</span><br><span class="line">	scale.dst_rect.h = dst_crop_h;</span><br><span class="line">	scale.color = <span class="number">0xff</span>;</span><br><span class="line">	scale.alpha = <span class="number">0xff</span>;	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">ioctl</span>(g2d_fd,  G2D_CMD_STRETCHBLT ,(<span class="type">unsigned</span> <span class="type">long</span>)(&amp;scale)) &lt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;[%d][%s][%s]G2D_CMD_STRETCHBLT failure!\n&quot;</span>,</span><br><span class="line">			__LINE__, __FILE__,__FUNCTION__);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-应用层申请内核地址的办法"><a href="#6-应用层申请内核地址的办法" class="headerlink" title="6.应用层申请内核地址的办法"></a>6.应用层申请内核地址的办法</h2><h3 id="1-G2D命令码"><a href="#1-G2D命令码" class="headerlink" title="1.G2D命令码"></a>1.G2D命令码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">G2D_CMD_MEM_REQUEST <span class="comment">//为测试程序提供内存申请接口 &gt;&gt;arg为申请buffer的size</span></span><br><span class="line">G2D_CMD_MEM_GETADR <span class="comment">//为测试程序提供内存物理地址 &gt;&gt;arg为申请buffer的编号（1~10）</span></span><br><span class="line">G2D_CMD_MEM_RELEALSE <span class="comment">//为测试程序提供内存物理地址 &gt;&gt;arg为申请buffer的编号（1~10）</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-alloc-mem"><a href="#2-alloc-mem" class="headerlink" title="2.alloc_mem"></a>2.alloc_mem</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如：****alloc_buffer-&gt;phy = 0xfa200000,alloc_buffer-&gt;vir = 0x7f71081000</span></span><br></pre></td></tr></table></figure>
+
+<p>参考：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;sunxiMemInterface.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;G2dApi.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">VTint32 <span class="title">VTG2D_ClipByFd</span><span class="params">(VTint32 src_buffd, VTint32 dst_buffd,VTint32 dst_x,VTint32 dst_y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	g2d_blt_h blit;</span><br><span class="line"></span><br><span class="line">	blit.flag_h = G2D_ROT_0;<span class="comment">//G2D_BLT_NONE_H</span></span><br><span class="line">	blit.src_image_h.fd = src_buffd;</span><br><span class="line">	blit.src_image_h.format = G2D_FORMAT_YUV420UVC_U1V1U0V0;<span class="comment">//NV12</span></span><br><span class="line">	blit.src_image_h.mode = G2D_GLOBAL_ALPHA;</span><br><span class="line">	blit.src_image_h.clip_rect.x = <span class="number">0</span>;</span><br><span class="line">	blit.src_image_h.clip_rect.y = <span class="number">0</span>;</span><br><span class="line">	blit.src_image_h.clip_rect.w = <span class="number">1280</span>;</span><br><span class="line">	blit.src_image_h.clip_rect.h = <span class="number">720</span>;</span><br><span class="line">	blit.src_image_h.width = <span class="number">1280</span>;</span><br><span class="line">	blit.src_image_h.height = <span class="number">720</span>;</span><br><span class="line">	blit.src_image_h.alpha = <span class="number">0xff</span>; </span><br><span class="line"></span><br><span class="line">	blit.src_image_h.fd = dst_buffd;</span><br><span class="line">	blit.dst_image_h.format = G2D_FORMAT_YUV420UVC_U1V1U0V0;	</span><br><span class="line">	blit.dst_image_h.mode = G2D_GLOBAL_ALPHA;</span><br><span class="line">	blit.dst_image_h.clip_rect.x = dst_x;</span><br><span class="line">	blit.dst_image_h.clip_rect.y = dst_y;</span><br><span class="line">	blit.dst_image_h.clip_rect.w = <span class="number">1280</span>;</span><br><span class="line">	blit.dst_image_h.clip_rect.h = <span class="number">720</span>;</span><br><span class="line">	blit.dst_image_h.width = <span class="number">3840</span>;</span><br><span class="line">	blit.dst_image_h.height = <span class="number">1440</span>;</span><br><span class="line">	blit.dst_image_h.alpha = <span class="number">0xff</span>; </span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">ioctl</span>(g2d_fd,  G2D_CMD_BITBLT_H ,(<span class="type">unsigned</span> <span class="type">long</span>)(&amp;blit)) &lt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;[%d][%s][%s]G2D_CMD_BITBLT_H failure!\n&quot;</span>,</span><br><span class="line">			__LINE__, __FILE__,__FUNCTION__);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">allocPicMem</span><span class="params">(paramStruct_t*pops,<span class="type">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> iRet = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    iRet = <span class="built_in">allocOpen</span>(MEM_TYPE_CDX_NEW, pops, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (iRet &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;ion_alloc_open failed\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> iRet;</span><br><span class="line">    &#125;</span><br><span class="line">    pops-&gt;size =size;</span><br><span class="line">    iRet = <span class="built_in">allocAlloc</span>(MEM_TYPE_CDX_NEW, pops, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span>(iRet &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;allocAlloc failed\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> iRet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">freePicMem</span><span class="params">(paramStruct_t*pops)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> iRet = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">allocFree</span>(MEM_TYPE_CDX_NEW, pops, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">ReadPicFileContent</span><span class="params">(<span class="type">char</span> *pPicPath,paramStruct_t*pops,<span class="type">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">allocPicMem</span>(pops,size);</span><br><span class="line"></span><br><span class="line">    FILE *fpff = <span class="built_in">fopen</span>(pPicPath, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == fpff) &#123;</span><br><span class="line">        fpff = <span class="built_in">fopen</span>(pPicPath, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == fpff) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;fopen %s ERR \n&quot;</span>, pPicPath);</span><br><span class="line">            <span class="built_in">allocFree</span>(MEM_TYPE_CDX_NEW, pops, <span class="literal">NULL</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;fopen %s OK \n&quot;</span>, pPicPath);</span><br><span class="line">            <span class="built_in">fread</span>((<span class="type">void</span> *)pops-&gt;vir, <span class="number">1</span>, size, fpff);</span><br><span class="line">            <span class="built_in">fclose</span>(fpff);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;fopen %s OK \n&quot;</span>, pPicPath);</span><br><span class="line">        <span class="built_in">fread</span>((<span class="type">void</span> *)pops-&gt;vir, <span class="number">1</span>, size, fpff);</span><br><span class="line">        <span class="built_in">fclose</span>(fpff);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="built_in">flushCache</span>(MEM_TYPE_CDX_NEW,pops, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">WritePicFileContent</span><span class="params">(<span class="type">char</span> *pPicPath,paramStruct_t*pops,<span class="type">int</span> size)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> iRet = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;WritePicFileContent size=%d \n&quot;</span>,size);</span><br><span class="line">	<span class="built_in">flushCache</span>(MEM_TYPE_CDX_NEW,pops, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    FILE *fpff = <span class="built_in">fopen</span>(pPicPath, <span class="string">&quot;wb&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">NULL</span> == fpff) &#123;</span><br><span class="line">        fpff = <span class="built_in">fopen</span>(pPicPath, <span class="string">&quot;wb&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">NULL</span> == fpff) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;fopen %s ERR \n&quot;</span>, pPicPath);</span><br><span class="line">            <span class="built_in">allocFree</span>(MEM_TYPE_CDX_NEW, pops, <span class="literal">NULL</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;fopen %s OK \n&quot;</span>, pPicPath);</span><br><span class="line">            <span class="built_in">fwrite</span>((<span class="type">void</span> *)pops-&gt;vir, <span class="number">1</span>, size, fpff);</span><br><span class="line">            <span class="built_in">fclose</span>(fpff);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;fopen %s OK \n&quot;</span>, pPicPath);</span><br><span class="line">        <span class="built_in">fwrite</span>((<span class="type">void</span> *)pops-&gt;vir, <span class="number">1</span>, size, fpff);</span><br><span class="line">        <span class="built_in">fclose</span>(fpff);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">VT_G2D_6in1compose</span><span class="params">(<span class="type">int</span> iSubWidth,<span class="type">int</span> iSubHeight,<span class="type">int</span> iWidth,<span class="type">int</span> iHeight)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	paramStruct_t m_DispMemOps;</span><br><span class="line">	paramStruct_t m_DispMemOps0;</span><br><span class="line">	paramStruct_t m_DispMemOps1;</span><br><span class="line">	paramStruct_t m_DispMemOps2;</span><br><span class="line">	paramStruct_t m_DispMemOps3;</span><br><span class="line">	paramStruct_t m_DispMemOps4;</span><br><span class="line">	paramStruct_t m_DispMemOps5;</span><br><span class="line">	<span class="type">char</span> *pcompPicPath0=<span class="string">&quot;cvideo.yuv&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *pPicPath0=<span class="string">&quot;Video[0]_picture0.yuv&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *pPicPath1=<span class="string">&quot;Video[1]_picture0.yuv&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *pPicPath2=<span class="string">&quot;Video[2]_picture0.yuv&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *pPicPath3=<span class="string">&quot;Video[3]_picture0.yuv&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *pPicPath4=<span class="string">&quot;Video[4]_picture0.yuv&quot;</span>;</span><br><span class="line">	<span class="type">char</span> *pPicPath5=<span class="string">&quot;Video[5]_picture0.yuv&quot;</span>;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">ReadPicFileContent</span>(pPicPath0,&amp;m_DispMemOps0,iSubWidth*iSubHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line">		<span class="built_in">ReadPicFileContent</span>(pPicPath1,&amp;m_DispMemOps1,iSubWidth*iSubHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line">		<span class="built_in">ReadPicFileContent</span>(pPicPath2,&amp;m_DispMemOps2,iSubWidth*iSubHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line">		<span class="built_in">ReadPicFileContent</span>(pPicPath3,&amp;m_DispMemOps3,iSubWidth*iSubHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line">		<span class="built_in">ReadPicFileContent</span>(pPicPath4,&amp;m_DispMemOps4,iSubWidth*iSubHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line">		<span class="built_in">ReadPicFileContent</span>(pPicPath5,&amp;m_DispMemOps5,iSubWidth*iSubHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">allocPicMem</span>(&amp;m_DispMemOps,iWidth*iHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line">		<span class="type">int</span> outfd = m_DispMemOps.ion_buffer.fd_data.aw_fd;</span><br><span class="line">		<span class="type">int</span> infd[<span class="number">6</span>];</span><br><span class="line">		infd[<span class="number">0</span>] = m_DispMemOps0.ion_buffer.fd_data.aw_fd;</span><br><span class="line">		infd[<span class="number">1</span>] = m_DispMemOps1.ion_buffer.fd_data.aw_fd;</span><br><span class="line">		infd[<span class="number">2</span>] = m_DispMemOps2.ion_buffer.fd_data.aw_fd;</span><br><span class="line">		infd[<span class="number">3</span>] = m_DispMemOps3.ion_buffer.fd_data.aw_fd;</span><br><span class="line">		infd[<span class="number">4</span>] = m_DispMemOps4.ion_buffer.fd_data.aw_fd;</span><br><span class="line">		infd[<span class="number">5</span>] = m_DispMemOps5.ion_buffer.fd_data.aw_fd;</span><br><span class="line">		<span class="type">int</span> ret = <span class="number">-1</span>;</span><br><span class="line">		ret  = <span class="built_in">VTG2D_ClipByFd</span>(infd[<span class="number">0</span>],outfd,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">		<span class="built_in">g2dClipByFd</span>();</span><br><span class="line">		ret |= <span class="built_in">VTG2D_ClipByFd</span>(infd[<span class="number">1</span>],outfd,iSubWidth,<span class="number">0</span>);</span><br><span class="line">		ret |= <span class="built_in">VTG2D_ClipByFd</span>(infd[<span class="number">2</span>],outfd,iSubWidth*<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">		ret |= <span class="built_in">VTG2D_ClipByFd</span>(infd[<span class="number">3</span>],outfd,<span class="number">0</span>,iSubHeight);</span><br><span class="line">		ret |= <span class="built_in">VTG2D_ClipByFd</span>(infd[<span class="number">4</span>],outfd,iSubWidth,iSubHeight);</span><br><span class="line">		ret |= <span class="built_in">VTG2D_ClipByFd</span>(infd[<span class="number">5</span>],outfd,iSubWidth*<span class="number">2</span>,iSubHeight);</span><br><span class="line">		<span class="built_in">WritePicFileContent</span>(pcompPicPath0,&amp;m_DispMemOps,iWidth*iHeight*<span class="number">3</span>/<span class="number">2</span>);</span><br><span class="line">		<span class="built_in">freePicMem</span>(&amp;m_DispMemOps);</span><br><span class="line">		<span class="built_in">freePicMem</span>(&amp;m_DispMemOps0);</span><br><span class="line">		<span class="built_in">freePicMem</span>(&amp;m_DispMemOps1);</span><br><span class="line">		<span class="built_in">freePicMem</span>(&amp;m_DispMemOps2);</span><br><span class="line">		<span class="built_in">freePicMem</span>(&amp;m_DispMemOps3);</span><br><span class="line">		<span class="built_in">freePicMem</span>(&amp;m_DispMemOps4);</span><br><span class="line">		<span class="built_in">freePicMem</span>(&amp;m_DispMemOps5);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：T5中不能进行缩放和格式转换。而且要求目标图像和源图像的分辨率必须相同。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/13/2-YUV&RGB/" rel="prev" title="图像格式之 YUV & RGB">
+      <i class="fa fa-chevron-left"></i> 图像格式之 YUV & RGB
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%94%AF%E6%8C%81%E7%9A%84%E5%8A%9F%E8%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">1.</span> <span class="nav-text">2.支持的功能有哪些?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%87%BD%E6%95%B0%E6%8E%A5%E5%8F%A3%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">3.函数接口命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">4.数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#g2d-blt-h"><span class="nav-number">3.1.</span> <span class="nav-text">g2d_blt_h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g2d-blt"><span class="nav-number">3.2.</span> <span class="nav-text">g2d_blt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g2d-stretchblt"><span class="nav-number">3.3.</span> <span class="nav-text">g2d_stretchblt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g2d-image"><span class="nav-number">3.4.</span> <span class="nav-text">g2d_image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g2d-image-enh"><span class="nav-number">3.5.</span> <span class="nav-text">g2d_image_enh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g2d-blt-flags"><span class="nav-number">3.6.</span> <span class="nav-text">g2d_blt_flags</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#g2d-blt-flags-h"><span class="nav-number">3.7.</span> <span class="nav-text">g2d_blt_flags_h</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">5.举例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%97%8B%E8%BD%AC%EF%BC%8C%E7%BC%A9%E6%94%BE%E4%B8%8E%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2"><span class="nav-number">4.1.</span> <span class="nav-text">1.旋转，缩放与格式转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">4.2.</span> <span class="nav-text">2.输入输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BC%A9%E6%94%BE"><span class="nav-number">4.3.</span> <span class="nav-text">3.缩放</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%BA%94%E7%94%A8%E5%B1%82%E7%94%B3%E8%AF%B7%E5%86%85%E6%A0%B8%E5%9C%B0%E5%9D%80%E7%9A%84%E5%8A%9E%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">6.应用层申请内核地址的办法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-G2D%E5%91%BD%E4%BB%A4%E7%A0%81"><span class="nav-number">5.1.</span> <span class="nav-text">1.G2D命令码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-alloc-mem"><span class="nav-number">5.2.</span> <span class="nav-text">2.alloc_mem</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Leeyunhe"
+      src="/images/touxiang.png">
+  <p class="site-author-name" itemprop="name">Leeyunhe</p>
+  <div class="site-description" itemprop="description">云淡风轻拂往事，执笔从容话人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>Music</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyunhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">47k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">43 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/click.js"></script>
