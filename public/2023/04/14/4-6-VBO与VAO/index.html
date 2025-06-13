@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="OpenGl ES—VBO,VAO1.简介VBO,VAO和EBO:  VBO(Vertex Buffer Object):顶点缓冲区对象  VAO(顶点数组对象):顶点数组对象  EBO（Element Buffer Object）:元素缓冲对象 问：为什么要有VAO与VBO？ 1234567&#x2F;*起因：在opengl es编程中，用于绘制的顶点数据首先保存在CPU内存，在调用glDrawArray">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenGl ES---VBO,VAO">
+<meta property="og:url" content="http://example.com/2023/04/14/4-6-VBO%E4%B8%8EVAO/index.html">
+<meta property="og:site_name" content="Leeyunhe">
+<meta property="og:description" content="OpenGl ES—VBO,VAO1.简介VBO,VAO和EBO:  VBO(Vertex Buffer Object):顶点缓冲区对象  VAO(顶点数组对象):顶点数组对象  EBO（Element Buffer Object）:元素缓冲对象 问：为什么要有VAO与VBO？ 1234567&#x2F;*起因：在opengl es编程中，用于绘制的顶点数据首先保存在CPU内存，在调用glDrawArray">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/14/4-6-VBO%E4%B8%8EVAO/22.png">
+<meta property="og:image" content="http://example.com/2023/04/14/4-6-VBO%E4%B8%8EVAO/24.png">
+<meta property="og:image" content="http://example.com/2023/04/14/4-6-VBO%E4%B8%8EVAO/23.jpg">
+<meta property="article:published_time" content="2023-04-14T13:50:11.000Z">
+<meta property="article:modified_time" content="2023-04-14T13:50:55.765Z">
+<meta property="article:author" content="Leeyunhe">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="OpenGL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/14/4-6-VBO%E4%B8%8EVAO/22.png">
+
+<link rel="canonical" href="http://example.com/2023/04/14/4-6-VBO%E4%B8%8EVAO/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>OpenGl ES---VBO,VAO | Leeyunhe</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leeyunhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-notes">
+
+    <a href="/categories/%E7%AC%94%E8%AE%B0/" rel="section"><i class="fa fa-folder-open fa-fw"></i>笔记</a>
+
+  </li>
+        <li class="menu-item menu-item-read">
+
+    <a href="/categories/%E9%98%85%E8%AF%BB/" rel="section"><i class="fa fa-book fa-fw"></i>阅读</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/4-6-VBO%E4%B8%8EVAO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.png">
+      <meta itemprop="name" content="Leeyunhe">
+      <meta itemprop="description" content="云淡风轻拂往事，执笔从容话人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leeyunhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenGl ES---VBO,VAO
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-14 21:50:11 / 修改时间：21:50:55" itemprop="dateCreated datePublished" datetime="2023-04-14T21:50:11+08:00">2023-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="OpenGl-ES—VBO-VAO"><a href="#OpenGl-ES—VBO-VAO" class="headerlink" title="OpenGl ES—VBO,VAO"></a>OpenGl ES—VBO,VAO</h1><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1.简介"></a>1.简介</h2><p>VBO,VAO和EBO:</p>
+<ul>
+<li><p>VBO(Vertex Buffer Object):顶点缓冲区对象</p>
+</li>
+<li><p>VAO(顶点数组对象):顶点数组对象</p>
+</li>
+<li><p>EBO（Element Buffer Object）:元素缓冲对象</p>
+<p>问：为什么要有VAO与VBO？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">起因：</span></span><br><span class="line"><span class="comment">在opengl es编程中，用于绘制的顶点数据首先保存在CPU内存，在调用glDrawArrays和 glDrawElements 等进行绘制时，需要将顶点数组数据从CPU内存拷贝到显存。我们没有必要每次绘制都去进行内存拷贝，若可以在显存中缓存这些数据，可以降低内存拷贝带来的开销。</span></span><br><span class="line"><span class="comment">所以以上VBO,VAO出现就是为了解决这个问题。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">VBO,VAO作用：在显存中提前开辟好一块内存，用于缓存顶点数据</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<span id="more"></span>
+
+<h2 id="2-顶点数组数据和图元索引数据："><a href="#2-顶点数组数据和图元索引数据：" class="headerlink" title="2.顶点数组数据和图元索引数据："></a>2.顶点数组数据和图元索引数据：</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 4 vertices, with(x,y,z) ,(r, g, b, a) per-vertex</span></span><br><span class="line">GLfloat vertices[] =</span><br><span class="line">		&#123;</span><br><span class="line">				<span class="number">-0.5f</span>,  <span class="number">0.5f</span>, <span class="number">0.0f</span>,       <span class="comment">// v0</span></span><br><span class="line">				<span class="number">1.0f</span>,  <span class="number">0.0f</span>, <span class="number">0.0f</span>,        <span class="comment">// c0</span></span><br><span class="line">				<span class="number">-0.5f</span>, <span class="number">-0.5f</span>, <span class="number">0.0f</span>,       <span class="comment">// v1</span></span><br><span class="line">				<span class="number">0.0f</span>,  <span class="number">1.0f</span>, <span class="number">0.0f</span>,        <span class="comment">// c1</span></span><br><span class="line">				<span class="number">0.5f</span>, <span class="number">-0.5f</span>, <span class="number">0.0f</span>,        <span class="comment">// v2</span></span><br><span class="line">				<span class="number">0.0f</span>,  <span class="number">0.0f</span>, <span class="number">1.0f</span>,        <span class="comment">// c2</span></span><br><span class="line">				<span class="number">0.5f</span>,  <span class="number">0.5f</span>, <span class="number">0.0f</span>,        <span class="comment">// v3</span></span><br><span class="line">				<span class="number">0.5f</span>,  <span class="number">1.0f</span>, <span class="number">1.0f</span>,        <span class="comment">// c3</span></span><br><span class="line">		&#125;;</span><br><span class="line"><span class="comment">// Index buffer data</span></span><br><span class="line">GLushort indices[<span class="number">6</span>] = &#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*由于顶点位置和颜色数据在同一个数组里，一起更新到VBO里面，需要知道2个属性的步长和偏移量。为获得数据队列中下一个属性值，需向右移动6个float,其中3个是位置值，另外3个是颜色值，所以步长为6*float的字节数。</span></span><br><span class="line"><span class="comment">同样，需要指定位置属性和颜色属性在VBO内存中的偏移量，对于每个顶点，位置属性在前，偏移量为0，颜色属性偏移量为3sizeof(GLfloat). </span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-VBO的创建和更新："><a href="#3-VBO的创建和更新：" class="headerlink" title="3.VBO的创建和更新："></a>3.VBO的创建和更新：</h2><h3 id="1-glGenBuffers"><a href="#1-glGenBuffers" class="headerlink" title="1) glGenBuffers()"></a>1) glGenBuffers()</h3><p>生成bufferID</p>
+<h3 id="2-glBindBuffer"><a href="#2-glBindBuffer" class="headerlink" title="2) glBindBuffer()"></a>2) glBindBuffer()</h3><p>操作它，参数为VBO的bufferID</p>
+<h3 id="3-glBufferData"><a href="#3-glBufferData" class="headerlink" title="3) glBufferData()"></a>3) glBufferData()</h3><p>指定里面放的数据和用法</p>
+<p>至此想用此VBO时再glBindBuffer()它的bufferID即可，里面一般放顶点数据（包括模型的xyz和纹理坐标uv），另外前提是已经编译和设定好了shader的program</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建2个VBO</span></span><br><span class="line"><span class="built_in">glGenBuffers</span>(<span class="number">2</span>, m_VboIds);</span><br><span class="line"><span class="comment">//绑定第一个VBO，拷贝顶点数组到显存</span></span><br><span class="line"><span class="built_in">glBindBuffer</span>(GL_ARRAY_BUFFER, m_VboIds[<span class="number">0</span>]);</span><br><span class="line"><span class="built_in">glBufferData</span>(GL_ARRAY_BUFFER, <span class="built_in">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);</span><br><span class="line"><span class="comment">//绑定第二个VBO，拷贝图元索引数据到显存</span></span><br><span class="line"><span class="built_in">glBindBuffer</span>(GL_ELEMENT_ARRAY_BUFFER, m_VboIds[<span class="number">1</span>]);</span><br><span class="line"><span class="built_in">glBufferData</span>(GL_ELEMENT_ARRAY_BUFFER, <span class="built_in">sizeof</span>(indices), indices, GL_STATIC_DRAW);</span><br><span class="line"><span class="comment">//GL_STATIC_DRAW 标志标识缓冲区对象数据被修改一次，使用多次，用于绘制。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-使用VBO进行渲染："><a href="#4-使用VBO进行渲染：" class="headerlink" title="4.使用VBO进行渲染："></a>4.使用VBO进行渲染：</h2><h3 id="1-glBindBuffer"><a href="#1-glBindBuffer" class="headerlink" title="1) glBindBuffer()"></a>1) glBindBuffer()</h3><p>操作想使用的VBO，参数为VBO的bufferID</p>
+<h3 id="2-glEnableVertexAttribArray"><a href="#2-glEnableVertexAttribArray" class="headerlink" title="2) glEnableVertexAttribArray()"></a>2) glEnableVertexAttribArray()</h3><p>启用与顶点相关的shader的量<br>        事先需要获取到它的handle，<br>        比如：<br>    maPositionHandle &#x3D; GLES20.glGetAttribLocation(mProgram, “aPosition”);</p>
+<h3 id="3-glVertexAttribPointer"><a href="#3-glVertexAttribPointer" class="headerlink" title="3) glVertexAttribPointer ()"></a>3) glVertexAttribPointer ()</h3><p>指定VBO里的数据的使用方法</p>
+<p>这里有可能有多个glVertexAttribPointer ()，它的最后一个参数是使用时每个元素的偏移量，比如顶点是xyzuv的float顶点，每个4*5个字节重复一次，则分开指定xyz坐标和纹理坐标时，最后一个参数的值分别取0和12<br>另外，最后不适用VBO时，最后一个参数可以直接指定要渲染的缓冲区</p>
+<h3 id="4-glDrawArrays"><a href="#4-glDrawArrays" class="headerlink" title="4) glDrawArrays()"></a>4) glDrawArrays()</h3><p>指定画法（一般为GL_TRIANGLES，即三角形），数量等，即可使用VBO进行绘制</p>
+<h3 id="5-glDrawElements"><a href="#5-glDrawElements" class="headerlink" title="5) glDrawElements()"></a>5) glDrawElements()</h3><p>这是另一种画法，可以通过指定顶点索引的方式来画图形<br>使用这种方法渲染时，应该生成两块VBO buffer，一个用来存放顶点信息，另一个来存放索引信息，和普通顶点VBO区别是，存放顶点的VBO应该在使用和指定数据时使用GL_ELEMENT_ARRAY_BUFFER，再使用glDrawElements(). 例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mBufferHandle[<span class="number">1</span>]); </span><br><span class="line">glBufferData(GL_ELEMENT_ARRAY_BUFFER,Count,buffer,GL_STATIC_DRAW); </span><br><span class="line">glDrawElements(GL_TRIANGLES,count,GL_UNSIGNED_SHORT, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="es2-0-VBO例子"><a href="#es2-0-VBO例子" class="headerlink" title="es2.0 VBO例子"></a>es2.0 VBO例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">glGenBuffers(VAO_NUM, obj-&gt;vert_VBO);<span class="comment">//创建VBO</span></span><br><span class="line">glBindBuffer(GL_ARRAY_BUFFER, *vert_VBO);<span class="comment">//绑定VBO</span></span><br><span class="line">glBufferData(GL_ARRAY_BUFFER, <span class="keyword">sizeof</span>(GLfloat) * vert_elm_step * vert_rows, &amp;vert_Data[<span class="number">0</span>], GL_DYNAMIC_DRAW);<span class="comment">//指定里面放的数据和用法，拷贝顶点数组到显存</span></span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line">attribute vec4 position;<span class="comment">//shader中的输入</span></span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line">mPositionLocation = glGetAttribLocation(mProgram, <span class="string">&quot;position&quot;</span>);<span class="comment">//获取到position的handle</span></span><br><span class="line">glEnableVertexAttribArray(mPositionLocation);<span class="comment">//启用与顶点相关的shader的量</span></span><br><span class="line">glVertexAttribPointer(mPositionLocation, <span class="number">4</span>, GL_FLOAT, GL_FALSE, <span class="keyword">sizeof</span>(Vertex), <span class="number">0</span>);<span class="comment">//指定VBO里的数据的使用方法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="es3-0-VBO例子"><a href="#es3-0-VBO例子" class="headerlink" title="es3.0 VBO例子"></a>es3.0 VBO例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点着色器</span></span><br><span class="line"><span class="meta">#version 300 es                            </span></span><br><span class="line">layout(location = <span class="number">0</span>) in vec4 a_position;   <span class="comment">// 位置变量的属性位置值为 0 </span></span><br><span class="line">layout(location = <span class="number">1</span>) in vec3 a_color;      <span class="comment">// 颜色变量的属性位置值为 1</span></span><br><span class="line">out vec3 v_color;                          <span class="comment">// 向片段着色器输出一个颜色                          </span></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span>                                </span><br><span class="line">&#123;                                          </span><br><span class="line">    v_color = a_color;                     </span><br><span class="line">    gl_Position = a_position;              </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//片段着色器</span></span><br><span class="line"><span class="meta">#version 300 es</span></span><br><span class="line">precision mediump <span class="type">float</span>;</span><br><span class="line">in vec3 v_color;</span><br><span class="line">out vec4 o_fragColor;</span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    o_fragColor = vec4(v_color, <span class="number">1.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"> <span class="comment">//创建2个VBO</span></span><br><span class="line">glGenBuffers(<span class="number">2</span>, m_VboIds);</span><br><span class="line"><span class="comment">//绑定第一个VBO，拷贝顶点数组到显存</span></span><br><span class="line">glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[<span class="number">0</span>]);</span><br><span class="line">glBufferData(GL_ARRAY_BUFFER, <span class="keyword">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);</span><br><span class="line"><span class="comment">//绑定第二个VBO，拷贝图元索引数据到显存</span></span><br><span class="line">glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VboIds[<span class="number">1</span>]);</span><br><span class="line">glBufferData(GL_ELEMENT_ARRAY_BUFFER, <span class="keyword">sizeof</span>(indices), indices, GL_STATIC_DRAW);</span><br><span class="line"></span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line">glUseProgram(m_ProgramObj);</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"><span class="comment">//不使用 VBO 的绘制</span></span><br><span class="line">glEnableVertexAttribArray(<span class="number">0</span>);</span><br><span class="line">glVertexAttribPointer(<span class="number">0</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, (<span class="number">3</span>+<span class="number">3</span>)*<span class="keyword">sizeof</span>(GLfloat), vertices);</span><br><span class="line"></span><br><span class="line">glEnableVertexAttribArray(<span class="number">1</span>);</span><br><span class="line">glVertexAttribPointer(<span class="number">1</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, (<span class="number">3</span>+<span class="number">3</span>)*<span class="keyword">sizeof</span>(GLfloat), (vertices + <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">glDrawElements(GL_TRIANGLES, <span class="number">6</span>, GL_UNSIGNED_SHORT, indices);</span><br><span class="line"><span class="comment">//---------------------------------------------------</span></span><br><span class="line"><span class="comment">//使用 VBO 的绘制</span></span><br><span class="line">glBindBuffer(GL_ARRAY_BUFFER, m_VboIds[<span class="number">0</span>]);</span><br><span class="line">glEnableVertexAttribArray(<span class="number">0</span>);</span><br><span class="line">glVertexAttribPointer(<span class="number">0</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, (<span class="number">3</span>+<span class="number">3</span>)*<span class="keyword">sizeof</span>(GLfloat), (<span class="type">const</span> <span class="type">void</span> *)<span class="number">0</span>);</span><br><span class="line">glEnableVertexAttribArray(<span class="number">1</span>);</span><br><span class="line">glVertexAttribPointer(<span class="number">1</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, (<span class="number">3</span>+<span class="number">3</span>)*<span class="keyword">sizeof</span>(GLfloat), (<span class="type">const</span> <span class="type">void</span> *)(<span class="number">3</span> *<span class="keyword">sizeof</span>(GLfloat)));</span><br><span class="line"></span><br><span class="line">glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_VboIds[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">glDrawElements(GL_TRIANGLES, <span class="number">6</span>, GL_UNSIGNED_SHORT, (<span class="type">const</span> <span class="type">void</span> *)<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-VAO的创建和更新"><a href="#6-VAO的创建和更新" class="headerlink" title="6.VAO的创建和更新"></a>6.VAO的创建和更新</h2><p> 顶点数组对象，VAO作用：管理VBO，减少glBindBuffer,glEnableVertexAttribArray,glVertexAttribPointer这些调用操作。 </p>
+<p><img src="/2023/04/14/4-6-VBO%E4%B8%8EVAO/22.png"></p>
+<h3 id="1-glGenVertexArrays"><a href="#1-glGenVertexArrays" class="headerlink" title="1)	glGenVertexArrays()"></a>1)	glGenVertexArrays()</h3><h3 id="2-glBindVertexArray"><a href="#2-glBindVertexArray" class="headerlink" title="2)	glBindVertexArray()"></a>2)	glBindVertexArray()</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建并绑定 VAO</span></span><br><span class="line"><span class="built_in">glGenVertexArrays</span>(<span class="number">1</span>, &amp;m_VaoId);</span><br><span class="line"><span class="built_in">glBindVertexArray</span>(m_VaoId);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在绑定 VAO 之后，操作 VBO ，当前 VAO 会记录 VBO 的操作</span></span><br><span class="line"><span class="built_in">glBindBuffer</span>(GL_ARRAY_BUFFER, m_VboIds[<span class="number">0</span>]);</span><br><span class="line"><span class="built_in">glEnableVertexAttribArray</span>(<span class="number">0</span>);</span><br><span class="line"><span class="built_in">glVertexAttribPointer</span>(<span class="number">0</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, (<span class="number">3</span>+<span class="number">3</span>)*<span class="built_in">sizeof</span>(GLfloat), (<span class="type">const</span> <span class="type">void</span> *)<span class="number">0</span>);</span><br><span class="line"><span class="built_in">glEnableVertexAttribArray</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">glVertexAttribPointer</span>(<span class="number">1</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, (<span class="number">3</span>+<span class="number">3</span>)*<span class="built_in">sizeof</span>(GLfloat), (<span class="type">const</span> <span class="type">void</span> *)(<span class="number">3</span> *<span class="built_in">sizeof</span>(GLfloat)));</span><br><span class="line"></span><br><span class="line"><span class="built_in">glBindBuffer</span>(GL_ELEMENT_ARRAY_BUFFER, m_VboIds[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line"><span class="built_in">glBindVertexArray</span>(GL_NONE);</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-使用VAO进行渲染："><a href="#7-使用VAO进行渲染：" class="headerlink" title="7.使用VAO进行渲染："></a>7.使用VAO进行渲染：</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">glUseProgram</span>(m_ProgramObj);</span><br><span class="line"></span><br><span class="line"><span class="built_in">glBindVertexArray</span>(m_VaoId);</span><br><span class="line"></span><br><span class="line"><span class="built_in">glDrawElements</span>(GL_TRIANGLES, <span class="number">6</span>, GL_UNSIGNED_SHORT, (<span class="type">const</span> <span class="type">void</span> *)<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-如何让OpenES2-0支持VAO？"><a href="#8-如何让OpenES2-0支持VAO？" class="headerlink" title="8.如何让OpenES2.0支持VAO？"></a>8.如何让OpenES2.0支持VAO？</h2><p>如果标准里没有定义一个函数, 可以用扩展的形式取得函数指针, 然后判断函数指针是否为空, 不为空就可以使用这个函数了.</p>
+<p>例如: 获取 VAO的扩展, 这个在OpenGL2.0标准里没有定义, 只能通过扩展的形式取得.</p>
+<p>如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;GLES2/gl2.h&gt;</span></span></span><br><span class="line">        <span class="comment">/* VAO   获取VAO扩展 in opengl2.0*/</span></span><br><span class="line">           PFNGLGENVERTEXARRAYSOESPROC glGenVertexArrays = (PFNGLGENVERTEXARRAYSOESPROC) <span class="built_in">eglGetProcAddress</span>(<span class="string">&quot;glGenVertexArraysOES&quot;</span>);</span><br><span class="line">           PFNGLBINDVERTEXARRAYOESPROC glBindVertexArray = (PFNGLBINDVERTEXARRAYOESPROC) <span class="built_in">eglGetProcAddress</span>(<span class="string">&quot;glBindVertexArrayOES&quot;</span>);</span><br><span class="line">           PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSOESPROC) <span class="built_in">eglGetProcAddress</span>(<span class="string">&quot;glDeleteVertexArraysOES&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>OpenGL ES 扩展头文件GLES2&#x2F;gl2ext.h</p>
+<p><img src="/2023/04/14/4-6-VBO%E4%B8%8EVAO/24.png"></p>
+<h3 id="用扩展的形式获取函数指针来支持VAO"><a href="#用扩展的形式获取函数指针来支持VAO" class="headerlink" title="用扩展的形式获取函数指针来支持VAO"></a>用扩展的形式获取函数指针来支持VAO</h3><p><img src="/2023/04/14/4-6-VBO%E4%B8%8EVAO/23.jpg"></p>
+<h3 id="1）创建-VAO"><a href="#1）创建-VAO" class="headerlink" title="1）创建 VAO"></a>1）创建 VAO</h3><p>(*pFNglGenVertexArraysOES)(VAO_NUM, obj-&gt;VAO);</p>
+<h3 id="2）绑定-VAO"><a href="#2）绑定-VAO" class="headerlink" title="2）绑定 VAO"></a>2）绑定 VAO</h3><p>pFNglbindvertexarrayOES(obj-&gt;VAO);</p>
+<h3 id="3）解绑-VAO"><a href="#3）解绑-VAO" class="headerlink" title="3）解绑 VAO"></a>3）解绑 VAO</h3><p>pFNglbindvertexarrayOES(0);&#x2F;&#x2F;解绑 VAO</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-5-FBO/" rel="prev" title="OpenGl ES---FBO">
+      <i class="fa fa-chevron-left"></i> OpenGl ES---FBO
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-7-GLSL%E7%9D%80%E8%89%B2%E5%99%A8%E8%AF%AD%E8%A8%80/" rel="next" title="GLSL着色器语言">
+      GLSL着色器语言 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenGl-ES%E2%80%94VBO-VAO"><span class="nav-number">1.</span> <span class="nav-text">OpenGl ES—VBO,VAO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">1.简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%A1%B6%E7%82%B9%E6%95%B0%E7%BB%84%E6%95%B0%E6%8D%AE%E5%92%8C%E5%9B%BE%E5%85%83%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">2.顶点数组数据和图元索引数据：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-VBO%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E6%9B%B4%E6%96%B0%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">3.VBO的创建和更新：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-glGenBuffers"><span class="nav-number">1.3.1.</span> <span class="nav-text">1) glGenBuffers()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-glBindBuffer"><span class="nav-number">1.3.2.</span> <span class="nav-text">2) glBindBuffer()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-glBufferData"><span class="nav-number">1.3.3.</span> <span class="nav-text">3) glBufferData()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8VBO%E8%BF%9B%E8%A1%8C%E6%B8%B2%E6%9F%93%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">4.使用VBO进行渲染：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-glBindBuffer"><span class="nav-number">1.4.1.</span> <span class="nav-text">1) glBindBuffer()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-glEnableVertexAttribArray"><span class="nav-number">1.4.2.</span> <span class="nav-text">2) glEnableVertexAttribArray()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-glVertexAttribPointer"><span class="nav-number">1.4.3.</span> <span class="nav-text">3) glVertexAttribPointer ()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-glDrawArrays"><span class="nav-number">1.4.4.</span> <span class="nav-text">4) glDrawArrays()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-glDrawElements"><span class="nav-number">1.4.5.</span> <span class="nav-text">5) glDrawElements()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#es2-0-VBO%E4%BE%8B%E5%AD%90"><span class="nav-number">1.4.6.</span> <span class="nav-text">es2.0 VBO例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#es3-0-VBO%E4%BE%8B%E5%AD%90"><span class="nav-number">1.4.7.</span> <span class="nav-text">es3.0 VBO例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-VAO%E7%9A%84%E5%88%9B%E5%BB%BA%E5%92%8C%E6%9B%B4%E6%96%B0"><span class="nav-number">1.5.</span> <span class="nav-text">6.VAO的创建和更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-glGenVertexArrays"><span class="nav-number">1.5.1.</span> <span class="nav-text">1)	glGenVertexArrays()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-glBindVertexArray"><span class="nav-number">1.5.2.</span> <span class="nav-text">2)	glBindVertexArray()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E4%BD%BF%E7%94%A8VAO%E8%BF%9B%E8%A1%8C%E6%B8%B2%E6%9F%93%EF%BC%9A"><span class="nav-number">1.6.</span> <span class="nav-text">7.使用VAO进行渲染：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%A6%82%E4%BD%95%E8%AE%A9OpenES2-0%E6%94%AF%E6%8C%81VAO%EF%BC%9F"><span class="nav-number">1.7.</span> <span class="nav-text">8.如何让OpenES2.0支持VAO？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%89%A9%E5%B1%95%E7%9A%84%E5%BD%A2%E5%BC%8F%E8%8E%B7%E5%8F%96%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E6%9D%A5%E6%94%AF%E6%8C%81VAO"><span class="nav-number">1.7.1.</span> <span class="nav-text">用扩展的形式获取函数指针来支持VAO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%89%E5%88%9B%E5%BB%BA-VAO"><span class="nav-number">1.7.2.</span> <span class="nav-text">1）创建 VAO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%89%E7%BB%91%E5%AE%9A-VAO"><span class="nav-number">1.7.3.</span> <span class="nav-text">2）绑定 VAO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%BC%89%E8%A7%A3%E7%BB%91-VAO"><span class="nav-number">1.7.4.</span> <span class="nav-text">3）解绑 VAO</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Leeyunhe"
+      src="/images/touxiang.png">
+  <p class="site-author-name" itemprop="name">Leeyunhe</p>
+  <div class="site-description" itemprop="description">云淡风轻拂往事，执笔从容话人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>Music</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyunhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">171k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/click.js"></script>

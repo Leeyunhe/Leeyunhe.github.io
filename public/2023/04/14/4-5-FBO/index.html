@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenGl ES---FBO">
+<meta property="og:url" content="http://example.com/2023/04/14/4-5-FBO/index.html">
+<meta property="og:site_name" content="Leeyunhe">
+<meta property="og:description" content="OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/14/4-5-FBO/25.png">
+<meta property="article:published_time" content="2023-04-14T13:47:11.000Z">
+<meta property="article:modified_time" content="2023-04-14T13:49:05.863Z">
+<meta property="article:author" content="Leeyunhe">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="OpenGL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/14/4-5-FBO/25.png">
+
+<link rel="canonical" href="http://example.com/2023/04/14/4-5-FBO/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>OpenGl ES---FBO | Leeyunhe</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leeyunhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-notes">
+
+    <a href="/categories/%E7%AC%94%E8%AE%B0/" rel="section"><i class="fa fa-folder-open fa-fw"></i>笔记</a>
+
+  </li>
+        <li class="menu-item menu-item-read">
+
+    <a href="/categories/%E9%98%85%E8%AF%BB/" rel="section"><i class="fa fa-book fa-fw"></i>阅读</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/14/4-5-FBO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.png">
+      <meta itemprop="name" content="Leeyunhe">
+      <meta itemprop="description" content="云淡风轻拂往事，执笔从容话人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leeyunhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OpenGl ES---FBO
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-14 21:47:11 / 修改时间：21:49:05" itemprop="dateCreated datePublished" datetime="2023-04-14T21:47:11+08:00">2023-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="OpenGl-ES—FBO"><a href="#OpenGl-ES—FBO" class="headerlink" title="OpenGl ES—FBO"></a>OpenGl ES—FBO</h1><p>（Frame Buffer Object帧缓存对象）</p>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统生成和管理，由OpenGL使用。这个默认的帧缓存被称作“window系统生成”（window-system-provided）的帧缓存。</p>
+<span id="more"></span>
+
+<p>在OpenGL扩展中，GL_EXT_framebuffer_object提供了一种创建额外的不能显示的帧缓存对象的接口。为了和默认的“window系统生成”的帧缓存区别，这种帧缓冲成为应用程序帧缓存（application-createdframebuffer）。通过使用帧缓存对象（FBO），OpenGL可以将显示输出到引用程序帧缓存对象，而不是传统的“window系统生成”帧缓存。而且，它完全受OpenGL控制。</p>
+<p>相似于window系统提供的帧缓存，一个FBO也包含一些存储颜色、深度和模板数据的区域。（注意：没有累积缓存）我们把FBO中这些逻辑缓存称之为“帧缓存关联图像”，它们是一些能够和一个帧缓存对象关联起来的二维数组像素。</p>
+<p>有两种类型的“帧缓存关联图像”：纹理图像（texture images）和渲染缓存图像（renderbuffer images）。如果纹理对象的图像数据关联到帧缓存，OpenGL执行的是“渲染到纹理”（render to texture）操作。如果渲染缓存的图像数据关联到帧缓存，OpenGL执行的是离线渲染（offscreen rendering）。</p>
+<p>这里要提到的是，渲染缓存对象是在GL_EXT_framebuffer_object扩展中定义的一种新的存储类型。在渲染过程中它被用作存储单幅二维图像。</p>
+<p>下面这幅图显示了帧缓存对象、纹理对象和渲染缓存对象之间的联系。多多个纹理对象或者渲染缓存对象能够通过关联点关联到一个帧缓存对象上。</p>
+<p><img src="/2023/04/14/4-5-FBO/25.png"></p>
+<p>在一个帧缓存对象中有多个颜色关联点（GL_COLOR_ATTACHMENT0_EXT,…,GL_COLOR_ATTACHMENTn_EXT），一个深度关联点（GL_DEPTH_ATTACHMENT_EXT），和一个模板关联点（GL_STENCIL_ATTACHMENT_EXT）。每个FBO中至少有一个颜色关联点，其数目与实体显卡相关。可以通过GL_MAX_COLOR_ATTACHMENTS_EXT来查询颜色关联点的最大数目。FBO有多个颜色关联点的原因是这样可以同时将颜色而换成渲染到多个FBO关联区。这种“多渲染目标”（multiple rendertargets,MRT）可以通过GL_ARB_draw_buffers扩展实现。需要注意的是：FBO本身并没有任何图像存储区，只有多个关联点。</p>
+<p>FBO提供了一种高效的切换机制；将前面的帧缓存关联图像从FBO分离，然后把新的帧缓存关联图像关联到FBO。在帧缓存关联图像之间切换比在FBO之间切换要快得多。FBO提供了glFramebufferTexture2DEXT()来切换2D纹理对象和glFramebufferRenderbufferEXT()来切换渲染缓存对象。</p>
+<h2 id="1、帧缓冲创建"><a href="#1、帧缓冲创建" class="headerlink" title="1、帧缓冲创建"></a>1、帧缓冲创建</h2><p> 使用glGenFrameBuffer函数来创建一个帧缓冲（FBO） </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GLuint framebuffer;</span><br><span class="line">glGenFramebuffers(<span class="number">1</span>, &amp;framebuffer);</span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);<span class="comment">//绑定</span></span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, <span class="number">0</span>);<span class="comment">//解绑定</span></span><br></pre></td></tr></table></figure>
+
+<p>绑定到GL_FRAMEBUFFER目标后，接下来所有的读、写帧缓冲的操作都会影响到当前绑定的帧缓冲。也可以把帧缓冲分开绑定到读或写目标上，分别使用GL_READ_FRAMEBUFFER或GL_DRAW_FRAMEBUFFER来做这件事。如果绑定到了GL_READ_FRAMEBUFFER，就能执行所有读取操作，像glReadPixels这样的函数使用了；绑定到GL_DRAW_FRAMEBUFFER上，就允许进行渲染、清空和其他的写入操作。大多数时候你不必分开用，通常绑定到GL_FRAMEBUFFER上就行。</p>
+<p> 如果要创建一个完整的帧缓冲，需要满足以下条件：<br>- 至少包含一个附件（颜色、深度、或模板）；<br>- 其中至少有一个颜色附件；<br>- 附件要在附着之前创建好，并存储在内存中；<br>- 每个缓冲应该有同样的样本。 </p>
+<p> 假如我们创建好一些附件之后，并已经附着到帧缓冲上了，那么接下来要对它进行检查，判断帧缓冲是否完整。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)</span><br></pre></td></tr></table></figure>
+
+<p> 由于使用自定义的帧缓冲，渲染操作并不是对系统提供的默认的帧缓冲，所以并不会对屏幕上图像产生任何影响。如果要切回默认的帧缓冲，可以通过如下函数： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, 0);</span><br></pre></td></tr></table></figure>
+
+<p> 当我们做完所有帧缓冲操作，不要忘记删除帧缓冲对象： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glDeleteFramebuffers(1, &amp;framebuffer);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、帧缓冲上可以附着的两种附件"><a href="#2、帧缓冲上可以附着的两种附件" class="headerlink" title="2、帧缓冲上可以附着的两种附件"></a>2、帧缓冲上可以附着的两种附件</h2><h3 id="2-1、纹理附件"><a href="#2-1、纹理附件" class="headerlink" title="2.1、纹理附件"></a>2.1、纹理附件</h3><p>纹理附件和通过图片加载的纹理类似，只不过这个纹理附加是通过渲染命令写入到纹理当中的，不是通过图片纹理得到的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GLuint texBuffer;   </span><br><span class="line">glGenTextures(1, &amp;texBuffer);</span><br><span class="line">glBindTexture(GL_TEXTURE_2D, texBuffer);</span><br><span class="line">glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br><span class="line">glBindTexture(GL_TEXTURE_2D, 0);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-2、渲染附件"><a href="#2-2、渲染附件" class="headerlink" title="2.2、渲染附件"></a>2.2、渲染附件</h3><h2 id="3、示例"><a href="#3、示例" class="headerlink" title="3、示例"></a>3、示例</h2><h3 id="1，离屏渲染到2D纹理"><a href="#1，离屏渲染到2D纹理" class="headerlink" title="1，离屏渲染到2D纹理"></a>1，离屏渲染到2D纹理</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//--------------------1111111111111111----FBO初始化---------------------</span></span><br><span class="line">		dmaFbId = VTGLR_TEX_IMAGE_DPYFBO_BUF;</span><br><span class="line">		glGenTextures(<span class="number">1</span>,&amp;eglInfo-&gt;egiTexImage[dmaFbId].Tex);</span><br><span class="line">		glActiveTexture(GL_TEXTURE0);</span><br><span class="line">		glBindTexture(GL_TEXTURE_2D, eglInfo-&gt;egiTexImage[dmaFbId].Tex);</span><br><span class="line">		glTexImage2D(GL_TEXTURE_2D,<span class="number">0</span>,GL_RGB,<span class="number">416</span>,<span class="number">416</span>,<span class="number">0</span>,GL_RGB,GL_UNSIGNED_BYTE,<span class="literal">NULL</span>);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(checkEglErrorState())</span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES Id:%d EGL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_EGL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(checkGlErrorState())</span><br><span class="line">		&#123;	</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES id:%d GL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_GL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		glGenFramebuffers(<span class="number">1</span>, &amp;eglInfo-&gt;egiTexImage[dmaFbId].Fb);</span><br><span class="line">		glBindFramebuffer(GL_FRAMEBUFFER, eglInfo-&gt;egiTexImage[dmaFbId].Fb);</span><br><span class="line">		glGenRenderbuffers(<span class="number">1</span>, &amp;eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);</span><br><span class="line">		glBindRenderbuffer(GL_RENDERBUFFER,eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);<span class="comment">//</span></span><br><span class="line">		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, eglInfo-&gt;egiTexImage[dmaFbId].Width, eglInfo-&gt;egiTexImage[dmaFbId].Height);</span><br><span class="line"></span><br><span class="line">		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D, eglInfo-&gt;egiTexImage[dmaFbId].Tex, <span class="number">0</span>);</span><br><span class="line">		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);</span><br><span class="line"></span><br><span class="line">		<span class="type">uint32_t</span> glStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);</span><br><span class="line">		<span class="keyword">if</span>(glStatus != GL_FRAMEBUFFER_COMPLETE) </span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;glCheckFramebufferStatusOES Id:%d error 0x%x&quot;</span>,dmaFbId, glStatus);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_GL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(checkEglErrorState())</span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES Id:%d EGL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_EGL_STATE_ERR;</span><br><span class="line">		&#125;	</span><br><span class="line">		glBindTexture(GL_TEXTURE_2D, <span class="number">0</span>);</span><br><span class="line">		glBindFramebuffer(GL_FRAMEBUFFER,<span class="number">0</span>);</span><br><span class="line"><span class="comment">//--------------------2222222222222222-----离屏渲染与显示到屏幕验证--------------------</span></span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, eglInfo-&gt;egiTexImage[VTGLR_TEX_IMAGE_DPYFBO_BUF].Fb);</span><br><span class="line">	glm::mat4 <span class="title function_">Identity</span><span class="params">(<span class="number">1.0f</span>)</span>;</span><br><span class="line">	glEnable(GL_BLEND);</span><br><span class="line">	glDisable(GL_DEPTH_TEST);</span><br><span class="line">	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br><span class="line">	glViewport(window.x, window.y, window.width, window.height);</span><br><span class="line">	glUseProgram(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle());</span><br><span class="line">	glActiveTexture(GL_TEXTURE0);</span><br><span class="line">	pFNglbindvertexarrayOES(VTGL_Obj[VTGLR_COMMON_WIN_OBJ].vao);</span><br><span class="line">	glBindTexture(GL_TEXTURE_EXTERNAL_OES, VT_GetCamEglTex(camera, gCameraBufIndex[camera]));<span class="comment">//</span></span><br><span class="line">	glUniform1i(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;myTexture&quot;</span>), <span class="number">0</span>);</span><br><span class="line">	glUniformMatrix4fv(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;mvp&quot;</span>), <span class="number">1</span>, GL_FALSE, glm::value_ptr(Identity));</span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>,<span class="number">6</span>);</span><br><span class="line">	pFNglbindvertexarrayOES(<span class="number">0</span>);  </span><br><span class="line">	glDisable(GL_BLEND);</span><br><span class="line">	glFlush();</span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	glm::mat4 <span class="title function_">Identity</span><span class="params">(<span class="number">1.0f</span>)</span>;</span><br><span class="line">	glEnable(GL_BLEND);</span><br><span class="line">	glDisable(GL_DEPTH_TEST);</span><br><span class="line">	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br><span class="line">	glViewport(<span class="number">416</span>, <span class="number">0</span>, <span class="number">416</span>, <span class="number">416</span>);</span><br><span class="line">	glUseProgram(CommonRenderProg[VTGLR_COMMON_PROG_2D].Prog-&gt;getHandle());</span><br><span class="line">	glActiveTexture(GL_TEXTURE0);</span><br><span class="line">	pFNglbindvertexarrayOES(VTGL_Obj[VTGLR_COMMON_WIN_OBJ].vao);</span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, eglInfo-&gt;egiTexImage[VTGLR_TEX_IMAGE_DPYFBO_BUF].Tex);<span class="comment">//</span></span><br><span class="line">	glUniform1i(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_2D].Prog-&gt;getHandle(), <span class="string">&quot;myTexture&quot;</span>), <span class="number">0</span>);</span><br><span class="line">	glUniformMatrix4fv(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_2D].Prog-&gt;getHandle(), <span class="string">&quot;mvp&quot;</span>), <span class="number">1</span>, GL_FALSE, glm::value_ptr(Identity));</span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>,<span class="number">6</span>);</span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, <span class="number">0</span>);</span><br><span class="line">	pFNglbindvertexarrayOES(<span class="number">0</span>);  </span><br><span class="line">	glDisable(GL_BLEND);</span><br><span class="line">	glFlush();</span><br><span class="line">	eglSwapBuffers(eglInfo-&gt;egl_display, eglInfo-&gt;egl_surface);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2，离屏渲染到外部OES纹理"><a href="#2，离屏渲染到外部OES纹理" class="headerlink" title="2，离屏渲染到外部OES纹理"></a>2，离屏渲染到外部OES纹理</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//--------------------1111111111111111----FBO初始化---------------------</span></span><br><span class="line">		dmaFbId = VTGLR_TEX_IMAGE_DPYFBO_BUF;</span><br><span class="line">		glGenTextures(<span class="number">1</span>,&amp;eglInfo-&gt;egiTexImage[dmaFbId].Tex);</span><br><span class="line">		glActiveTexture(GL_TEXTURE0);</span><br><span class="line">		glBindTexture(GL_TEXTURE_EXTERNAL_OES, eglInfo-&gt;egiTexImage[dmaFbId].Tex);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);</span><br><span class="line">		pfnglEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(checkEglErrorState())</span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES Id:%d EGL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_EGL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(checkGlErrorState())</span><br><span class="line">		&#123;	</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES id:%d GL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_GL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		glGenFramebuffers(<span class="number">1</span>, &amp;eglInfo-&gt;egiTexImage[dmaFbId].Fb);</span><br><span class="line">		glBindFramebuffer(GL_FRAMEBUFFER, eglInfo-&gt;egiTexImage[dmaFbId].Fb);</span><br><span class="line">		glGenRenderbuffers(<span class="number">1</span>, &amp;eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);</span><br><span class="line">		glBindRenderbuffer(GL_RENDERBUFFER,eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);<span class="comment">//</span></span><br><span class="line">		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, eglInfo-&gt;egiTexImage[dmaFbId].Width, eglInfo-&gt;egiTexImage[dmaFbId].Height);</span><br><span class="line"></span><br><span class="line">		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_EXTERNAL_OES, eglInfo-&gt;egiTexImage[dmaFbId].Tex, <span class="number">0</span>);</span><br><span class="line">		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);</span><br><span class="line"></span><br><span class="line">		<span class="type">uint32_t</span> glStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);</span><br><span class="line">		<span class="keyword">if</span>(glStatus != GL_FRAMEBUFFER_COMPLETE) </span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;glCheckFramebufferStatusOES Id:%d error 0x%x&quot;</span>,dmaFbId, glStatus);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_GL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(checkEglErrorState())</span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES Id:%d EGL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_EGL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		glBindTexture(GL_TEXTURE_EXTERNAL_OES, <span class="number">0</span>);</span><br><span class="line">		glBindFramebuffer(GL_FRAMEBUFFER,<span class="number">0</span>);</span><br><span class="line"><span class="comment">//--------------------2222222222222222-----离屏渲染与显示到屏幕验证--------------------</span></span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, eglInfo-&gt;egiTexImage[VTGLR_TEX_IMAGE_DPYFBO_BUF].Fb);</span><br><span class="line">	glm::mat4 <span class="title function_">Identity</span><span class="params">(<span class="number">1.0f</span>)</span>;</span><br><span class="line">	glEnable(GL_BLEND);</span><br><span class="line">	glDisable(GL_DEPTH_TEST);</span><br><span class="line">	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br><span class="line">	glViewport(window.x, window.y, window.width, window.height);</span><br><span class="line">	glUseProgram(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle());</span><br><span class="line">	glActiveTexture(GL_TEXTURE0);</span><br><span class="line">	pFNglbindvertexarrayOES(VTGL_Obj[VTGLR_COMMON_WIN_OBJ].vao);</span><br><span class="line">	glBindTexture(GL_TEXTURE_EXTERNAL_OES, VT_GetCamEglTex(camera, gCameraBufIndex[camera]));<span class="comment">//</span></span><br><span class="line">	glUniform1i(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;myTexture&quot;</span>), <span class="number">0</span>);</span><br><span class="line">	glUniformMatrix4fv(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;mvp&quot;</span>), <span class="number">1</span>, GL_FALSE, glm::value_ptr(Identity));</span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>,<span class="number">6</span>);</span><br><span class="line">	pFNglbindvertexarrayOES(<span class="number">0</span>);  </span><br><span class="line">	glDisable(GL_BLEND);</span><br><span class="line">	glFlush();</span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	glm::mat4 <span class="title function_">Identity</span><span class="params">(<span class="number">1.0f</span>)</span>;</span><br><span class="line">	glEnable(GL_BLEND);</span><br><span class="line">	glDisable(GL_DEPTH_TEST);</span><br><span class="line">	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br><span class="line">	glViewport(<span class="number">416</span>, <span class="number">0</span>, <span class="number">416</span>, <span class="number">416</span>);</span><br><span class="line">	glUseProgram(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle());</span><br><span class="line">	glActiveTexture(GL_TEXTURE0);</span><br><span class="line">	pFNglbindvertexarrayOES(VTGL_Obj[VTGLR_COMMON_WIN_OBJ].vao);</span><br><span class="line">	glBindTexture(GL_TEXTURE_EXTERNAL_OES, eglInfo-&gt;egiTexImage[VTGLR_TEX_IMAGE_DPYFBO_BUF].Tex);<span class="comment">//</span></span><br><span class="line">	glUniform1i(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;myTexture&quot;</span>), <span class="number">0</span>);</span><br><span class="line">	glUniformMatrix4fv(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;mvp&quot;</span>), <span class="number">1</span>, GL_FALSE, glm::value_ptr(Identity));</span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>,<span class="number">6</span>);</span><br><span class="line">	glBindTexture(GL_TEXTURE_EXTERNAL_OES, <span class="number">0</span>);</span><br><span class="line">	pFNglbindvertexarrayOES(<span class="number">0</span>);  </span><br><span class="line">	glDisable(GL_BLEND);</span><br><span class="line">	glFlush();</span><br><span class="line">	eglSwapBuffers(eglInfo-&gt;egl_display, eglInfo-&gt;egl_surface);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3，离屏渲染2D或OES纹理（宏方式切换）"><a href="#3，离屏渲染2D或OES纹理（宏方式切换）" class="headerlink" title="3，离屏渲染2D或OES纹理（宏方式切换）"></a>3，离屏渲染2D或OES纹理（宏方式切换）</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//--------------------1111111111111111----FBO初始化---------------------</span></span><br><span class="line">		dmaFbId = VTGLR_TEX_IMAGE_DPYFBO_BUF;</span><br><span class="line"></span><br><span class="line">		glGenTextures(<span class="number">1</span>,&amp;eglInfo-&gt;egiTexImage[dmaFbId].Tex);</span><br><span class="line">		glActiveTexture(GL_TEXTURE0);</span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="keyword">if</span> FBO_TEXTURE</span></span><br><span class="line">		glBindTexture(GL_TEXTURE_EXTERNAL_OES, eglInfo-&gt;egiTexImage[dmaFbId].Tex);</span><br><span class="line"></span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);</span><br><span class="line">		pfnglEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);</span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">		glBindTexture(GL_TEXTURE_2D, eglInfo-&gt;egiTexImage[dmaFbId].Tex);</span><br><span class="line">		glTexImage2D(GL_TEXTURE_2D,<span class="number">0</span>,GL_RGB,<span class="number">416</span>,<span class="number">416</span>,<span class="number">0</span>,GL_RGB,GL_UNSIGNED_BYTE,<span class="literal">NULL</span>);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);</span><br><span class="line">		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(checkEglErrorState())</span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES Id:%d EGL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_EGL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(checkGlErrorState())</span><br><span class="line">		&#123;	</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES id:%d GL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_GL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		glGenFramebuffers(<span class="number">1</span>, &amp;eglInfo-&gt;egiTexImage[dmaFbId].Fb);</span><br><span class="line">		glBindFramebuffer(GL_FRAMEBUFFER, eglInfo-&gt;egiTexImage[dmaFbId].Fb);</span><br><span class="line"></span><br><span class="line">		glGenRenderbuffers(<span class="number">1</span>, &amp;eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);</span><br><span class="line">		glBindRenderbuffer(GL_RENDERBUFFER,eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);<span class="comment">//</span></span><br><span class="line">		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, eglInfo-&gt;egiTexImage[dmaFbId].Width, eglInfo-&gt;egiTexImage[dmaFbId].Height);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="keyword">if</span> FBO_TEXTURE</span></span><br><span class="line">		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_EXTERNAL_OES, eglInfo-&gt;egiTexImage[dmaFbId].Tex, <span class="number">0</span>);</span><br><span class="line">	<span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D, eglInfo-&gt;egiTexImage[dmaFbId].Tex, <span class="number">0</span>);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, eglInfo-&gt;egiTexImage[dmaFbId].Depth_Fb);</span><br><span class="line"></span><br><span class="line">		<span class="type">uint32_t</span> glStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);</span><br><span class="line">		<span class="keyword">if</span>(glStatus != GL_FRAMEBUFFER_COMPLETE) </span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;glCheckFramebufferStatusOES Id:%d error 0x%x&quot;</span>,dmaFbId, glStatus);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_GL_STATE_ERR;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(checkEglErrorState())</span><br><span class="line">		&#123;</span><br><span class="line">			BUG_ERR(<span class="string">&quot;pfnglEGLImageTargetTexture2DOES Id:%d EGL Failed&quot;</span>,dmaFbId);</span><br><span class="line">			<span class="keyword">return</span> GLR_EGL_IMAGETARGET_TEXTURE2D_EGL_STATE_ERR;</span><br><span class="line">		&#125;	</span><br><span class="line">	<span class="meta">#<span class="keyword">if</span> FBO_TEXTURE</span></span><br><span class="line">		glBindTexture(GL_TEXTURE_EXTERNAL_OES, <span class="number">0</span>);</span><br><span class="line">	<span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">		glBindTexture(GL_TEXTURE_2D, <span class="number">0</span>);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">		glBindFramebuffer(GL_FRAMEBUFFER,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//--------------------2222222222222222-----离屏渲染与显示到屏幕验证--------------------</span></span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, eglInfo-&gt;egiTexImage[VTGLR_TEX_IMAGE_DPYFBO_BUF].Fb);</span><br><span class="line"></span><br><span class="line">	glm::mat4 <span class="title function_">Identity</span><span class="params">(<span class="number">1.0f</span>)</span>;</span><br><span class="line">	glEnable(GL_BLEND);</span><br><span class="line">	glDisable(GL_DEPTH_TEST);</span><br><span class="line">	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br><span class="line">	glViewport(window.x, window.y, window.width, window.height);</span><br><span class="line">	glUseProgram(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle());</span><br><span class="line">	glActiveTexture(GL_TEXTURE0);</span><br><span class="line">	pFNglbindvertexarrayOES(VTGL_Obj[VTGLR_COMMON_WIN_OBJ].vao);</span><br><span class="line">	glBindTexture(GL_TEXTURE_EXTERNAL_OES, VT_GetCamEglTex(camera, gCameraBufIndex[camera]));<span class="comment">//</span></span><br><span class="line">	glUniform1i(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;myTexture&quot;</span>), <span class="number">0</span>);</span><br><span class="line">	glUniformMatrix4fv(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;mvp&quot;</span>), <span class="number">1</span>, GL_FALSE, glm::value_ptr(Identity));</span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>,<span class="number">6</span>);</span><br><span class="line">	pFNglbindvertexarrayOES(<span class="number">0</span>);  </span><br><span class="line">	glDisable(GL_BLEND);</span><br><span class="line">	glFlush();</span><br><span class="line"></span><br><span class="line">glBindFramebuffer(GL_FRAMEBUFFER, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	glm::mat4 <span class="title function_">Identity</span><span class="params">(<span class="number">1.0f</span>)</span>;</span><br><span class="line">	glEnable(GL_BLEND);</span><br><span class="line">	glDisable(GL_DEPTH_TEST);</span><br><span class="line">	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span><br><span class="line">	glViewport(<span class="number">416</span>, <span class="number">0</span>, <span class="number">416</span>, <span class="number">416</span>);</span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="keyword">if</span> FBO_TEXTURE</span></span><br><span class="line">	glUseProgram(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle());</span><br><span class="line">	glActiveTexture(GL_TEXTURE0);</span><br><span class="line">	pFNglbindvertexarrayOES(VTGL_Obj[VTGLR_COMMON_WIN_OBJ].vao);</span><br><span class="line">	glBindTexture(GL_TEXTURE_EXTERNAL_OES, eglInfo-&gt;egiTexImage[VTGLR_TEX_IMAGE_DPYFBO_BUF].Tex);<span class="comment">//</span></span><br><span class="line">	glUniform1i(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;myTexture&quot;</span>), <span class="number">0</span>);</span><br><span class="line">	glUniformMatrix4fv(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_CAMVIEW].Prog-&gt;getHandle(), <span class="string">&quot;mvp&quot;</span>), <span class="number">1</span>, GL_FALSE, glm::value_ptr(Identity));</span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>,<span class="number">6</span>);</span><br><span class="line">	glBindTexture(GL_TEXTURE_EXTERNAL_OES, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//2D纹理显示</span></span><br><span class="line">	glUseProgram(CommonRenderProg[VTGLR_COMMON_PROG_2D].Prog-&gt;getHandle());</span><br><span class="line">	glActiveTexture(GL_TEXTURE0);</span><br><span class="line">	pFNglbindvertexarrayOES(VTGL_Obj[VTGLR_COMMON_WIN_OBJ].vao);</span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, eglInfo-&gt;egiTexImage[VTGLR_TEX_IMAGE_DPYFBO_BUF].Tex);<span class="comment">//</span></span><br><span class="line">	glUniform1i(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_2D].Prog-&gt;getHandle(), <span class="string">&quot;myTexture&quot;</span>), <span class="number">0</span>);</span><br><span class="line">	glUniformMatrix4fv(glGetUniformLocation(CommonRenderProg[VTGLR_COMMON_PROG_2D].Prog-&gt;getHandle(), <span class="string">&quot;mvp&quot;</span>), <span class="number">1</span>, GL_FALSE, glm::value_ptr(Identity));</span><br><span class="line">	glDrawArrays(GL_TRIANGLES, <span class="number">0</span>,<span class="number">6</span>);</span><br><span class="line">	glBindTexture(GL_TEXTURE_2D, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	pFNglbindvertexarrayOES(<span class="number">0</span>);  </span><br><span class="line">	glDisable(GL_BLEND);</span><br><span class="line">	glFlush();</span><br><span class="line">	eglSwapBuffers(eglInfo-&gt;egl_display, eglInfo-&gt;egl_surface);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/OpenGL/" rel="tag"># OpenGL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-4-OpenGL%20ES%202.0%20API/" rel="prev" title="OpenGL ES 2.0 API">
+      <i class="fa fa-chevron-left"></i> OpenGL ES 2.0 API
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/14/4-6-VBO%E4%B8%8EVAO/" rel="next" title="OpenGl ES---VBO,VAO">
+      OpenGl ES---VBO,VAO <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenGl-ES%E2%80%94FBO"><span class="nav-number">1.</span> <span class="nav-text">OpenGl ES—FBO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%B8%A7%E7%BC%93%E5%86%B2%E5%88%9B%E5%BB%BA"><span class="nav-number">1.2.</span> <span class="nav-text">1、帧缓冲创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%B8%A7%E7%BC%93%E5%86%B2%E4%B8%8A%E5%8F%AF%E4%BB%A5%E9%99%84%E7%9D%80%E7%9A%84%E4%B8%A4%E7%A7%8D%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">2、帧缓冲上可以附着的两种附件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E7%BA%B9%E7%90%86%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1、纹理附件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E6%B8%B2%E6%9F%93%E9%99%84%E4%BB%B6"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2、渲染附件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text">3、示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E5%88%B02D%E7%BA%B9%E7%90%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">1，离屏渲染到2D纹理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E5%88%B0%E5%A4%96%E9%83%A8OES%E7%BA%B9%E7%90%86"><span class="nav-number">1.4.2.</span> <span class="nav-text">2，离屏渲染到外部OES纹理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%BC%8C%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%932D%E6%88%96OES%E7%BA%B9%E7%90%86%EF%BC%88%E5%AE%8F%E6%96%B9%E5%BC%8F%E5%88%87%E6%8D%A2%EF%BC%89"><span class="nav-number">1.4.3.</span> <span class="nav-text">3，离屏渲染2D或OES纹理（宏方式切换）</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Leeyunhe"
+      src="/images/touxiang.png">
+  <p class="site-author-name" itemprop="name">Leeyunhe</p>
+  <div class="site-description" itemprop="description">云淡风轻拂往事，执笔从容话人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>Music</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyunhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">171k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/click.js"></script>
