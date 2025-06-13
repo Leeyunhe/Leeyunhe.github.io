@@ -1,11 +1,12 @@
 1.安装Git(默认安装)，下载网址https://git-scm.com/download/win
 #2.克隆main主分支，$ git clone -b main https://github.com/Leeyunhe/Leeyunhe.github.io.git
-3.克隆hexo_bak分支，$ git clone -b hexo_bak https://github.com/Leeyunhe/Leeyunhe.github.io.git
+#3.克隆hexo_bak分支，$ git clone -b hexo_bak https://github.com/Leeyunhe/Leeyunhe.github.io.git
+3.1克隆Blog-SourceCode仓库的main主分支 ，$ git clone -b main  https://github.com/Leeyunhe/Blog-SourceCode.git
 
 4.安装node.js(修改安装目录，默认安装)，下载网址https://nodejs.org/en，
 5.上述node.js安装成功之后，npm同时也已经安装成功，用 node -v 和 npm -v 命令检查版本
 6.配置npm在安装全局模块时的路径和缓存cache的路径，否则默认安装在C盘，不方便管理且占用C盘空间
-	1，在node.js安装目录下新建两个文件夹 node_global和node_cache
+	1，在node.js安装目录下新建两个文件夹 node_global 和 node_cache
 	2，在git bush命令下执行如下两个命令：
 	npm config set prefix "F:\Blogs\nodejs\node_global"
 	npm config set cache "F:\Blogs\nodejs\node_cache"
@@ -15,10 +16,12 @@
 	6，npm webpack -v 查看安装webpack的版本号
 
 7.输入npm命令安装Hexo：npm install -g hexo-cli
-8.安装完成后，输入 hexo init 命令初始化博客：
-9.然后输入 hexo g 静态部署： 
-10.部署完成，输入hexo s 命令可以查看：浏览器输入 http://localhost:4000 就可以打开新部署的网页：看完之后 ctrl +c 停止运行服务器。
-11.
+8.安装完成后，输入hexo -v 查看版本
+9. （初次创建运行，迁移可跳过）进入你创建的博客目录，在git bush命令下执行如下两个命令：
+	1 hexo init 命令初始化博客（空文件夹第一次运行，会自动拉取hexo仓库代码到本地并创建一个新的Hexo博客项目生成默认的Hexo结构）：
+	2 然后输入 hexo g 静态部署： 
+10. 部署完成，输入hexo s 命令可以查看：浏览器输入 http://localhost:4000 就可以打开新部署的网页：看完之后 ctrl +c 停止运行服务器。
+11. hexo 命令
 	hexo init    #命令初始化博客：
 	hexo clean   #清除缓存文件 db.json 和已生成的静态文件 public
 	hexo g       #生成网站静态文件到默认设置的 public 文件夹(hexo generate 的缩写)
@@ -38,7 +41,7 @@
 	hexo d       #自动生成网站静态文件，并部署到设定的仓库(hexo deploy 的缩写)
 
 
-14.备份hexo到git分支hexo_bak
+14.备份hexo到git分支hexo_bak（跳过，直接提交到备份仓库）
 	1.添加所有文件夹和文件到本地仓库git add .
 	2.提交文件git commit -m "提交注释"
 	3.push到git分支git push --set-upstream origin hexo_bak
