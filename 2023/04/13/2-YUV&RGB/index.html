@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="图像格式之 YUV &amp; RGB  一、图像颜色空间介绍1.RGB采样与编码格式 R、G、B分别代表red、green、blue，三原色。将他们按照不同比例叠加，可得到更多不同颜色。  每个像素点的颜色由R、G、B三原色表示。每一个颜色通道（原色）包含2^8&#x3D; 256种不同的红&#x2F;绿&#x2F;蓝（八位二进制），占用8bit，也就是一字节，那么一个像素点也就占用了3字节。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图像格式之 YUV &amp; RGB">
+<meta property="og:url" content="http://example.com/2023/04/13/2-YUV&RGB/index.html">
+<meta property="og:site_name" content="Leeyunhe">
+<meta property="og:description" content="图像格式之 YUV &amp; RGB  一、图像颜色空间介绍1.RGB采样与编码格式 R、G、B分别代表red、green、blue，三原色。将他们按照不同比例叠加，可得到更多不同颜色。  每个像素点的颜色由R、G、B三原色表示。每一个颜色通道（原色）包含2^8&#x3D; 256种不同的红&#x2F;绿&#x2F;蓝（八位二进制），占用8bit，也就是一字节，那么一个像素点也就占用了3字节。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/1.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/2.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/3.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/4.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/5.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/6.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/7.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/8.png">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/9.jpg">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/10.jpg">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/11.jpg">
+<meta property="og:image" content="http://example.com/2023/04/13/2-YUV&RGB/12.jpg">
+<meta property="article:published_time" content="2023-04-13T04:56:11.000Z">
+<meta property="article:modified_time" content="2025-06-13T02:24:01.468Z">
+<meta property="article:author" content="Leeyunhe">
+<meta property="article:tag" content="嵌入式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/04/13/2-YUV&RGB/1.png">
+
+<link rel="canonical" href="http://example.com/2023/04/13/2-YUV&RGB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>图像格式之 YUV & RGB | Leeyunhe</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Leeyunhe</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-notes">
+
+    <a href="/categories/%E7%AC%94%E8%AE%B0/" rel="section"><i class="fa fa-folder-open fa-fw"></i>笔记</a>
+
+  </li>
+        <li class="menu-item menu-item-read">
+
+    <a href="/categories/%E9%98%85%E8%AF%BB/" rel="section"><i class="fa fa-book fa-fw"></i>阅读</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>时间轴</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/13/2-YUV&RGB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.png">
+      <meta itemprop="name" content="Leeyunhe">
+      <meta itemprop="description" content="云淡风轻拂往事，执笔从容话人生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Leeyunhe">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图像格式之 YUV & RGB
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-13 12:56:11" itemprop="dateCreated datePublished" datetime="2023-04-13T12:56:11+08:00">2023-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-13 10:24:01" itemprop="dateModified" datetime="2025-06-13T10:24:01+08:00">2025-06-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div align = "center">图像格式之 YUV & RGB</div>
+
+<h1 id="一、图像颜色空间介绍"><a href="#一、图像颜色空间介绍" class="headerlink" title="一、图像颜色空间介绍"></a>一、图像颜色空间介绍</h1><h2 id="1-RGB"><a href="#1-RGB" class="headerlink" title="1.RGB"></a>1.RGB</h2><p>采样与编码格式</p>
+<p>R、G、B分别代表red、green、blue，三原色。将他们按照不同比例叠加，可得到更多不同颜色。</p>
+<p><img src="/2023/04/13/2-YUV&RGB/1.png"></p>
+<p>每个像素点的颜色由R、G、B三原色表示。每一个颜色通道（原色）包含2^8&#x3D; 256种不同的红&#x2F;绿&#x2F;蓝（八位二进制），占用8bit，也就是一字节，那么一个像素点也就占用了3字节。</p>
+<span id="more"></span>
+
+<p>图片大小计算：一张 1280 * 720 大小的图片，就占用 1280 * 720 * 3 &#x2F; 1024 &#x2F; 1024 &#x3D; 2.63 MB 存储空间。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RGB常见的的几种格式和描述：</span></span><br><span class="line">RGB565 每个像素用<span class="number">16</span>位表示，RGB分量各使用<span class="number">5</span>位、<span class="number">6</span>位、<span class="number">5</span>位；</span><br><span class="line">RGB555 每个像素用<span class="number">16</span>位表示，RGB分量都使用<span class="number">5</span>位（剩下<span class="number">1</span>位不用）；</span><br><span class="line">RGB24 每个像素用<span class="number">24</span>位表示，RGB分量各使用<span class="number">8</span>位；</span><br><span class="line">RGB32 每个像素用<span class="number">32</span>位表示，RGB分量各使用<span class="number">8</span>位（剩下<span class="number">8</span>位不用）；</span><br><span class="line">ARGB32 每个像素用<span class="number">32</span>位表示，RGB分量各使用<span class="number">8</span>位（剩下的<span class="number">8</span>位用于表示Alpha(透明度)通道值）；</span><br></pre></td></tr></table></figure>
+
+<p>常见的RGB格式有：RGB_565、RGB_888、ARGB_8888、ARGB_4444等。但是也有列外，尤其是搞安卓的同学要特别注意，谷歌在这里给我们挖了一个坑，那就是，ARGB_8888和ARGB_4444实际上在底层对应的是 RGBA_8888和RGBA_4444，例如ARGB_8888图像，其像素数据在内存中其实是以R G B A R G B A …的顺序排布的。</p>
+<h2 id="2-YUV"><a href="#2-YUV" class="headerlink" title="2.YUV"></a>2.YUV</h2><p>简介：与我们熟知的RGB类似，YUV也是一种颜色编码方法；主要用于电视系统以及模拟视频领域，它将亮度信息（Y）与色彩信息（UV）分离，没有UV信息一样可以显示完整的图像，只不过是黑白的，</p>
+<p>这样的设计很好地解决了彩色电视机与黑白电视的兼容问题。并且，YUV不像RGB那样要求三个独立的视频信号同时传输，所以用YUV方式传送占用极少的频宽。</p>
+<h3 id="1）颜色空间"><a href="#1）颜色空间" class="headerlink" title="1）颜色空间"></a>1）颜色空间</h3><p>在YUV颜色空间中，YUV（YCbCr ）格式也包含三个分量：<br>        Y——明亮度（Luma），也成灰阶，没有UV分量也可成像，图像是黑白的（基础信号）<br>        UV——色度（Chroma）：色彩+色彩饱和度（正交调制信号）</p>
+<p>每个 Y 分量可以都有自己对应的 UV 分量，也可以几个 Y 分量共用 UV 分量，这就是为何会有YUV4:4:4、YUV4:2:2、YUV4:2:0采样格式出现，用于减小图像包含的数据量大小，便于传输和存储。</p>
+<p><img src="/2023/04/13/2-YUV&RGB/2.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//YUV种类分为很多，可以理解是一个二维的，即空间间，和空间内，这样的表述，借鉴了h264中的帧间和帧内的思想。</span></span><br><span class="line">空间-间：不同空间，即描述一个像素的bit数不同，比如yuv444，yuv422，yuv411，yuv420</span><br><span class="line">空间-内：相同空间，即描述一个像素的bit数相同，但是存储方式不同，比如对于yuv420而言，又可细分为yuv420p，yuv420sp，nv21，nv12，yv12，yu12，I420</span><br><span class="line"><span class="comment">//为什么yuv444，yuv420，yuv422，yuv411都是用的4呢？</span></span><br><span class="line">--&gt;因为用到了共享的思想，这是yuv和rgb的本质区别.</span><br><span class="line">rgb是一个像素是一个家庭，家庭成员是r，g，b，但是yuv是若干像素是一个家庭，不同像素的y共享同一个u和v，这样，引入了共享的思想，虽然最小单位是一个字节，但实际上描述一个像素点的字节，不一定是字节的整数倍</span><br></pre></td></tr></table></figure>
+
+<h3 id="2）采样格式"><a href="#2）采样格式" class="headerlink" title="2）采样格式"></a>2）采样格式</h3><h4 id="YUV-444"><a href="#YUV-444" class="headerlink" title="YUV 444"></a>YUV 444</h4><p>YUV三个信道的信号全采样，每个像素的三个分量信息完整（每个分量一般用8bit），因此每个像素经量化后，未经压缩，占用3字节。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[yuv][yuv][yuv][yuv]</span><br><span class="line">[yuv][yuv][yuv][yuv]</span><br><span class="line">[yuv][yuv][yuv][yuv]</span><br><span class="line">[yuv][yuv][yuv][yuv]</span><br><span class="line"><span class="comment">//一个家庭成员是[yuv]，每个Y对应一组UV，一个YUV占24bits 3个字节；</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//假设四个像素为:	[Y0 U0 V0] [Y1 U1 V1] [Y2 U2 V2] [Y3 U3 V3]</span></span><br><span class="line"><span class="comment">//存放的码流为:	Y0 U0 V0 Y1 U1 V1Y2 U2 V2Y3 U3 V3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="YUV-422"><a href="#YUV-422" class="headerlink" title="YUV 422"></a>YUV 422</h4><p>亮度Y分量保持不变；对UV分量进行采样，数据量减小一半。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[yu][yv][yu][yv]</span><br><span class="line">[yv][yu][yv][yu]</span><br><span class="line">[yu][yv][yu][yv]</span><br><span class="line">[yv][yu][yv][yu]</span><br><span class="line"><span class="comment">//一个家庭成员是[yu] [yv]，也就是2个Y公用一个UV，一个YUV占8+4+4=16bits 2个节。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//假设四个像素为:[Y0 U0 V0] [Y1 U1 V1] [Y2 U2 V2] [Y3 U3 V3]</span></span><br><span class="line"><span class="comment">//采样码流为：[Y0 U0 ] [Y1 V1] [Y2 U2 ] [Y3 V3]</span></span><br></pre></td></tr></table></figure>
+
+<p>隔行扫描，行1出U分量，那么下一行行2则出V分量（即UV分量按照1:1的比例进行采样），最终相邻两个Y分量共用一组UV分量。</p>
+<h4 id="YUV-420"><a href="#YUV-420" class="headerlink" title="YUV 420"></a>YUV 420</h4><p>亮度Y分量保持不变；对UV分量进行采样，数据量只有1&#x2F;4</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//吐槽:yuv420的意思似乎是在yuv422的基础上，再拿掉两个v，这样不就没有v了吗？其实yuv420的取名方式不是很高明，更确切的命名为yuv420yuv402也就是第一行只有两个u，而第二行只有两个v，如下图；</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[yu][y][yu][y]</span><br><span class="line">[yv][y][yv][y]</span><br><span class="line">[yu][y][yu][y]</span><br><span class="line">[yv][y][yv][y]</span><br><span class="line"><span class="comment">//一个家庭成员是[yu][y],4个Y公用一组UV，每个YUV占用8+2+2=12bits，1.5个字节；</span></span><br><span class="line"><span class="comment">//			  [yv][y]</span></span><br><span class="line"><span class="comment">//假设八个像素为:[Y0 U0 V0] [Y1 U1 V1] [Y2 U2 V2] [Y3 U3 V3]</span></span><br><span class="line"><span class="comment">//			   [Y5 U5 V5] [Y6 U6 V6] [Y7 U7 V7] [Y8 U8 V8]</span></span><br><span class="line"><span class="comment">//采样码流为：[Y0 U0 ] [Y1 ] [Y2 U2 ] [Y3 ]</span></span><br><span class="line"><span class="comment">//			[Y5 V5] [Y6 ] [Y7 V7] [Y8 ]</span></span><br><span class="line"><span class="comment">//存放的码流为:</span></span><br><span class="line"><span class="comment">//			[Y0 U0 V5] [Y1 U0 V5] [Y2 U2 V7] [Y3 U2 V7]</span></span><br><span class="line"><span class="comment">//			[Y5 U0 V5] [Y6 U0 V5] [Y7 U2 V7] [Y8 U2 V7]</span></span><br></pre></td></tr></table></figure>
+
+<p>隔行扫描，且UV分量按照2:1的比例进行采样，第一个像素保留一半U&#x2F;(V)数据，相邻第二个像素U和V分量全舍弃，第三个像素采集第二次U&#x2F;(V)数据，第四个像素U和V分量全舍弃，第五个像素采集第一次V&#x2F;(U)，最终相邻四个Y分量共用一组UV分量，而且是按照 2*2 的小方格的形式分布。</p>
+<h4 id="图示："><a href="#图示：" class="headerlink" title="图示："></a>图示：</h4><p><img src="/2023/04/13/2-YUV&RGB/3.png"></p>
+<p>黑点表示采样该像素点的Y分量，以空心圆圈表示采用该像素点的UV分量。<br>        YUV 4:4:4采样，每一个Y对应一组UV分量。<br>        YUV 4:2:2采样，每两个Y共用一组UV分量。<br>        YUV 4:2:0采样，每四个Y共用一组UV分量，如图中的红色部分。</p>
+<h3 id="3-图像大小计算"><a href="#3-图像大小计算" class="headerlink" title="3)图像大小计算"></a>3)图像大小计算</h3><p>假设一幅图像，像素大小为1280*720</p>
+<p>YUV 4:4:4采样，(1280 * 720 * 3) &#x2F; 1024 &#x2F; 1024 ≈2.64M</p>
+<p>YUV 4:2:2采样，(1280 * 720 * 2) &#x2F; 1024 &#x2F; 1024 ≈1.76M</p>
+<p>YUV 4:2:0采样，(1280 * 720 * 3 &#x2F; 2) &#x2F; 1024 &#x2F; 1024 ≈1.32M</p>
+<h3 id="4）存储格式"><a href="#4）存储格式" class="headerlink" title="4）存储格式"></a>4）存储格式</h3><h4 id="planar"><a href="#planar" class="headerlink" title="planar"></a>planar</h4><p>平面格式：指连续存储所有像素点的Y分量，然后存储U分量，最后是V分量，3个plane。</p>
+<h4 id="packed"><a href="#packed" class="headerlink" title="packed"></a>packed</h4><p>打包模式：指每个像素点的Y、U、V分量是连续交叉存储的，1个plane。</p>
+<h4 id="semi-planar"><a href="#semi-planar" class="headerlink" title="semi-planar:"></a>semi-planar:</h4><p>Y连续存储，U、V交叉存储，如NV21、NV12，即2个plane。</p>
+<h4 id="图示：-1"><a href="#图示：-1" class="headerlink" title="图示："></a>图示：</h4><table>
+<thead>
+<tr>
+<th>YUV444</th>
+<th>YUV422</th>
+<th>YUV420</th>
+<th>YUV411</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>YU16(YUV422P)</td>
+<td>YU12(YUV420P)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>YV16(YUV422P)</td>
+<td>YV12(YUV420P)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>NV16(YUV422SP)</td>
+<td>NV12(YUV420SP)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>NV61(YUV422SP)</td>
+<td>NV21(YUV420SP)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>YUYV422</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>UYVY</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="二、图像格式介绍"><a href="#二、图像格式介绍" class="headerlink" title="二、图像格式介绍"></a>二、图像格式介绍</h1><h2 id="1-RGB-1"><a href="#1-RGB-1" class="headerlink" title="1.RGB"></a>1.RGB</h2><h3 id="1-RGB555-高彩色"><a href="#1-RGB555-高彩色" class="headerlink" title="1.RGB555(高彩色)"></a>1.RGB555(高彩色)</h3><p>​    RGB555是一种16位的RGB格式，R、G、B分量都用5位来表示，剩下的一位不用，存储格式如下图：</p>
+<p><img src="/2023/04/13/2-YUV&RGB/4.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//假设计算机中存储某一个像素点的变量为color, 数据类型为short.，那么则有：</span></span><br><span class="line"></span><br><span class="line">R = color &amp; <span class="number">0x7C00</span>, (获取高字节的<span class="number">5</span>个bit)</span><br><span class="line">G = color &amp; <span class="number">0x03E0</span>, (获取中间<span class="number">5</span>个bit)</span><br><span class="line">B = color &amp; <span class="number">0x001F</span>, (获取低字节<span class="number">5</span>个bit)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-RGB565-高彩色"><a href="#2-RGB565-高彩色" class="headerlink" title="2.RGB565(高彩色)"></a>2.RGB565(高彩色)</h3><p>   RGB565同样是一种16位的RGB格式，R和B分量用5位来表示，G分量用6位标志。存储格式如下图：</p>
+<p><img src="/2023/04/13/2-YUV&RGB/5.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//假设计算机中存储某一个像素点的变量为color, 数据类型为short， 那么则有：</span></span><br><span class="line"></span><br><span class="line">R = color &amp; <span class="number">0xF800</span>, (获取高字节的<span class="number">5</span>个bit)</span><br><span class="line">G = color &amp; <span class="number">0x07E0</span>, (获取中间<span class="number">6</span>个bit)</span><br><span class="line">B = color &amp; <span class="number">0x001F</span>, (获取低字节<span class="number">5</span>个bit)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-RGB24-真彩色"><a href="#3-RGB24-真彩色" class="headerlink" title="3.RGB24(真彩色)"></a>3.RGB24(真彩色)</h3><p>RGB24是一种24位的RGB格式，R、G、B分量都用8位来表示，每位取值范围都为0-255。存储格式如下图：</p>
+<p><img src="/2023/04/13/2-YUV&RGB/6.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//假设计算机中存储某一个像素点的变量为color, 数据类型为int， 那么则有：</span></span><br><span class="line">    </span><br><span class="line">R = color &amp; <span class="number">0x000000FF</span>,</span><br><span class="line">G = color &amp; <span class="number">0x0000FF00</span>,</span><br><span class="line">B = color &amp; <span class="number">0x00FF0000</span>,</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-RGB32-真彩色"><a href="#4-RGB32-真彩色" class="headerlink" title="4.RGB32(真彩色)"></a>4.RGB32(真彩色)</h3><p>  RGB32使用32位来表示一个像素，RGB分量各用去8位，剩下的8位用作Alpha通道或者不用。Alpha通道是一个8位的灰度通道，该通道用256级灰度来记录图像中的透明度信息，定义透明、不透明和半透明区域，其中白表示不透明，黑表示透明，灰表示半透明。其结构如下：</p>
+<p><img src="/2023/04/13/2-YUV&RGB/7.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//假设计算机中存储某一个像素点的变量为color, 数据类型为int，那么则有:</span></span><br><span class="line">a、低<span class="number">8</span>位保留</span><br><span class="line">R = color &amp; <span class="number">0x0000FF00</span></span><br><span class="line">G = color &amp; <span class="number">0x00FF0000</span>,</span><br><span class="line">B = color &amp; <span class="number">0xFF000000</span>,</span><br><span class="line">b、低<span class="number">8</span>位为ALPHA值</span><br><span class="line">R = color &amp; <span class="number">0x0000FF00</span>,</span><br><span class="line">G = color &amp; <span class="number">0x00FF0000</span>,</span><br><span class="line">B = color &amp; <span class="number">0xFF000000</span>,</span><br><span class="line">A = color &amp; <span class="number">0x000000FF</span>,</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-YUV-1"><a href="#2-YUV-1" class="headerlink" title="2.YUV"></a>2.YUV</h2><h3 id="1-YUV420SP"><a href="#1-YUV420SP" class="headerlink" title="1.YUV420SP"></a>1.YUV420SP</h3><h4 id="1-NV12"><a href="#1-NV12" class="headerlink" title="1.NV12"></a>1.NV12</h4><p>NV21图像格式属于 YUV颜色空间中的YUV420SP格式，每四个Y分量共用一组U分量和V分量，Y连续排序，U与V交叉排序。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排列方式如：</span></span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line"></span><br><span class="line">V U   V U   V U  V U</span><br><span class="line">V U   V U   V U  V U</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-NV21"><a href="#2-NV21" class="headerlink" title="2.NV21"></a>2.NV21</h4><p>NV12图像格式属于 YUV颜色空间中的YUV420SP格式，每四个Y分量共用一组U分量和V分量，Y连续排序，U与V交叉排序（NV12和NV21只是U与V的位置相反）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排列方式如：</span></span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line"></span><br><span class="line">U V   U V   U V  U V</span><br><span class="line">U V   U V   U V  U V</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//NV12: YYYYYYYY UVUV =&gt;YUV420SP</span></span><br><span class="line"><span class="comment">//NV21: YYYYYYYY VUVU =&gt;YUV420SP</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-YUV420P"><a href="#2-YUV420P" class="headerlink" title="2.YUV420P"></a>2.YUV420P</h3><h4 id="1-YU12"><a href="#1-YU12" class="headerlink" title="1.YU12"></a>1.YU12</h4><p>YU12图像格式属于 YUV颜色空间中的YUV420P格式，每四个Y分量共用一组U分量和V分量，Y、U、V各自连续排序。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排列方式如：</span></span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line"></span><br><span class="line">U     U     U     U</span><br><span class="line">U     U     U     U</span><br><span class="line"></span><br><span class="line">V     V     V     V</span><br><span class="line">V     V     V     V</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-YV12"><a href="#2-YV12" class="headerlink" title="2.YV12"></a>2.YV12</h4><p>YV12图像格式属于 YUV颜色空间中的YUV420P格式，每四个Y分量共用一组U分量和V分量，Y、U、V各自连续排序（YV12和I420只是U与V的位置相反）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排列方式如：</span></span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line">Y Y   Y Y   Y Y   Y Y</span><br><span class="line"></span><br><span class="line">V     V     V     V</span><br><span class="line">V     V     V     V</span><br><span class="line"></span><br><span class="line">U     U     U     U</span><br><span class="line">U     U     U     U</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//YU12: YYYYYYYY UU VV =&gt;YUV420P</span></span><br><span class="line"><span class="comment">//YV12: YYYYYYYY VV UU =&gt;YUV420P</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3．YUYV图像格式（打包格式存储）"><a href="#3．YUYV图像格式（打包格式存储）" class="headerlink" title="3．YUYV图像格式（打包格式存储）"></a>3．YUYV图像格式（打包格式存储）</h3><p>YUYV图像格式属于 YUV颜色空间中的YUV422格式，每两个Y分量共用一组U分量和V分量，Y、U、V交叉排序。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//排列方式如：</span></span><br><span class="line">Y U Y V   Y U Y V   Y U Y V   Y U Y V</span><br><span class="line"></span><br><span class="line">Y U Y V   Y U Y V   Y U Y V   Y U Y V</span><br><span class="line"></span><br><span class="line">Y U Y V   Y U Y V   Y U Y V   Y U Y V</span><br><span class="line"></span><br><span class="line">Y U Y V   Y U Y V   Y U Y V   Y U Y V</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="三、RGB与YUV的格式转换"><a href="#三、RGB与YUV的格式转换" class="headerlink" title="三、RGB与YUV的格式转换"></a>三、RGB与YUV的格式转换</h1><p>图像显示器——通过RGB模型显示图像</p>
+<p>传输图像数据——通过YUV模型传输 （YUV 模型可以节省带宽）</p>
+<p><img src="/2023/04/13/2-YUV&RGB/8.png"></p>
+<h2 id="转换公式："><a href="#转换公式：" class="headerlink" title="转换公式："></a>转换公式：</h2><p>1.小数形式, YUV  ( U∈[-0.5-0.5] ,  R，G，B∈[0,1] )</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Y =  <span class="number">0.299</span>*R + <span class="number">0.587</span>*G + <span class="number">0.114</span>*B;</span><br><span class="line">U = <span class="number">-0.169</span>*R - <span class="number">0.331</span>*G + <span class="number">0.5</span>  *B ;</span><br><span class="line">V =  <span class="number">0.5</span>  *R - <span class="number">0.419</span>*G - <span class="number">0.081</span>*B;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R = Y + <span class="number">1.4075</span> * V;  </span><br><span class="line">G = Y - <span class="number">0.3455</span> * U - <span class="number">0.7169</span>*V;  </span><br><span class="line">B = Y + <span class="number">1.779</span> * U; </span><br></pre></td></tr></table></figure>
+
+<h1 id="四：一图看RGB与YUV"><a href="#四：一图看RGB与YUV" class="headerlink" title="四：一图看RGB与YUV"></a>四：一图看RGB与YUV</h1><h2 id="RGB格式"><a href="#RGB格式" class="headerlink" title="RGB格式"></a>RGB格式</h2><p> <img src="/2023/04/13/2-YUV&RGB/9.jpg"></p>
+<h2 id="YUV格式"><a href="#YUV格式" class="headerlink" title="YUV格式"></a>YUV格式</h2><p><img src="/2023/04/13/2-YUV&RGB/10.jpg"></p>
+<h2 id="YUV存储格式"><a href="#YUV存储格式" class="headerlink" title="YUV存储格式"></a>YUV存储格式</h2><p><img src="/2023/04/13/2-YUV&RGB/11.jpg"></p>
+<h2 id="ARGB"><a href="#ARGB" class="headerlink" title="ARGB"></a>ARGB</h2><p><img src="/2023/04/13/2-YUV&RGB/12.jpg"></p>
+<p>…</p>
+<p>…</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/13/1-V4l2/" rel="prev" title="Video for Linux two(简称v4l2)">
+      <i class="fa fa-chevron-left"></i> Video for Linux two(简称v4l2)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/14/3-G2D/" rel="next" title="G2D">
+      G2D <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9B%BE%E5%83%8F%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">一、图像颜色空间介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-RGB"><span class="nav-number">1.1.</span> <span class="nav-text">1.RGB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-YUV"><span class="nav-number">1.2.</span> <span class="nav-text">2.YUV</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%89%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4"><span class="nav-number">1.2.1.</span> <span class="nav-text">1）颜色空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%89%E9%87%87%E6%A0%B7%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">2）采样格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#YUV-444"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">YUV 444</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#YUV-422"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">YUV 422</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#YUV-420"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">YUV 420</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%A4%BA%EF%BC%9A"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">图示：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%9B%BE%E5%83%8F%E5%A4%A7%E5%B0%8F%E8%AE%A1%E7%AE%97"><span class="nav-number">1.2.3.</span> <span class="nav-text">3)图像大小计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%EF%BC%89%E5%AD%98%E5%82%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.4.</span> <span class="nav-text">4）存储格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#planar"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">planar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#packed"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">packed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#semi-planar"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">semi-planar:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E7%A4%BA%EF%BC%9A-1"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">图示：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">二、图像格式介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-RGB-1"><span class="nav-number">2.1.</span> <span class="nav-text">1.RGB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RGB555-%E9%AB%98%E5%BD%A9%E8%89%B2"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.RGB555(高彩色)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RGB565-%E9%AB%98%E5%BD%A9%E8%89%B2"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.RGB565(高彩色)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RGB24-%E7%9C%9F%E5%BD%A9%E8%89%B2"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.RGB24(真彩色)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-RGB32-%E7%9C%9F%E5%BD%A9%E8%89%B2"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.RGB32(真彩色)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-YUV-1"><span class="nav-number">2.2.</span> <span class="nav-text">2.YUV</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-YUV420SP"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.YUV420SP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-NV12"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">1.NV12</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-NV21"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">2.NV21</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-YUV420P"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.YUV420P</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-YU12"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">1.YU12</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-YV12"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">2.YV12</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%BC%8EYUYV%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F%EF%BC%88%E6%89%93%E5%8C%85%E6%A0%BC%E5%BC%8F%E5%AD%98%E5%82%A8%EF%BC%89"><span class="nav-number">2.2.3.</span> <span class="nav-text">3．YUYV图像格式（打包格式存储）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81RGB%E4%B8%8EYUV%E7%9A%84%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.</span> <span class="nav-text">三、RGB与YUV的格式转换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E5%85%AC%E5%BC%8F%EF%BC%9A"><span class="nav-number">3.1.</span> <span class="nav-text">转换公式：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%EF%BC%9A%E4%B8%80%E5%9B%BE%E7%9C%8BRGB%E4%B8%8EYUV"><span class="nav-number">4.</span> <span class="nav-text">四：一图看RGB与YUV</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RGB%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">RGB格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YUV%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">YUV格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YUV%E5%AD%98%E5%82%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.3.</span> <span class="nav-text">YUV存储格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARGB"><span class="nav-number">4.4.</span> <span class="nav-text">ARGB</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Leeyunhe"
+      src="/images/touxiang.png">
+  <p class="site-author-name" itemprop="name">Leeyunhe</p>
+  <div class="site-description" itemprop="description">云淡风轻拂往事，执笔从容话人生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>Music</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Leeyunhe</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">171k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:35</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
+
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/click.js"></script>
