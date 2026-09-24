@@ -14,7 +14,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"manual,","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="云淡风轻拂往事，执笔从容话人生">
@@ -98,6 +98,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -142,11 +143,38 @@
     <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -364,7 +392,7 @@
         <a href="https://github.com/Leeyunhe" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Leeyunhe" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fab fa-youtube fa-fw"></i>Music</a>
+        <a href="https://music.163.com/#/user/home?id=106127099" title="Music → https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;106127099" rel="noopener" target="_blank"><i class="fa fa-music fa-fw"></i>Music</a>
       </span>
   </div>
 
@@ -444,6 +472,10 @@
 
 
 
+  
+<script src="/js/local-search.js"></script>
+
+
 
 
 
@@ -458,6 +490,55 @@
   
 
   
+<!-- ============================================================== -->
+<!-- APlayer + MetingJS 全局吸底网易云音乐播放器与前端增强脚本 -->
+<!-- 挂载位置: source/_data/body-end.swig -->
+<!-- 说明: 本文件由 source/_data/next.yml 的 custom_file_path.bodyEnd 自动注入全站底部 -->
+<!-- ============================================================== -->
+
+<!-- 1. APlayer & MetingJS 核心依赖 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+<!-- 2. 全局吸底播放器挂载 (左下角常驻悬浮小唱片) -->
+<!-- 歌单：一步天涯四海为家喜欢的音乐 (ID: 128691730) -->
+<meting-js
+  server="netease"
+  type="playlist"
+  id="128691730"
+  fixed="true"
+  mini="true"
+  autoplay="false"
+  theme="#fc6423"
+  loop="all"
+  order="list"
+  preload="auto"
+  volume="0.6"
+  mutex="true"
+  list-folded="true">
+</meting-js>
+
+<!-- 3. 前端交互增强脚本 (解决搜索框遮挡 & 默认收起歌词) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // A. 将搜索弹窗节点提升至 <body> 最顶层，彻底解除侧边栏半透明度与 240px 宽度的层级限制
+  var searchOverlay = document.querySelector('.search-pop-overlay');
+  if (searchOverlay && searchOverlay.parentNode !== document.body) {
+    document.body.appendChild(searchOverlay);
+  }
+
+  // B. 默认关闭 APlayer 全站歌词悬浮条 (访客点击播放器上的歌词图标仍可随时开启)
+  var lrcTimer = setInterval(function() {
+    var meting = document.querySelector('meting-js');
+    if (meting && meting.aplayer && meting.aplayer.lrc) {
+      meting.aplayer.lrc.hide();
+      clearInterval(lrcTimer);
+    }
+  }, 200);
+  setTimeout(function() { clearInterval(lrcTimer); }, 6000);
+});
+</script>
 
 </body>
 </html>
