@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 8.1.2">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -379,9 +379,9 @@
 <p>​		当出现如下情况时：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> JI(a,b) a*b <span class="comment">//红色部分写法会导致编译器产生歧义</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123; </span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,JI(<span class="number">3</span>+<span class="number">2</span>,<span class="number">4</span>)); <span class="comment">//运行代码后，得到的结果是 11 。而我们期望的结果是 5*4=20 。出现这个问题的原因是 运算符优先级 导致的。所以我们需要给宏定义中替换列表的参数括上括号，形如：（a）*（b）。</span></span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code> 注意：
-    1）在使用带参宏定义时，为了避免因运算符优先级的不同而导致的一些歧义，我们通常会在替换列表中给每个参数都加 ( ) 。
-     2）宏名和(参数列表)之间不可以有空格。严格按照格式书写。
+<pre><code>	注意：
+	1）在使用带参宏定义时，为了避免因运算符优先级的不同而导致的一些歧义，我们通常会在替换列表中给每个参数都加 ( ) 。
+	 2）宏名和(参数列表)之间不可以有空格。严格按照格式书写。
 </code></pre>
 <p>​	注意：<br>​		1）#define 必须写在行首 。<br>​		2）宏定义是预处理语句，所以我们要把它写在程序的最前面，一般会写在引用头文件之后。<br>​		3）宏名默认要大写 。<br>​		4）宏名和替换列表之间不可以有 &#x3D; 。<br>​		5）如果宏定义的内容较长，一行写不下，换行时需要用 反斜杠 \ 作为延续符延续到下一行。</p>
 <h2 id="8，变量"><a href="#8，变量" class="headerlink" title="8，变量"></a>8，变量</h2><p>​		变量在赋予一个值后，仍然可以随时被修改。<br>​		变量在声明时，会从内存中划分一定的空间来存储数据。</p>
@@ -389,7 +389,7 @@
 <p>​		存储类型：<br>​						<strong>auto 自动（默认）</strong><br>​						extern 引用其他文件的变量<br>​						static 静态变量<br>​						volatile 去内存中获取变量<br>​						register 寄存器变量 </p>
 <p>​		例：	 int a; &#x2F;&#x2F;声明了一个整型变量a。 a被分配了4byte的空间。<br>​					char c; &#x2F;&#x2F;声明了一个字符型变量c。 c被分配了1byte的空间。<br>​					double d; &#x2F;&#x2F;声明了一个双精度浮点型变量d。 d被分配了8byte的空间。 </p>
 <h3 id="（2）标识符命名规则"><a href="#（2）标识符命名规则" class="headerlink" title="（2）标识符命名规则"></a>（2）标识符命名规则</h3><p>​			1）由 数字、字母、下划线_ 组成<br>​			2）数字不可以做开头<br>​			3）严格区分大小写<br>​			4）不能与关键字重名</p>
-<h3 id="（3）常用的修饰数据类型的关键字"><a href="#（3）常用的修饰数据类型的关键字" class="headerlink" title="（3）常用的修饰数据类型的关键字"></a>（3）常用的修饰数据类型的关键字</h3><h4 id="1）signed"><a href="#1）signed" class="headerlink" title="1）signed"></a>1）signed</h4><p>​				<strong>（默认）</strong>有符号，区分正负。 只能用来修饰 <strong>整型</strong> 和 <strong>字符型</strong><br>​						<strong>正 0</strong><br>​						<strong>负 1</strong><br>​					int a; &lt;&#x3D;&#x3D;&gt; signed int a; &#x2F;&#x2F;变量a一共有32位，其中<strong>最高位为符号位</strong>。 </p>
+<h3 id="（3）常用的修饰数据类型的关键字"><a href="#（3）常用的修饰数据类型的关键字" class="headerlink" title="（3）常用的修饰数据类型的关键字"></a>（3）常用的修饰数据类型的关键字</h3><h4 id="1）signed"><a href="#1）signed" class="headerlink" title="1）signed"></a>1）signed</h4><p>​				<strong>（默认）<strong>有符号，区分正负。 只能用来修饰 <strong>整型</strong> 和 <strong>字符型</strong><br>​						<strong>正 0</strong><br>​						<strong>负 1</strong><br>​					int a; &lt;&#x3D;&#x3D;&gt; signed int a; &#x2F;&#x2F;变量a一共有32位，其中</strong>最高位为符号位</strong>。 </p>
 <h4 id="2）unsigned-—-u"><a href="#2）unsigned-—-u" class="headerlink" title="2）unsigned — %u"></a>2）unsigned — %u</h4><p>​					无符号，全部是非负数 只能用来修饰 <strong>整型</strong> 和 <strong>字符型</strong><br>​					unsigned int a; &#x2F;&#x2F;变量a一共有32位，全部用来存数据。 </p>
 <p>​				例： </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span> </span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span> </span><br><span class="line">&#123; </span><br><span class="line"> <span class="type">unsigned</span> <span class="type">int</span> a = <span class="number">5</span>; <span class="comment">//unsigned不可以赋值为负数 </span></span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%u\n&quot;</span>,a); <span class="comment">//用%u打印无符号整型数 </span></span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

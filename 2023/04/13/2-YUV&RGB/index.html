@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 8.1.2">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -267,7 +267,7 @@
 <p>常见的RGB格式有：RGB_565、RGB_888、ARGB_8888、ARGB_4444等。但是也有列外，尤其是搞安卓的同学要特别注意，谷歌在这里给我们挖了一个坑，那就是，ARGB_8888和ARGB_4444实际上在底层对应的是 RGBA_8888和RGBA_4444，例如ARGB_8888图像，其像素数据在内存中其实是以R G B A R G B A …的顺序排布的。</p>
 <h2 id="2-YUV"><a href="#2-YUV" class="headerlink" title="2.YUV"></a>2.YUV</h2><p>简介：与我们熟知的RGB类似，YUV也是一种颜色编码方法；主要用于电视系统以及模拟视频领域，它将亮度信息（Y）与色彩信息（UV）分离，没有UV信息一样可以显示完整的图像，只不过是黑白的，</p>
 <p>这样的设计很好地解决了彩色电视机与黑白电视的兼容问题。并且，YUV不像RGB那样要求三个独立的视频信号同时传输，所以用YUV方式传送占用极少的频宽。</p>
-<h3 id="1）颜色空间"><a href="#1）颜色空间" class="headerlink" title="1）颜色空间"></a>1）颜色空间</h3><p>在YUV颜色空间中，YUV（YCbCr ）格式也包含三个分量：<br>        Y——明亮度（Luma），也成灰阶，没有UV分量也可成像，图像是黑白的（基础信号）<br>        UV——色度（Chroma）：色彩+色彩饱和度（正交调制信号）</p>
+<h3 id="1）颜色空间"><a href="#1）颜色空间" class="headerlink" title="1）颜色空间"></a>1）颜色空间</h3><p>在YUV颜色空间中，YUV（YCbCr ）格式也包含三个分量：<br>		Y——明亮度（Luma），也成灰阶，没有UV分量也可成像，图像是黑白的（基础信号）<br>		UV——色度（Chroma）：色彩+色彩饱和度（正交调制信号）</p>
 <p>每个 Y 分量可以都有自己对应的 UV 分量，也可以几个 Y 分量共用 UV 分量，这就是为何会有YUV4:4:4、YUV4:2:2、YUV4:2:0采样格式出现，用于减小图像包含的数据量大小，便于传输和存储。</p>
 <p><img src="/2023/04/13/2-YUV&RGB/2.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//YUV种类分为很多，可以理解是一个二维的，即空间间，和空间内，这样的表述，借鉴了h264中的帧间和帧内的思想。</span></span><br><span class="line">空间-间：不同空间，即描述一个像素的bit数不同，比如yuv444，yuv422，yuv411，yuv420</span><br><span class="line">空间-内：相同空间，即描述一个像素的bit数相同，但是存储方式不同，比如对于yuv420而言，又可细分为yuv420p，yuv420sp，nv21，nv12，yv12，yu12，I420</span><br><span class="line"><span class="comment">//为什么yuv444，yuv420，yuv422，yuv411都是用的4呢？</span></span><br><span class="line">--&gt;因为用到了共享的思想，这是yuv和rgb的本质区别.</span><br><span class="line">rgb是一个像素是一个家庭，家庭成员是r，g，b，但是yuv是若干像素是一个家庭，不同像素的y共享同一个u和v，这样，引入了共享的思想，虽然最小单位是一个字节，但实际上描述一个像素点的字节，不一定是字节的整数倍</span><br></pre></td></tr></table></figure>
@@ -288,7 +288,7 @@
 
 <p>隔行扫描，且UV分量按照2:1的比例进行采样，第一个像素保留一半U&#x2F;(V)数据，相邻第二个像素U和V分量全舍弃，第三个像素采集第二次U&#x2F;(V)数据，第四个像素U和V分量全舍弃，第五个像素采集第一次V&#x2F;(U)，最终相邻四个Y分量共用一组UV分量，而且是按照 2*2 的小方格的形式分布。</p>
 <h4 id="图示："><a href="#图示：" class="headerlink" title="图示："></a>图示：</h4><p><img src="/2023/04/13/2-YUV&RGB/3.png"></p>
-<p>黑点表示采样该像素点的Y分量，以空心圆圈表示采用该像素点的UV分量。<br>        YUV 4:4:4采样，每一个Y对应一组UV分量。<br>        YUV 4:2:2采样，每两个Y共用一组UV分量。<br>        YUV 4:2:0采样，每四个Y共用一组UV分量，如图中的红色部分。</p>
+<p>黑点表示采样该像素点的Y分量，以空心圆圈表示采用该像素点的UV分量。<br>		YUV 4:4:4采样，每一个Y对应一组UV分量。<br>		YUV 4:2:2采样，每两个Y共用一组UV分量。<br>		YUV 4:2:0采样，每四个Y共用一组UV分量，如图中的红色部分。</p>
 <h3 id="3-图像大小计算"><a href="#3-图像大小计算" class="headerlink" title="3)图像大小计算"></a>3)图像大小计算</h3><p>假设一幅图像，像素大小为1280*720</p>
 <p>YUV 4:4:4采样，(1280 * 720 * 3) &#x2F; 1024 &#x2F; 1024 ≈2.64M</p>
 <p>YUV 4:2:2采样，(1280 * 720 * 2) &#x2F; 1024 &#x2F; 1024 ≈1.76M</p>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 8.1.2">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/tubiao.png">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -220,7 +220,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -248,19 +248,19 @@
 
 <h2 id="4-安装node-js-修改安装目录，默认安装"><a href="#4-安装node-js-修改安装目录，默认安装" class="headerlink" title="4.安装node.js(修改安装目录，默认安装)"></a>4.安装node.js(修改安装目录，默认安装)</h2><p>下载网址<a target="_blank" rel="noopener" href="https://nodejs.org/en%EF%BC%8C">https://nodejs.org/en，</a></p>
 <h2 id="5-用-node-v-和-npm-v-命令检查版本"><a href="#5-用-node-v-和-npm-v-命令检查版本" class="headerlink" title="5.用 node -v 和 npm -v 命令检查版本"></a>5.用 node -v 和 npm -v 命令检查版本</h2><p>上述node.js安装成功之后，npm同时也已经安装成功，用 node -v 和 npm -v 命令检查版本</p>
-<h2 id="6-配置npm在安装全局模块时的路径和缓存cache的路径"><a href="#6-配置npm在安装全局模块时的路径和缓存cache的路径" class="headerlink" title="6.配置npm在安装全局模块时的路径和缓存cache的路径"></a>6.配置npm在安装全局模块时的路径和缓存cache的路径</h2><p>否则默认安装在C盘，不方便管理且占用C盘空间<br>    1，在node.js安装目录下新建两个文件夹 node_global和node_cache<br>    2，在git bush命令下执行如下两个命令：</p>
+<h2 id="6-配置npm在安装全局模块时的路径和缓存cache的路径"><a href="#6-配置npm在安装全局模块时的路径和缓存cache的路径" class="headerlink" title="6.配置npm在安装全局模块时的路径和缓存cache的路径"></a>6.配置npm在安装全局模块时的路径和缓存cache的路径</h2><p>否则默认安装在C盘，不方便管理且占用C盘空间<br>	1，在node.js安装目录下新建两个文件夹 node_global和node_cache<br>	2，在git bush命令下执行如下两个命令：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> prefix <span class="string">&quot;F:\Blogs\nodejs\node_global&quot;</span></span><br><span class="line">npm config <span class="built_in">set</span> cache <span class="string">&quot;F:\Blogs\nodejs\node_cache&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>​	3，在环境变量 -&gt; 系统变量中新建一个变量名为 “NODE_PATH”， 值为“F:\Blogs\nodejs\node_modules”，<br>​	4，最后编辑用户变量里的Path，将相应npm的路径改为：F:\Blogs\nodejs\node_global，<br>​	5，在git bush命令下执行 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack -g</span><br></pre></td></tr></table></figure>
 
-<p> 然后安装成功后可以看到自定义的两个文件夹已生效：<br>    6，npm webpack -v 查看安装webpack的版本号</p>
+<p> 然后安装成功后可以看到自定义的两个文件夹已生效：<br>	6，npm webpack -v 查看安装webpack的版本号</p>
 <h2 id="7-输入npm命令安装Hexo："><a href="#7-输入npm命令安装Hexo：" class="headerlink" title="7.输入npm命令安装Hexo："></a>7.输入npm命令安装Hexo：</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
 <h2 id="8-安装完成后，输入-hexo-init-命令初始化博客："><a href="#8-安装完成后，输入-hexo-init-命令初始化博客：" class="headerlink" title="8.安装完成后，输入 hexo init 命令初始化博客："></a>8.安装完成后，输入 hexo init 命令初始化博客：</h2><h2 id="9-然后输入-hexo-g-静态部署："><a href="#9-然后输入-hexo-g-静态部署：" class="headerlink" title="9.然后输入 hexo g 静态部署："></a>9.然后输入 hexo g 静态部署：</h2><h2 id="10-部署完成，输入hexo-s-命令可以查看"><a href="#10-部署完成，输入hexo-s-命令可以查看" class="headerlink" title="10.部署完成，输入hexo s 命令可以查看"></a>10.部署完成，输入hexo s 命令可以查看</h2><p>浏览器输入 <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a> 就可以打开新部署的网页：看完之后 ctrl +c 停止运行服务器。</p>
 <h2 id="11-hexo命令"><a href="#11-hexo命令" class="headerlink" title="11.hexo命令"></a>11.hexo命令</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo init    <span class="comment">//命令初始化博客：</span></span><br><span class="line">hexo clean   <span class="comment">//清除缓存文件 db.json 和已生成的静态文件 public</span></span><br><span class="line">hexo g       <span class="comment">//生成网站静态文件到默认设置的 public 文件夹(hexo generate 的缩写)</span></span><br><span class="line">hexo s       <span class="comment">//命令可以查看新部署的网页,浏览器输入 http://localhost:4000</span></span><br><span class="line">hexo d       <span class="comment">//自动生成网站静态文件，并部署到设定的仓库(hexo deploy 的缩写)</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="12-绑定GitHub"><a href="#12-绑定GitHub" class="headerlink" title="12.绑定GitHub"></a>12.绑定GitHub</h2><p>​	1.输入 ssh 命令，查看本机是否安装 SSH：ssh<br>​	2.输入 ssh-keygen -t rsa 命令（注意空格），指定 RSA 算法生成密钥，然后敲四次回车键，生成两个文件:秘钥 id_rsa 和公钥 id_rsa.pub.<br>​	3.将公钥 id_rsa.pub 的内容添加到 GitHub-&gt;settings-&gt;SSH and GPG keys-&gt; New SSH key.<br>​	4.在 Git Bash 中输入 ssh -T <a href="mailto:&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#46;&#99;&#111;&#109;">&#103;&#105;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#x62;&#46;&#99;&#111;&#109;</a> 进行检验</p>
+<h2 id="12-绑定GitHub"><a href="#12-绑定GitHub" class="headerlink" title="12.绑定GitHub"></a>12.绑定GitHub</h2><p>​	1.输入 ssh 命令，查看本机是否安装 SSH：ssh<br>​	2.输入 ssh-keygen -t rsa 命令（注意空格），指定 RSA 算法生成密钥，然后敲四次回车键，生成两个文件:秘钥 id_rsa 和公钥 id_rsa.pub.<br>​	3.将公钥 id_rsa.pub 的内容添加到 GitHub-&gt;settings-&gt;SSH and GPG keys-&gt; New SSH key.<br>​	4.在 Git Bash 中输入 ssh -T <a href="mailto:&#103;&#x69;&#x74;&#64;&#103;&#x69;&#x74;&#x68;&#x75;&#98;&#x2e;&#x63;&#x6f;&#109;">git@github.com</a> 进行检验</p>
 <h2 id="13-将博客部署到设定的git仓库主分支main"><a href="#13-将博客部署到设定的git仓库主分支main" class="headerlink" title="13.将博客部署到设定的git仓库主分支main"></a>13.将博客部署到设定的git仓库主分支main</h2><p>​	安装Git部署插件npm install hexo-deployer-git –save(删除原.deploy_git文件夹，hexo g后重新生成)<br>​	hexo clean   #清除缓存文件 db.json 和已生成的静态文件 public<br>​	hexo g       #生成网站静态文件到默认设置的 public 文件夹(hexo generate 的缩写)<br>​	hexo d       #自动生成网站静态文件，并部署到设定的仓库(hexo deploy 的缩写)</p>
 <h2 id="14-备份hexo到git分支hexo-bak"><a href="#14-备份hexo到git分支hexo-bak" class="headerlink" title="14.备份hexo到git分支hexo_bak"></a>14.备份hexo到git分支hexo_bak</h2><p>​	1.添加所有文件夹和文件到本地仓库</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
