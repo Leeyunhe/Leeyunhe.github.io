@@ -1169,7 +1169,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ffde94;
+  background: #759d9d;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2717,4 +2717,37 @@ body {
 }
 .aplayer.aplayer-fixed .aplayer-lrc.aplayer-lrc-hide {
   display: none !important;
+}
+.comments {
+  background: var(--content-bg-color);
+  border-radius: 10px;
+  opacity: 0.9;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
+  margin-top: 14px;
+  padding: 30px 35px;
+}
+#tcomment .tk-meta-input .el-input {
+  background: rgba(255,255,255,0.7);
+  border-radius: 6px;
+}
+#tcomment .tk-action-icon {
+  color: #fc6423;
+}
+#tcomment .tk-submit-action-icon svg {
+  fill: #fc6423;
+}
+#tcomment .el-button--primary {
+  background-color: #fc6423 !important;
+  border-color: #fc6423 !important;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+#tcomment .el-button--primary:hover {
+  opacity: 0.85;
+}
+#tcomment .tk-tag-green {
+  background-color: rgba(252,100,35,0.12) !important;
+  border: 1px solid rgba(252,100,35,0.3) !important;
+  border-radius: 4px;
+  color: #fc6423 !important;
 }

@@ -147,6 +147,11 @@
     <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
+        <li class="menu-item menu-item-bbs">
+
+    <a href="/guestbook/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -244,7 +249,17 @@
                 </span>
             </span>
 
-          <br>
+          
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="far fa-comment"></i>
+    </span>
+    <span class="post-meta-item-text">评论数：</span>
+    <a class="post-comments-count-link" title="twikoo" href="#tcomment" itemprop="discussionUrl">
+      <span class="post-comments-count twikoo-comment-count" itemprop="commentCount">0</span>
+    </a>
+  </span>
+  <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="far fa-file-word"></i>
@@ -552,7 +567,91 @@
   
 
   
-<!-- ============================================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script>
+  (function() {
+    function initTwikoo() {
+      var el = document.querySelector('#tcomment');
+      if (el && !'https://twikoo-vercel2.vercel.app') {
+        el.innerHTML = '<div style="text-align:center;padding:28px 16px;color:#888;font-size:14px;border:1px dashed rgba(0,0,0,0.15);border-radius:8px;"><i class="fa fa-info-circle" style="color:#fc6423;margin-right:6px;"></i> <strong>Twikoo 评论系统已就绪</strong><br><span style="font-size:12px;display:inline-block;margin-top:6px;color:#999;">请在 <code>source/_data/next.yml</code> 中配置 <code>twikoo.envId</code> 云端服务地址即可启用。详见 <a href="/guestbook/" style="color:#fc6423;text-decoration:underline;">留言板与配置指南</a>。</span></div>';
+      } else if (el && typeof twikoo !== 'undefined' && 'https://twikoo-vercel2.vercel.app') {
+        twikoo.init({
+          envId: 'https://twikoo-vercel2.vercel.app',
+          el: '#tcomment',
+          
+          path: location.pathname,
+          lang: 'zh-CN'
+        });
+      }
+
+      // 智能识别并绑定文章链接 (支持首页卡片列表与文章详情页)
+      var countLinks = document.querySelectorAll('.post-comments-count-link');
+      if (countLinks.length > 0) {
+        var urls = [];
+        countLinks.forEach(function(link) {
+          var article = link.closest('article');
+          var countSpan = link.querySelector('.twikoo-comment-count');
+          var postPath = '';
+          if (article) {
+            var titleLink = article.querySelector('.post-title-link');
+            if (titleLink) {
+              var href = titleLink.getAttribute('href');
+              link.href = href + '#tcomment';
+              postPath = href;
+            }
+          }
+          if (!postPath) {
+            postPath = location.pathname;
+          }
+          if (countSpan) {
+            countSpan.setAttribute('data-path', postPath);
+          }
+          if (postPath && urls.indexOf(postPath) === -1) {
+            urls.push(postPath);
+          }
+        });
+
+        // 若已配置 envId，批量拉取各文章的评论数量
+        if (typeof twikoo !== 'undefined' && 'https://twikoo-vercel2.vercel.app' && urls.length > 0) {
+          twikoo.getCommentsCount({
+            envId: 'https://twikoo-vercel2.vercel.app',
+            urls: urls,
+            includeReply: false
+          }).then(function(res) {
+            if (res && res.length) {
+              var countSpans = document.querySelectorAll('.twikoo-comment-count');
+              countSpans.forEach(function(span) {
+                var p = span.getAttribute('data-path');
+                for (var i = 0; i < res.length; i++) {
+                  if (res[i].url === p) {
+                    span.innerText = res[i].count;
+                    break;
+                  }
+                }
+              });
+            }
+          }).catch(function() {});
+        }
+      }
+    }
+
+    if (document.querySelector('#tcomment') || document.querySelector('.twikoo-comment-count')) {
+      if (typeof NexT !== 'undefined' && NexT.utils && NexT.utils.loadComments && document.querySelector('#tcomment')) {
+        NexT.utils.loadComments(document.querySelector('#tcomment'), initTwikoo);
+      } else {
+        initTwikoo();
+      }
+    }
+
+    document.addEventListener('pjax:success', function() {
+      if (document.querySelector('#tcomment') || document.querySelector('.twikoo-comment-count')) {
+        initTwikoo();
+      }
+    });
+  })();
+  </script>
+  <!-- ============================================================== -->
 <!-- APlayer + MetingJS 全局吸底网易云音乐播放器与前端增强脚本 -->
 <!-- 挂载位置: source/_data/body-end.swig -->
 <!-- 说明: 本文件由 source/_data/next.yml 的 custom_file_path.bodyEnd 自动注入全站底部 -->
