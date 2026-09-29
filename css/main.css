@@ -1169,7 +1169,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #759d9d;
+  background: #6b0eff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2750,4 +2750,258 @@ body {
   border: 1px solid rgba(252,100,35,0.3) !important;
   border-radius: 4px;
   color: #fc6423 !important;
+}
+#hexo-blog-encrypt.hbe-container {
+  max-width: 580px;
+  margin: 35px auto 45px auto;
+  padding: 40px 30px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  border: 1px solid rgba(252,100,35,0.22);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+#hexo-blog-encrypt.hbe-container::before {
+  content: "\f023";
+  font-family: "Font Awesome 5 Free", "FontAwesome";
+  font-weight: 900;
+  display: block;
+  font-size: 42px;
+  color: #fc6423;
+  margin: 0 auto 12px auto;
+  text-shadow: 0 0 18px rgba(252,100,35,0.35);
+}
+#hexo-blog-encrypt.hbe-container .hbe-content {
+  font-size: 14.5px;
+  padding: 0;
+}
+#hexo-blog-encrypt.hbe-container .hbe-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#hexo-blog-encrypt.hbe-container .hbe-input {
+  width: 100%;
+  max-width: 380px;
+  margin: 12px auto;
+  float: none;
+  position: relative;
+}
+#hexo-blog-encrypt.hbe-container .hbe-input-label {
+  display: block;
+  width: 100%;
+  float: none;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+#hexo-blog-encrypt.hbe-container .hbe-input-field {
+  display: block;
+  width: 100%;
+  float: none;
+  padding: 10px 18px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  background: rgba(255,255,255,0.95);
+  color: #333;
+  text-align: center;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.25s ease-in-out;
+}
+#hexo-blog-encrypt.hbe-container .hbe-input-field:focus {
+  border-color: #fc6423;
+  box-shadow: 0 0 0 3px rgba(252,100,35,0.2);
+  outline: none;
+  background: #fff;
+}
+#hexo-blog-encrypt.hbe-container .hbe-button {
+  margin-top: 14px;
+  padding: 9px 36px;
+  background: linear-gradient(135deg, #fc6423 0%, #ff8038 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(252,100,35,0.35);
+  transition: all 0.25s ease;
+}
+#hexo-blog-encrypt.hbe-container .hbe-button:hover {
+  opacity: 0.92;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(252,100,35,0.45);
+}
+#hexo-blog-encrypt.hbe-container .hbe-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(252,100,35,0.3);
+}
+#hexo-blog-encrypt.hbe-container .hbe-error {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #e53e3e;
+  font-weight: 500;
+  min-height: 18px;
+  transition: all 0.2s ease;
+}
+#hexo-blog-encrypt.hbe-decrypted-content {
+  animation: hbeFadeIn 0.4s ease-in-out;
+}
+.private-notebook-header {
+  background: linear-gradient(135deg, rgba(252,100,35,0.08), rgba(255,255,255,0.6));
+  border-left: 4px solid #fc6423;
+  border-radius: 8px;
+  padding: 16px 22px;
+  margin: 10px 0 25px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.private-notebook-header .private-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fc6423;
+  margin-bottom: 6px;
+}
+.private-notebook-header .private-badge i {
+  margin-right: 5px;
+}
+.private-notebook-header .private-desc {
+  font-size: 13.5px;
+  color: #555;
+  margin: 0;
+  line-height: 1.6;
+}
+.hbe-unlocked-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(252,100,35,0.08);
+  border: 1px dashed rgba(252,100,35,0.35);
+  border-radius: 8px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
+  font-size: 13.5px;
+  color: #555;
+}
+.hbe-unlocked-banner .hbe-unlocked-info {
+  display: inline-flex;
+  align-items: center;
+}
+.hbe-unlocked-banner .hbe-unlocked-info i {
+  color: #fc6423;
+  margin-right: 8px;
+  font-size: 15px;
+}
+.hbe-relock-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 45px auto 20px auto;
+  padding: 24px 20px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+  text-align: center;
+}
+.hbe-relock-footer .hbe-relock-tip {
+  font-size: 12.5px;
+  color: #777;
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hbe-relock-footer .hbe-relock-tip i {
+  color: #fc6423;
+}
+.hbe-relock-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  background: rgba(252,100,35,0.1);
+  color: #fc6423;
+  border: 1px solid rgba(252,100,35,0.35);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.hbe-relock-btn i {
+  font-size: 12px;
+}
+.hbe-relock-btn:hover {
+  background: #fc6423;
+  color: #fff;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(252,100,35,0.35);
+}
+.hbe-relock-btn:active {
+  transform: translateY(0);
+}
+.hbe-relock-btn-primary {
+  padding: 9px 26px;
+  font-size: 14px;
+  background: linear-gradient(135deg, #fc6423 0%, #ff8038 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(252,100,35,0.3);
+}
+.hbe-relock-btn-primary:hover {
+  opacity: 0.92;
+  box-shadow: 0 6px 18px rgba(252,100,35,0.45);
+}
+@-moz-keyframes hbeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@-webkit-keyframes hbeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@-o-keyframes hbeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hbeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

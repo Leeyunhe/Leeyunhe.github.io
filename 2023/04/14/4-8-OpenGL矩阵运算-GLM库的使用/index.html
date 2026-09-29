@@ -152,6 +152,11 @@
     <a href="/guestbook/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a>
 
   </li>
+        <li class="menu-item menu-item-notebook">
+
+    <a href="/notebook/" rel="section"><i class="fa fa-lock fa-fw"></i>私密笔记</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -446,20 +451,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -583,6 +588,14 @@
           path: location.pathname,
           lang: 'zh-CN'
         });
+      // 隐私安全联动：若当前文章处于加密锁定状态，隐藏评论区直至输入密码解密成功
+      var encryptContainer = document.querySelector('#hexo-blog-encrypt.hbe-container');
+      var commentContainer = document.querySelector('.comments');
+      if (encryptContainer && commentContainer) {
+        commentContainer.style.display = 'none';
+        window.addEventListener('hexo-blog-decrypt', function() {
+          commentContainer.style.display = '';
+        });
       }
 
       // 智能识别并绑定文章链接 (支持首页卡片列表与文章详情页)
@@ -649,6 +662,67 @@
         initTwikoo();
       }
     });
+  })();
+  </script>
+  
+  <script>
+  (function() {
+    function relockCurrentPage() {
+      var currentPath = location.pathname;
+      var targetKey = 'hbe.v4.' + currentPath + location.search;
+      localStorage.removeItem(targetKey);
+      localStorage.removeItem('hbe.v4.' + currentPath);
+      localStorage.removeItem('hbe.v4.' + currentPath.replace(/\/+$/, ''));
+      localStorage.removeItem('hbe.v4.' + currentPath + '/');
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('hbe.v4.') === 0) {
+          if (k.indexOf(currentPath) !== -1 || k.indexOf(encodeURI(currentPath)) !== -1 || k.indexOf(decodeURI(currentPath)) !== -1) {
+            localStorage.removeItem(k);
+          }
+        }
+      }
+      location.reload();
+    }
+
+    function injectRelockUI() {
+      var container = document.querySelector('#hexo-blog-encrypt.hbe-decrypted-content');
+      if (!container) return;
+
+      // 1. 顶部解密状态与快捷上锁栏
+      if (!container.querySelector('.hbe-unlocked-banner')) {
+        var topBanner = document.createElement('div');
+        topBanner.className = 'hbe-unlocked-banner';
+        topBanner.innerHTML = '<span class="hbe-unlocked-info"><i class="fa fa-unlock-alt"></i> <span>已解锁私密保护内容</span></span>' +
+                              '<button type="button" class="hbe-relock-btn" title="清除本地凭证并重新锁定本页"><i class="fa fa-lock"></i> 重新上锁</button>';
+        topBanner.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
+        container.insertBefore(topBanner, container.firstChild);
+      }
+
+      // 2. 底部重新上锁操作卡片
+      if (!container.querySelector('.hbe-relock-footer')) {
+        var footer = document.createElement('div');
+        footer.className = 'hbe-relock-footer';
+        footer.innerHTML = '<button type="button" class="hbe-relock-btn hbe-relock-btn-primary" title="清除本地解密凭证"><i class="fa fa-lock"></i> 重新锁定此页</button>' +
+                           '<div class="hbe-relock-tip"><i class="fa fa-info-circle"></i> <span>已开启免密访问。离开设备或公用电脑使用完毕后，点击可立即恢复锁定。</span></div>';
+        footer.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
+        container.appendChild(footer);
+      }
+    }
+
+    // 监听解密成功事件
+    window.addEventListener('hexo-blog-decrypt', function() {
+      setTimeout(injectRelockUI, 50);
+    });
+
+    // 若此前已 autoSave 自动解密，DOM ready 时检测并补齐 UI
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(injectRelockUI, 200);
+      });
+    } else {
+      setTimeout(injectRelockUI, 200);
+    }
   })();
   </script>
   <!-- ============================================================== -->
