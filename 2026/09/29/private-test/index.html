@@ -287,11 +287,11 @@
      data-wpm="抱歉，密码错误，请核对后重新输入！"
      data-whm="抱歉，密码错误，请核对后重新输入！"
      data-salt="d7c2d86fb77d9440d979fe0f048976b6e794f57eb2d1312d3d42c3ece7eaf5b5"
-     data-nonce="48faab2252c488ebc4cad947"
+     data-nonce="86c247326ad7a5eb1b3504f5"
      data-kdf-iterations="600000"
      data-auto-save="true">
   <script id="hbeData" type="hbeData">
-    b249a6e42e59ecb0191de98a983c7e052485d5f47248372a7a1cdc9b8e1dd5c6da98dbc86cd54c8ea8031db3a133c54a9b15338af7a89faf47a25797f9f2e7ca9c9614df2a8d4da2286621fd33a3da08bb0b8d3131bf7a7d69c84a39c1331591e1671dbbfb0a31ffc21acc2311952524b216600e3369b338eae275270f8a258caf9b9a0facb6ef1d4f6d7570a2ada9a656935500021da9be0a619271bca62448d3c9d3f99adce4b1a709b9fefacbff32e0d3bf224db0f499e56c2ac27890c6cf5b1aa15afa789a1e40d21fe1afbcbce6a6c21b7c2a5b2471613940fd88dee8155b9bfebd81f535831ad58f5eccd8d887ca3ff5b813f8fd696b4face9c7d9d9dfe0dfe3bd05e39a68913dd50320ed0f6bd321a2752ff37cd0a733c38594490ab68c67db06112336f0719da69bb87d477f25e25da7c922c94fcb09822b62739d6b219df85ef7535586c77c4d2adcb390997fa8007f93c9e41cc6715e906d785eb5c1d661c5a31b576f0d3601e39432d2da3ea46862390d04521bac0052f9f76180f2dd410d49e7d7157ff183db13378a74e2bc7760d6013622fc66c33ac4d6b6fc337e79993a068e560372e2d6bea2fa48a0eedc0e0c306545254b653554c15db6cc9f8f530b30ebe08d814cabdb81a5
+    a8a40a72f6e90faa6d9b02c93458f93f7d9ccf3d05abca7e7cac83752cc6727d47315d5eb011465d2738a99098f1e5105ee6e88a50689158e32b15ce0b3f057762e1b8c855694bd2de9d60d805cc22acdddfed02acff763a3b5d1e8a23533f0f95f9f7ce7e05300a904f0cceff18c560d603e4e287a7864c35847a1fa352206e94c8a208cd4d525c2304a054ee13d6835e7727b4ee9e5bfe3412c9f5c0ff1529263eea78c13f40e97c1741de936d51d785b03b30b88887bf7795a6d450c374b1284d3e5914a42a30299e39254787e9a43a9245f8f3a16dea99e8e309713bcfafed5971d99584eccbb14efcf29b5f77e35137fe4cee105727a76f626eb02314661d8ae8ed4ff175845235abdab5e6790eaf8a2a94091c2744065dbb04391cb1ff2b7a7b057265c554eadc947eb53e5b9a1f3ca88d27fa63182b6690620b63ec200367f24b6425c5c5ba2d8f78927a15a79612ae8a434ab74deb75b9fe5d42f0a24ecfe04553c649c4c730f86a71c545974d787ab669c0d3489d1823294b1c44ce495da2e57a534679c2affbe868aade506dee914ec3d9529eb6a647cd834cf052d5795332af4260391c1b1c6487233a9e53bbc1c1dd44c244533046cf45c3669b2495c96e9c22028afad638a59cc8a2
   </script>
   <div class="hbe hbe-content">
     <form id="hbeForm" class="hbe hbe-form" onsubmit="return false">
@@ -306,7 +306,7 @@
     </form>
   </div>
 </div>
-<script data-pjax src="/lib/hbe.51dd9f3b98.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+<script data-pjax src="/lib/hbe.51dd9f3b98.js"></script>
     </div>
 
     
@@ -524,98 +524,6 @@
 
   
 
-  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
-  <script>
-  (function() {
-    function initTwikoo() {
-      var el = document.querySelector('#tcomment');
-      if (el && !'https://twikoo-vercel2.vercel.app') {
-        el.innerHTML = '<div style="text-align:center;padding:28px 16px;color:#888;font-size:14px;border:1px dashed rgba(0,0,0,0.15);border-radius:8px;"><i class="fa fa-info-circle" style="color:#fc6423;margin-right:6px;"></i> <strong>Twikoo 评论系统已就绪</strong><br><span style="font-size:12px;display:inline-block;margin-top:6px;color:#999;">请在 <code>source/_data/next.yml</code> 中配置 <code>twikoo.envId</code> 云端服务地址即可启用。详见 <a href="/guestbook/" style="color:#fc6423;text-decoration:underline;">留言板与配置指南</a>。</span></div>';
-      } else if (el && typeof twikoo !== 'undefined' && 'https://twikoo-vercel2.vercel.app') {
-        twikoo.init({
-          envId: 'https://twikoo-vercel2.vercel.app',
-          el: '#tcomment',
-          
-          path: location.pathname,
-          lang: 'zh-CN'
-        });
-      // 隐私安全联动：若当前文章处于加密锁定状态，隐藏评论区直至输入密码解密成功
-      var encryptContainer = document.querySelector('#hexo-blog-encrypt.hbe-container');
-      var commentContainer = document.querySelector('.comments');
-      if (encryptContainer && commentContainer) {
-        commentContainer.style.display = 'none';
-        window.addEventListener('hexo-blog-decrypt', function() {
-          commentContainer.style.display = '';
-        });
-      }
-
-      // 智能识别并绑定文章链接 (支持首页卡片列表与文章详情页)
-      var countLinks = document.querySelectorAll('.post-comments-count-link');
-      if (countLinks.length > 0) {
-        var urls = [];
-        countLinks.forEach(function(link) {
-          var article = link.closest('article');
-          var countSpan = link.querySelector('.twikoo-comment-count');
-          var postPath = '';
-          if (article) {
-            var titleLink = article.querySelector('.post-title-link');
-            if (titleLink) {
-              var href = titleLink.getAttribute('href');
-              link.href = href + '#tcomment';
-              postPath = href;
-            }
-          }
-          if (!postPath) {
-            postPath = location.pathname;
-          }
-          if (countSpan) {
-            countSpan.setAttribute('data-path', postPath);
-          }
-          if (postPath && urls.indexOf(postPath) === -1) {
-            urls.push(postPath);
-          }
-        });
-
-        // 若已配置 envId，批量拉取各文章的评论数量
-        if (typeof twikoo !== 'undefined' && 'https://twikoo-vercel2.vercel.app' && urls.length > 0) {
-          twikoo.getCommentsCount({
-            envId: 'https://twikoo-vercel2.vercel.app',
-            urls: urls,
-            includeReply: false
-          }).then(function(res) {
-            if (res && res.length) {
-              var countSpans = document.querySelectorAll('.twikoo-comment-count');
-              countSpans.forEach(function(span) {
-                var p = span.getAttribute('data-path');
-                for (var i = 0; i < res.length; i++) {
-                  if (res[i].url === p) {
-                    span.innerText = res[i].count;
-                    break;
-                  }
-                }
-              });
-            }
-          }).catch(function() {});
-        }
-      }
-    }
-
-    if (document.querySelector('#tcomment') || document.querySelector('.twikoo-comment-count')) {
-      if (typeof NexT !== 'undefined' && NexT.utils && NexT.utils.loadComments && document.querySelector('#tcomment')) {
-        NexT.utils.loadComments(document.querySelector('#tcomment'), initTwikoo);
-      } else {
-        initTwikoo();
-      }
-    }
-
-    document.addEventListener('pjax:success', function() {
-      if (document.querySelector('#tcomment') || document.querySelector('.twikoo-comment-count')) {
-        initTwikoo();
-      }
-    });
-  })();
-  </script>
-  
   <script>
   (function() {
     function relockCurrentPage() {
@@ -674,6 +582,121 @@
     } else {
       setTimeout(injectRelockUI, 200);
     }
+  })();
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script>
+  (function() {
+    function initTwikoo() {
+      var el = document.querySelector('#tcomment');
+
+      // 隐私安全联动：若当前文章处于加密锁定状态，隐藏评论区直至输入密码解密成功
+      var encryptContainer = document.querySelector('#hexo-blog-encrypt.hbe-container');
+      var commentContainer = document.querySelector('.comments');
+      if (encryptContainer && commentContainer) {
+        commentContainer.style.display = 'none';
+        window.addEventListener('hexo-blog-decrypt', function() {
+          commentContainer.style.display = '';
+        });
+      }
+
+      if (el) {
+        if (!'https://twikoo-vercel2.vercel.app') {
+          el.innerHTML = '<div style="text-align:center;padding:28px 16px;color:#888;font-size:14px;border:1px dashed rgba(0,0,0,0.15);border-radius:8px;"><i class="fa fa-info-circle" style="color:#fc6423;margin-right:6px;"></i> <strong>Twikoo 评论系统已就绪</strong><br><span style="font-size:12px;display:inline-block;margin-top:6px;color:#999;">请在 <code>source/_data/next.yml</code> 中配置 <code>twikoo.envId</code> 云端服务地址即可启用。详见 <a href="/guestbook/" style="color:#fc6423;text-decoration:underline;">留言板与配置指南</a>。</span></div>';
+        } else {
+          var retryCount = 0;
+          function tryInit() {
+            if (typeof twikoo !== 'undefined') {
+              twikoo.init({
+                envId: 'https://twikoo-vercel2.vercel.app',
+                el: '#tcomment',
+                
+                path: location.pathname,
+                lang: 'zh-CN'
+              });
+            } else if (retryCount < 25) {
+              retryCount++;
+              setTimeout(tryInit, 200);
+            }
+          }
+          tryInit();
+        }
+      }
+
+      // 智能识别并绑定文章链接 (支持首页卡片列表与文章详情页)
+      var countLinks = document.querySelectorAll('.post-comments-count-link');
+      if (countLinks.length > 0) {
+        var urls = [];
+        countLinks.forEach(function(link) {
+          var article = link.closest('article');
+          var countSpan = link.querySelector('.twikoo-comment-count');
+          var postPath = '';
+          if (article) {
+            var titleLink = article.querySelector('.post-title-link');
+            if (titleLink) {
+              var href = titleLink.getAttribute('href');
+              link.href = href + '#tcomment';
+              postPath = href;
+            }
+          }
+          if (!postPath) {
+            postPath = location.pathname;
+          }
+          if (countSpan) {
+            countSpan.setAttribute('data-path', postPath);
+          }
+          if (postPath && urls.indexOf(postPath) === -1) {
+            urls.push(postPath);
+          }
+        });
+
+        // 若已配置 envId，批量拉取各文章的评论数量
+        if ('https://twikoo-vercel2.vercel.app' && urls.length > 0) {
+          var countRetry = 0;
+          function tryFetchCounts() {
+            if (typeof twikoo !== 'undefined') {
+              twikoo.getCommentsCount({
+                envId: 'https://twikoo-vercel2.vercel.app',
+                urls: urls,
+                includeReply: false
+              }).then(function(res) {
+                if (res && res.length) {
+                  var countSpans = document.querySelectorAll('.twikoo-comment-count');
+                  countSpans.forEach(function(span) {
+                    var p = span.getAttribute('data-path');
+                    for (var i = 0; i < res.length; i++) {
+                      if (res[i].url === p) {
+                        span.innerText = res[i].count;
+                        break;
+                      }
+                    }
+                  });
+                }
+              }).catch(function() {});
+            } else if (countRetry < 25) {
+              countRetry++;
+              setTimeout(tryFetchCounts, 200);
+            }
+          }
+          tryFetchCounts();
+        }
+      }
+    }
+
+    if (document.querySelector('#tcomment') || document.querySelector('.twikoo-comment-count')) {
+      if (typeof NexT !== 'undefined' && NexT.utils && NexT.utils.loadComments && document.querySelector('#tcomment')) {
+        NexT.utils.loadComments(document.querySelector('#tcomment'), initTwikoo);
+      } else {
+        initTwikoo();
+      }
+    }
+
+    document.addEventListener('pjax:success', function() {
+      if (document.querySelector('#tcomment') || document.querySelector('.twikoo-comment-count')) {
+        initTwikoo();
+      }
+    });
   })();
   </script>
   <!-- ============================================================== -->
