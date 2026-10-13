@@ -1192,7 +1192,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ebffb8;
+  background: #dd6f30;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3154,6 +3154,47 @@ body {
   z-index: 1051 !important;
   box-shadow: 0 16px 48px rgba(0,0,0,0.22) !important;
   border-radius: 8px !important;
+}
+.about-tech-section {
+  margin: 18px 0;
+}
+.about-tech-section h4 {
+  margin-top: 18px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: #444;
+}
+.about-tech-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.about-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 13px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4a5568;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(252,100,35,0.22);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: default;
+}
+.about-tag i {
+  color: #fc6423;
+  font-size: 13px;
+}
+.about-tag:hover {
+  background: rgba(252,100,35,0.12);
+  border-color: #fc6423;
+  color: #fc6423;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(252,100,35,0.2);
 }
 @-moz-keyframes hbeFadeIn {
   from {
