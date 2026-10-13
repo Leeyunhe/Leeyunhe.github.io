@@ -1192,7 +1192,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #a1ebff;
+  background: #ebffb8;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2698,7 +2698,7 @@ ul.breadcrumb li + li:last-child {
   }
 }
 body {
-  background: url("/images/background.png");
+  background: url("/images/miku_2.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
@@ -3113,13 +3113,13 @@ body {
   content: '';
   position: absolute;
   top: -2px;
-  right: -16px;
-  width: 32px;
-  height: 32px;
-  background: url("/images/miku.svg") no-repeat center center/contain;
+  right: -18px;
+  width: 36px;
+  height: 36px;
+  background: url("/images/miku_3.svg") no-repeat center center/contain;
   pointer-events: none;
   user-select: none;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.16));
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
   transform-origin: bottom center;
   animation: mikuRun 0.45s ease-in-out infinite alternate;
   opacity: 0;
