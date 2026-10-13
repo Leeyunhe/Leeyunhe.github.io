@@ -14,7 +14,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="🔒 本文内容受密码保护，请输入授权密码解锁全文。">
@@ -197,6 +197,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 
     <main class="main">
@@ -287,11 +288,11 @@
      data-wpm="抱歉，密码错误，请核对后重新输入！"
      data-whm="抱歉，密码错误，请核对后重新输入！"
      data-salt="d7c2d86fb77d9440d979fe0f048976b6e794f57eb2d1312d3d42c3ece7eaf5b5"
-     data-nonce="86c247326ad7a5eb1b3504f5"
+     data-nonce="250183c939b4445a44afa6ec"
      data-kdf-iterations="600000"
      data-auto-save="true">
   <script id="hbeData" type="hbeData">
-    a8a40a72f6e90faa6d9b02c93458f93f7d9ccf3d05abca7e7cac83752cc6727d47315d5eb011465d2738a99098f1e5105ee6e88a50689158e32b15ce0b3f057762e1b8c855694bd2de9d60d805cc22acdddfed02acff763a3b5d1e8a23533f0f95f9f7ce7e05300a904f0cceff18c560d603e4e287a7864c35847a1fa352206e94c8a208cd4d525c2304a054ee13d6835e7727b4ee9e5bfe3412c9f5c0ff1529263eea78c13f40e97c1741de936d51d785b03b30b88887bf7795a6d450c374b1284d3e5914a42a30299e39254787e9a43a9245f8f3a16dea99e8e309713bcfafed5971d99584eccbb14efcf29b5f77e35137fe4cee105727a76f626eb02314661d8ae8ed4ff175845235abdab5e6790eaf8a2a94091c2744065dbb04391cb1ff2b7a7b057265c554eadc947eb53e5b9a1f3ca88d27fa63182b6690620b63ec200367f24b6425c5c5ba2d8f78927a15a79612ae8a434ab74deb75b9fe5d42f0a24ecfe04553c649c4c730f86a71c545974d787ab669c0d3489d1823294b1c44ce495da2e57a534679c2affbe868aade506dee914ec3d9529eb6a647cd834cf052d5795332af4260391c1b1c6487233a9e53bbc1c1dd44c244533046cf45c3669b2495c96e9c22028afad638a59cc8a2
+    015375d34472648fda742aaff02cc48ce6e9c34c7f33c02516c50d11a315db77d1bb0353ada4cec73aab3b96d942585564b837c62ccd0a4a49f8f2b15203428ea9f3526e9e3096f5530c1f909df79250e44a74c3f83f40a96d88a8db46c8f34b9f0fa9d92a0a1de5e743f09056ab9b69b41093ee4a653296aa2ca7e94a40995762e494ed6e035da7e0d75fbf93fb87e99557635527410377969e4f0fd94761fb147cfe0f4874bc1f942437fd4ce1280c8e92bfe7bb3f570c3beda305d01c2835cbab64b9a4a197cd355c51115babbfd8a74c91d551b6c077f3409593f6f0fa3098f842cf02f4831cd934c0ab64938c5579d162014273a576562705653caf38a02d91be45da528cc5ac150ed33447d90161ff6ebe539069c19907a5b1db5a9ad820fc9470f621a8adeab78f2452df1978725d580611cc4e64870e0c80d84051a38d8e04595e7e0a4ece8d7c6ddff01a8e2af552c9eabeabb245e86480e5cf6d831f0389096eda4f6d16daab755227acfaeab6db9b5c6297b39632204bceb5278f65879214538b54b4d9084352fd4d71b925ec7f2c87d2612d6dd741e8e0a89fddfd037290006c70381f7f15a2f8fa3a946e8cd56d8ab03ef36c5c96f427cfd92957614540e4c2e4c3a0b946d098b630
   </script>
   <div class="hbe hbe-content">
     <form id="hbeForm" class="hbe hbe-form" onsubmit="return false">
@@ -484,6 +485,7 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -524,67 +526,6 @@
 
   
 
-  <script>
-  (function() {
-    function relockCurrentPage() {
-      var currentPath = location.pathname;
-      var targetKey = 'hbe.v4.' + currentPath + location.search;
-      localStorage.removeItem(targetKey);
-      localStorage.removeItem('hbe.v4.' + currentPath);
-      localStorage.removeItem('hbe.v4.' + currentPath.replace(/\/+$/, ''));
-      localStorage.removeItem('hbe.v4.' + currentPath + '/');
-      for (var i = localStorage.length - 1; i >= 0; i--) {
-        var k = localStorage.key(i);
-        if (k && k.indexOf('hbe.v4.') === 0) {
-          if (k.indexOf(currentPath) !== -1 || k.indexOf(encodeURI(currentPath)) !== -1 || k.indexOf(decodeURI(currentPath)) !== -1) {
-            localStorage.removeItem(k);
-          }
-        }
-      }
-      location.reload();
-    }
-
-    function injectRelockUI() {
-      var container = document.querySelector('#hexo-blog-encrypt.hbe-decrypted-content');
-      if (!container) return;
-
-      // 1. 顶部解密状态与快捷上锁栏
-      if (!container.querySelector('.hbe-unlocked-banner')) {
-        var topBanner = document.createElement('div');
-        topBanner.className = 'hbe-unlocked-banner';
-        topBanner.innerHTML = '<span class="hbe-unlocked-info"><i class="fa fa-unlock-alt"></i> <span>已解锁私密保护内容</span></span>' +
-                              '<button type="button" class="hbe-relock-btn" title="清除本地凭证并重新锁定本页"><i class="fa fa-lock"></i> 重新上锁</button>';
-        topBanner.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
-        container.insertBefore(topBanner, container.firstChild);
-      }
-
-      // 2. 底部重新上锁操作卡片
-      if (!container.querySelector('.hbe-relock-footer')) {
-        var footer = document.createElement('div');
-        footer.className = 'hbe-relock-footer';
-        footer.innerHTML = '<button type="button" class="hbe-relock-btn hbe-relock-btn-primary" title="清除本地解密凭证"><i class="fa fa-lock"></i> 重新锁定此页</button>' +
-                           '<div class="hbe-relock-tip"><i class="fa fa-info-circle"></i> <span>已开启免密访问。离开设备或公用电脑使用完毕后，点击可立即恢复锁定。</span></div>';
-        footer.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
-        container.appendChild(footer);
-      }
-    }
-
-    // 监听解密成功事件
-    window.addEventListener('hexo-blog-decrypt', function() {
-      setTimeout(injectRelockUI, 50);
-    });
-
-    // 若此前已 autoSave 自动解密，DOM ready 时检测并补齐 UI
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(injectRelockUI, 200);
-      });
-    } else {
-      setTimeout(injectRelockUI, 200);
-    }
-  })();
-  </script>
-  
   <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
   (function() {
@@ -697,6 +638,67 @@
         initTwikoo();
       }
     });
+  })();
+  </script>
+  
+  <script>
+  (function() {
+    function relockCurrentPage() {
+      var currentPath = location.pathname;
+      var targetKey = 'hbe.v4.' + currentPath + location.search;
+      localStorage.removeItem(targetKey);
+      localStorage.removeItem('hbe.v4.' + currentPath);
+      localStorage.removeItem('hbe.v4.' + currentPath.replace(/\/+$/, ''));
+      localStorage.removeItem('hbe.v4.' + currentPath + '/');
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('hbe.v4.') === 0) {
+          if (k.indexOf(currentPath) !== -1 || k.indexOf(encodeURI(currentPath)) !== -1 || k.indexOf(decodeURI(currentPath)) !== -1) {
+            localStorage.removeItem(k);
+          }
+        }
+      }
+      location.reload();
+    }
+
+    function injectRelockUI() {
+      var container = document.querySelector('#hexo-blog-encrypt.hbe-decrypted-content');
+      if (!container) return;
+
+      // 1. 顶部解密状态与快捷上锁栏
+      if (!container.querySelector('.hbe-unlocked-banner')) {
+        var topBanner = document.createElement('div');
+        topBanner.className = 'hbe-unlocked-banner';
+        topBanner.innerHTML = '<span class="hbe-unlocked-info"><i class="fa fa-unlock-alt"></i> <span>已解锁私密保护内容</span></span>' +
+                              '<button type="button" class="hbe-relock-btn" title="清除本地凭证并重新锁定本页"><i class="fa fa-lock"></i> 重新上锁</button>';
+        topBanner.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
+        container.insertBefore(topBanner, container.firstChild);
+      }
+
+      // 2. 底部重新上锁操作卡片
+      if (!container.querySelector('.hbe-relock-footer')) {
+        var footer = document.createElement('div');
+        footer.className = 'hbe-relock-footer';
+        footer.innerHTML = '<button type="button" class="hbe-relock-btn hbe-relock-btn-primary" title="清除本地解密凭证"><i class="fa fa-lock"></i> 重新锁定此页</button>' +
+                           '<div class="hbe-relock-tip"><i class="fa fa-info-circle"></i> <span>已开启免密访问。离开设备或公用电脑使用完毕后，点击可立即恢复锁定。</span></div>';
+        footer.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
+        container.appendChild(footer);
+      }
+    }
+
+    // 监听解密成功事件
+    window.addEventListener('hexo-blog-decrypt', function() {
+      setTimeout(injectRelockUI, 50);
+    });
+
+    // 若此前已 autoSave 自动解密，DOM ready 时检测并补齐 UI
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(injectRelockUI, 200);
+      });
+    } else {
+      setTimeout(injectRelockUI, 200);
+    }
   })();
   </script>
   <!-- ============================================================== -->
