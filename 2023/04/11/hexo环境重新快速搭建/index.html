@@ -41,6 +41,31 @@
     lang   : 'zh-CN'
   };
 </script>
+<!-- ============================================================== -->
+<!-- 页面 <head> 早期注入脚本 (Anti-FOUC 防白屏闪烁主题预加载器)        -->
+<!-- 挂载位置: source/_data/head.swig                              -->
+<!-- 说明: 本文件由 source/_data/next.yml 的 custom_file_path.head 注入 -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  var storedTheme = localStorage.getItem('theme');
+  var isDark = false;
+  if (storedTheme === 'dark') {
+    isDark = true;
+  } else if (storedTheme === 'light') {
+    isDark = false;
+  } else {
+    isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  if (isDark) {
+    document.documentElement.classList.add('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.classList.remove('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 
   <title>更换电脑hexo环境如何快速重新搭建？ | Leeyunhe</title>
   
@@ -300,7 +325,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="1-安装Git-默认安装"><a href="#1-安装Git-默认安装" class="headerlink" title="1.安装Git(默认安装)"></a>1.安装Git(默认安装)</h2><p>下载网址<a target="_blank" rel="noopener" href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></p>
+        
+<div class="outdated-warning-card">
+  <div class="outdated-warning-icon">
+    <i class="fa fa-exclamation-triangle"></i>
+  </div>
+  <div class="outdated-warning-content">
+    <div class="outdated-warning-title">文章时效性提示</div>
+    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1281 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
+  </div>
+</div>
+<h2 id="1-安装Git-默认安装"><a href="#1-安装Git-默认安装" class="headerlink" title="1.安装Git(默认安装)"></a>1.安装Git(默认安装)</h2><p>下载网址<a target="_blank" rel="noopener" href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></p>
 <span id="more"></span>
 
 <h2 id="2-克隆main主分支，"><a href="#2-克隆main主分支，" class="headerlink" title="#2.克隆main主分支，"></a>#2.克隆main主分支，</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone -b main https://github.com/XXX/XXX.github.io.git</span><br></pre></td></tr></table></figure>
@@ -321,7 +356,7 @@
 <h2 id="8-安装完成后，输入-hexo-init-命令初始化博客："><a href="#8-安装完成后，输入-hexo-init-命令初始化博客：" class="headerlink" title="8.安装完成后，输入 hexo init 命令初始化博客："></a>8.安装完成后，输入 hexo init 命令初始化博客：</h2><h2 id="9-然后输入-hexo-g-静态部署："><a href="#9-然后输入-hexo-g-静态部署：" class="headerlink" title="9.然后输入 hexo g 静态部署："></a>9.然后输入 hexo g 静态部署：</h2><h2 id="10-部署完成，输入hexo-s-命令可以查看"><a href="#10-部署完成，输入hexo-s-命令可以查看" class="headerlink" title="10.部署完成，输入hexo s 命令可以查看"></a>10.部署完成，输入hexo s 命令可以查看</h2><p>浏览器输入 <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a> 就可以打开新部署的网页：看完之后 ctrl +c 停止运行服务器。</p>
 <h2 id="11-hexo命令"><a href="#11-hexo命令" class="headerlink" title="11.hexo命令"></a>11.hexo命令</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo init    <span class="comment">//命令初始化博客：</span></span><br><span class="line">hexo clean   <span class="comment">//清除缓存文件 db.json 和已生成的静态文件 public</span></span><br><span class="line">hexo g       <span class="comment">//生成网站静态文件到默认设置的 public 文件夹(hexo generate 的缩写)</span></span><br><span class="line">hexo s       <span class="comment">//命令可以查看新部署的网页,浏览器输入 http://localhost:4000</span></span><br><span class="line">hexo d       <span class="comment">//自动生成网站静态文件，并部署到设定的仓库(hexo deploy 的缩写)</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="12-绑定GitHub"><a href="#12-绑定GitHub" class="headerlink" title="12.绑定GitHub"></a>12.绑定GitHub</h2><p>​	1.输入 ssh 命令，查看本机是否安装 SSH：ssh<br>​	2.输入 ssh-keygen -t rsa 命令（注意空格），指定 RSA 算法生成密钥，然后敲四次回车键，生成两个文件:秘钥 id_rsa 和公钥 id_rsa.pub.<br>​	3.将公钥 id_rsa.pub 的内容添加到 GitHub-&gt;settings-&gt;SSH and GPG keys-&gt; New SSH key.<br>​	4.在 Git Bash 中输入 ssh -T <a href="mailto:&#x67;&#x69;&#116;&#64;&#x67;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#111;&#x6d;">git@github.com</a> 进行检验</p>
+<h2 id="12-绑定GitHub"><a href="#12-绑定GitHub" class="headerlink" title="12.绑定GitHub"></a>12.绑定GitHub</h2><p>​	1.输入 ssh 命令，查看本机是否安装 SSH：ssh<br>​	2.输入 ssh-keygen -t rsa 命令（注意空格），指定 RSA 算法生成密钥，然后敲四次回车键，生成两个文件:秘钥 id_rsa 和公钥 id_rsa.pub.<br>​	3.将公钥 id_rsa.pub 的内容添加到 GitHub-&gt;settings-&gt;SSH and GPG keys-&gt; New SSH key.<br>​	4.在 Git Bash 中输入 ssh -T <a href="mailto:&#103;&#x69;&#x74;&#64;&#x67;&#105;&#x74;&#104;&#117;&#98;&#x2e;&#99;&#111;&#x6d;">git@github.com</a> 进行检验</p>
 <h2 id="13-将博客部署到设定的git仓库主分支main"><a href="#13-将博客部署到设定的git仓库主分支main" class="headerlink" title="13.将博客部署到设定的git仓库主分支main"></a>13.将博客部署到设定的git仓库主分支main</h2><p>​	安装Git部署插件npm install hexo-deployer-git –save(删除原.deploy_git文件夹，hexo g后重新生成)<br>​	hexo clean   #清除缓存文件 db.json 和已生成的静态文件 public<br>​	hexo g       #生成网站静态文件到默认设置的 public 文件夹(hexo generate 的缩写)<br>​	hexo d       #自动生成网站静态文件，并部署到设定的仓库(hexo deploy 的缩写)</p>
 <h2 id="14-备份hexo到git分支hexo-bak"><a href="#14-备份hexo到git分支hexo-bak" class="headerlink" title="14.备份hexo到git分支hexo_bak"></a>14.备份hexo到git分支hexo_bak</h2><p>​	1.添加所有文件夹和文件到本地仓库</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
@@ -502,12 +537,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">171k</span>
+    <span title="站点总字数">172k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:35</span>
+    <span title="站点阅读时长">2:36</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -582,9 +617,29 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   
+
+  
+      
+<link rel="stylesheet" href="/lib/katex/katex.min.css">
+  <script src="/lib/katex/copy-tex.min.js"></script>
+  <link rel="stylesheet" href="/lib/katex/copy-tex.min.css">
+
 
   
 
@@ -831,6 +886,134 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() { clearInterval(lrcTimer); }, 6000);
 });
 </script>
+
+<!-- 4. 手动深色 / 浅色模式一键切换悬浮球 -->
+<div id="theme-toggle-btn" class="theme-toggle-btn" title="切换深色/浅色护眼模式" aria-label="切换深色/浅色护眼模式">
+  <i class="theme-icon fa fa-sun"></i>
+</div>
+
+<script>
+(function() {
+  function updateThemeButton() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+    var icon = btn.querySelector('.theme-icon');
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      icon.className = 'theme-icon fa fa-moon';
+      btn.setAttribute('title', '切换为明亮护眼模式');
+    } else {
+      icon.className = 'theme-icon fa fa-sun';
+      btn.setAttribute('title', '切换为暗黑极客模式');
+    }
+  }
+
+  function toggleTheme() {
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    updateThemeButton();
+    reloadMermaid();
+  }
+
+  // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
+  function reloadMermaid() {
+    if (!window.mermaid) return;
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    var theme = isDark ? 'dark' : 'default';
+    var nodes = document.querySelectorAll('.mermaid[data-mermaid-code]');
+    if (!nodes.length) return;
+
+    try {
+      mermaid.initialize({
+        theme: theme,
+        startOnLoad: false,
+        flowchart: { curve: 'linear' },
+        gantt: { axisFormat: '%m/%d/%Y' },
+        sequence: { actorMargin: 50 }
+      });
+
+      nodes.forEach(function(el, i) {
+        var raw = el.getAttribute('data-mermaid-code');
+        if (!raw) return;
+        var renderId = 'mermaid-render-' + i + '-' + Date.now();
+        mermaid.render(renderId, raw, function(svgGraph) {
+          el.innerHTML = svgGraph;
+        });
+      });
+    } catch (e) {
+      console.warn('Mermaid reload error:', e);
+    }
+  }
+
+  // 拦截 Mermaid 初始化配置，确保首次加载时使用正确的深色/浅色主题
+  try {
+    var _rawMermaid = window.mermaid;
+    Object.defineProperty(window, 'mermaid', {
+      configurable: true,
+      set: function(val) {
+        this._mermaid_instance = val;
+        if (val && typeof val.initialize === 'function') {
+          var origInit = val.initialize;
+          val.initialize = function(options) {
+            options = options || {};
+            var isDark = document.documentElement.classList.contains('dark-mode');
+            options.theme = isDark ? 'dark' : (options.theme || 'default');
+            return origInit.call(val, options);
+          };
+        }
+      },
+      get: function() {
+        return this._mermaid_instance;
+      }
+    });
+    if (_rawMermaid) window.mermaid = _rawMermaid;
+  } catch (e) {
+    // 降级兼容
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+      btn.addEventListener('click', toggleTheme);
+      updateThemeButton();
+    }
+  });
+
+  // 支持 PJAX 页面切换保持按钮状态与图表校验
+  window.addEventListener('pjax:success', function() {
+    updateThemeButton();
+    reloadMermaid();
+  });
+
+  // 监听操作系统深色/浅色偏好变动 (仅在用户未手动锁定时自适应)
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+        updateThemeButton();
+        reloadMermaid();
+      }
+    });
+  }
+})();
+</script>
+
+
+
 
 </body>
 </html>

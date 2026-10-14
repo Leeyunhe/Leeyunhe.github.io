@@ -9,8 +9,9 @@ Allow: /tags/
 Allow: /about/
 Allow: /guestbook/
 
-# Disallow private notebook and non-content resources
+# Disallow private notebook, error page and non-content resources
 Disallow: /notebook/
+Disallow: /404.html
 Disallow: /js/
 Disallow: /css/
 Disallow: /lib/

@@ -45,6 +45,31 @@
     lang   : 'zh-CN'
   };
 </script>
+<!-- ============================================================== -->
+<!-- 页面 <head> 早期注入脚本 (Anti-FOUC 防白屏闪烁主题预加载器)        -->
+<!-- 挂载位置: source/_data/head.swig                              -->
+<!-- 说明: 本文件由 source/_data/next.yml 的 custom_file_path.head 注入 -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  var storedTheme = localStorage.getItem('theme');
+  var isDark = false;
+  if (storedTheme === 'dark') {
+    isDark = true;
+  } else if (storedTheme === 'light') {
+    isDark = false;
+  } else {
+    isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  if (isDark) {
+    document.documentElement.classList.add('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.classList.remove('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 
   <title>GLSL着色器语言 | Leeyunhe</title>
   
@@ -304,7 +329,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="GLSL着色器语言"><a href="#GLSL着色器语言" class="headerlink" title="GLSL着色器语言"></a>GLSL着色器语言</h1><span id="more"></span>
+        
+<div class="outdated-warning-card">
+  <div class="outdated-warning-icon">
+    <i class="fa fa-exclamation-triangle"></i>
+  </div>
+  <div class="outdated-warning-content">
+    <div class="outdated-warning-title">文章时效性提示</div>
+    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1278 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
+  </div>
+</div>
+<h1 id="GLSL着色器语言"><a href="#GLSL着色器语言" class="headerlink" title="GLSL着色器语言"></a>GLSL着色器语言</h1><span id="more"></span>
 
 <h2 id="1-OpenGL-ES-2-0"><a href="#1-OpenGL-ES-2-0" class="headerlink" title="1.OpenGL ES 2.0"></a>1.OpenGL ES 2.0</h2><p>（ES2.0也支持OES外部纹理）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***********************GLRender Normal texture***********************************/</span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> CommonVertshader_Normal[] =</span><br><span class="line"><span class="comment">//&quot; #version 300 es \n &quot;//着色器版本声明OpenGL ES 3.0</span></span><br><span class="line"><span class="string">&quot; #version 100 es \n &quot;</span><span class="comment">//不添加版本声明或者使用 #version 100 es 声明版本则指定使用 OpenGL ES 2.0</span></span><br><span class="line"><span class="string">&quot; precision mediump float;\n &quot;</span><span class="comment">//指定float类型默认的mediump中精度（-2^14 ~ 2^14）</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//&quot; layout(location = 0) in vec4 vPosition; \n &quot;//输入vPosition顶点坐标</span></span><br><span class="line"><span class="comment">//&quot; layout(location = 1) in vec2 vTexCoord; \n &quot;//输入vTexCoord纹理坐标vec2</span></span><br><span class="line"><span class="comment">//&quot; out vec3 TexCoord; \n &quot;//输出纹理坐标vec3</span></span><br><span class="line"><span class="string">&quot; attribute vec4 vPosition; \n &quot;</span><span class="comment">//ES2.0中attribute，ES3.0中in</span></span><br><span class="line"><span class="string">&quot; attribute vec2 vTexCoord; \n &quot;</span><span class="comment">//ES2.0中attribute，ES3.0中in</span></span><br><span class="line"><span class="string">&quot; varying vec3 TexCoord; \n &quot;</span><span class="comment">//ES2.0中varying，ES3.0中out</span></span><br><span class="line">    </span><br><span class="line"><span class="string">&quot; uniform mat4 mvp; \n&quot;</span><span class="comment">//uniform用于ES传入数据mvp</span></span><br><span class="line"><span class="string">&quot; void main() \n &quot;</span><span class="comment">//主函数</span></span><br><span class="line"><span class="string">&quot; &#123; \n &quot;</span></span><br><span class="line">	<span class="string">&quot;vec4 temPosition = mvp * vec4(vPosition.x, vPosition.y, vPosition.z, 1); \n&quot;</span></span><br><span class="line">    <span class="string">&quot; gl_Position = vec4(temPosition.x, -temPosition.y, temPosition.z, temPosition.a); \n &quot;</span><span class="comment">//内建变量gl_Position顶点坐标</span></span><br><span class="line">    <span class="string">&quot; TexCoord = vec3(vTexCoord, vPosition.w); \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#125; \n &quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> CommonFragshader_Normal[] =</span><br><span class="line"><span class="comment">//&quot;#version 300 es \n&quot;</span></span><br><span class="line"><span class="string">&quot;#extension GL_OES_EGL_image_external : require \n&quot;</span><span class="comment">//启用扩展（ES2.0也支持OES外部纹理）</span></span><br><span class="line"><span class="string">&quot; precision mediump float;\n &quot;</span><span class="comment">//Fragshader使用浮点型时必须指定精度，指定float类型默认的mediump中精度（-2^14 ~ 2^14）</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">//&quot; in vec3 TexCoord; \n &quot;//输入vTexCoord纹理坐标vec3,从Vertshader中传入的</span></span><br><span class="line"><span class="comment">//&quot; out vec4 fragColor; \n &quot;//输出片元颜色</span></span><br><span class="line"><span class="string">&quot; attribute vec3 TexCoord; \n &quot;</span><span class="comment">//ES2.0中attribute，ES3.0中in</span></span><br><span class="line"><span class="string">&quot; varying vec4 fragColor; \n &quot;</span><span class="comment">//ES2.0中varying，ES3.0中out</span></span><br><span class="line">    </span><br><span class="line"><span class="string">&quot;uniform sampler2D myTexture;\n&quot;</span><span class="comment">//ES 2.0支持sample2D纹理和sampleCube纹理</span></span><br><span class="line"><span class="string">&quot; uniform vec4 myGain; \n &quot;</span><span class="comment">//uniform用于ES传入数据myGain</span></span><br><span class="line"><span class="string">&quot; void main() \n &quot;</span><span class="comment">//主函数</span></span><br><span class="line"><span class="string">&quot; &#123;\n &quot;</span></span><br><span class="line"><span class="comment">//&quot;  		fragColor = vec4(texture(myTexture, TexCoord.xy).rgb, TexCoord.z)+vec4(myGain.xyz,0.0); \n &quot;//2.25</span></span><br><span class="line"><span class="string">&quot;  		fragColor = vec4(texture(myTexture, TexCoord.xy).rgb, 1.0); \n &quot;</span><span class="comment">//2.25</span></span><br><span class="line"><span class="comment">//&quot;	 fragColor = vec4(0.3, 0.4, 0.5, TexCoord.z)+vec4(myGain.xyz,0.0); \n &quot;</span></span><br><span class="line"><span class="string">&quot; &#125;\n &quot;</span>;</span><br></pre></td></tr></table></figure>
@@ -611,12 +646,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">171k</span>
+    <span title="站点总字数">172k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:35</span>
+    <span title="站点阅读时长">2:36</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -691,9 +726,29 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   
+
+  
+      
+<link rel="stylesheet" href="/lib/katex/katex.min.css">
+  <script src="/lib/katex/copy-tex.min.js"></script>
+  <link rel="stylesheet" href="/lib/katex/copy-tex.min.css">
+
 
   
 
@@ -940,6 +995,134 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() { clearInterval(lrcTimer); }, 6000);
 });
 </script>
+
+<!-- 4. 手动深色 / 浅色模式一键切换悬浮球 -->
+<div id="theme-toggle-btn" class="theme-toggle-btn" title="切换深色/浅色护眼模式" aria-label="切换深色/浅色护眼模式">
+  <i class="theme-icon fa fa-sun"></i>
+</div>
+
+<script>
+(function() {
+  function updateThemeButton() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+    var icon = btn.querySelector('.theme-icon');
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      icon.className = 'theme-icon fa fa-moon';
+      btn.setAttribute('title', '切换为明亮护眼模式');
+    } else {
+      icon.className = 'theme-icon fa fa-sun';
+      btn.setAttribute('title', '切换为暗黑极客模式');
+    }
+  }
+
+  function toggleTheme() {
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    updateThemeButton();
+    reloadMermaid();
+  }
+
+  // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
+  function reloadMermaid() {
+    if (!window.mermaid) return;
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    var theme = isDark ? 'dark' : 'default';
+    var nodes = document.querySelectorAll('.mermaid[data-mermaid-code]');
+    if (!nodes.length) return;
+
+    try {
+      mermaid.initialize({
+        theme: theme,
+        startOnLoad: false,
+        flowchart: { curve: 'linear' },
+        gantt: { axisFormat: '%m/%d/%Y' },
+        sequence: { actorMargin: 50 }
+      });
+
+      nodes.forEach(function(el, i) {
+        var raw = el.getAttribute('data-mermaid-code');
+        if (!raw) return;
+        var renderId = 'mermaid-render-' + i + '-' + Date.now();
+        mermaid.render(renderId, raw, function(svgGraph) {
+          el.innerHTML = svgGraph;
+        });
+      });
+    } catch (e) {
+      console.warn('Mermaid reload error:', e);
+    }
+  }
+
+  // 拦截 Mermaid 初始化配置，确保首次加载时使用正确的深色/浅色主题
+  try {
+    var _rawMermaid = window.mermaid;
+    Object.defineProperty(window, 'mermaid', {
+      configurable: true,
+      set: function(val) {
+        this._mermaid_instance = val;
+        if (val && typeof val.initialize === 'function') {
+          var origInit = val.initialize;
+          val.initialize = function(options) {
+            options = options || {};
+            var isDark = document.documentElement.classList.contains('dark-mode');
+            options.theme = isDark ? 'dark' : (options.theme || 'default');
+            return origInit.call(val, options);
+          };
+        }
+      },
+      get: function() {
+        return this._mermaid_instance;
+      }
+    });
+    if (_rawMermaid) window.mermaid = _rawMermaid;
+  } catch (e) {
+    // 降级兼容
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+      btn.addEventListener('click', toggleTheme);
+      updateThemeButton();
+    }
+  });
+
+  // 支持 PJAX 页面切换保持按钮状态与图表校验
+  window.addEventListener('pjax:success', function() {
+    updateThemeButton();
+    reloadMermaid();
+  });
+
+  // 监听操作系统深色/浅色偏好变动 (仅在用户未手动锁定时自适应)
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+        updateThemeButton();
+        reloadMermaid();
+      }
+    });
+  }
+})();
+</script>
+
+
+
 
 </body>
 </html>

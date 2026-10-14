@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>404 - 页面迷失在数字宇宙深处 | Leeyunhe's Blog</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <script>
+    // 早期主题侦测 (与全站防闪烁脚本协同保持一致)
+    (function() {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --bg-gradient: radial-gradient(circle at 50% 20%, #1a2234 0%, #0d1117 80%);
+      --text-main: #f0f6fc;
+      --text-sub: #8b949e;
+      --card-bg: rgba(22, 27, 34, 0.75);
+      --card-border: rgba(240, 246, 252, 0.12);
+      --terminal-bg: rgba(13, 17, 23, 0.85);
+      --terminal-border: rgba(255, 255, 255, 0.08);
+      --terminal-header: rgba(33, 38, 45, 0.85);
+      --brand-orange: #fc6423;
+      --brand-orange-hover: #ff7e47;
+      --brand-cyan: #38bdf8;
+      --brand-purple: #a855f7;
+      --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.5);
+      --grid-line: rgba(255, 255, 255, 0.03);
+    }
+
+    html[data-theme="light"] {
+      --bg-color: #f8fafc;
+      --bg-gradient: radial-gradient(circle at 50% 20%, #ffffff 0%, #f1f5f9 80%);
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --card-bg: rgba(255, 255, 255, 0.82);
+      --card-border: rgba(226, 232, 240, 0.9);
+      --terminal-bg: rgba(248, 250, 252, 0.92);
+      --terminal-border: rgba(226, 232, 240, 0.95);
+      --terminal-header: rgba(241, 245, 249, 0.95);
+      --shadow-card: 0 20px 40px rgba(15, 23, 42, 0.08);
+      --grid-line: rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg-color);
+      background-image: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 背景赛博网格与微星光动效 */
+    .cyber-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 顶部独立主题切换按钮 */
+    .top-actions {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      z-index: 10;
+    }
+
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.25s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      transform: scale(1.08) rotate(15deg);
+      border-color: var(--brand-orange);
+      color: var(--brand-orange);
+    }
+
+    /* 主容器拟态卡片 */
+    .lost-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 680px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 44px 36px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-card);
+      text-align: center;
+      animation: floatIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* 顶端悬浮头像 */
+    .avatar-wrapper {
+      margin-bottom: 14px;
+    }
+    .lost-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid rgba(252, 100, 35, 0.4);
+      box-shadow: 0 4px 16px rgba(252, 100, 35, 0.25);
+      animation: floatAvatar 3.5s ease-in-out infinite;
+      object-fit: cover;
+    }
+    @keyframes floatAvatar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* 顶端身份微章 */
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(252, 100, 35, 0.1);
+      border: 1px solid rgba(252, 100, 35, 0.25);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand-orange);
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand-orange);
+      box-shadow: 0 0 10px var(--brand-orange);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* 404 发光核心大标题 */
+    .error-code {
+      font-size: 88px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #fc6423 0%, #ff8843 45%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      position: relative;
+      display: inline-block;
+      user-select: none;
+    }
+
+    .error-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .error-subtitle {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto 26px auto;
+    }
+
+    /* 极客终端黑框 */
+    .terminal-box {
+      background: var(--terminal-bg);
+      border: 1px solid var(--terminal-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      text-align: left;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .terminal-header {
+      background: var(--terminal-header);
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      border-bottom: 1px solid var(--terminal-border);
+    }
+
+    .circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .red { background: #ff5f56; }
+    .yellow { background: #ffbd2e; }
+    .green { background: #27c93f; }
+
+    .terminal-title {
+      margin-left: 8px;
+      font-size: 11px;
+      color: var(--text-sub);
+      letter-spacing: 0.4px;
+    }
+
+    .terminal-body {
+      padding: 16px 18px;
+      line-height: 1.7;
+      color: var(--text-sub);
+      overflow-x: auto;
+    }
+
+    .prompt-row {
+      display: flex;
+      gap: 8px;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .prompt-sym { color: var(--brand-orange); }
+
+    .log-line {
+      margin-top: 4px;
+    }
+    .err-tag {
+      color: #ef4444;
+      font-weight: 700;
+    }
+    .warn-tag {
+      color: #f59e0b;
+      font-weight: 600;
+    }
+    .ok-tag {
+      color: #10b981;
+      font-weight: 600;
+    }
+    .val-coord {
+      color: var(--brand-cyan);
+    }
+
+    /* 核心操作按钮组 */
+    .action-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #fc6423 0%, #ff8843 100%);
+      color: #ffffff;
+      border: 1px solid rgba(252, 100, 35, 0.4);
+      box-shadow: 0 4px 16px rgba(252, 100, 35, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #ff7e47 0%, #ffa26b 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(252, 100, 35, 0.45);
+    }
+
+    .btn-secondary {
+      background: rgba(56, 189, 248, 0.08);
+      color: var(--brand-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(56, 189, 248, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.25);
+    }
+
+    /* 快捷导流轨道 */
+    .quick-orbit {
+      padding-top: 20px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .orbit-label {
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .orbit-link {
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      transition: all 0.2s ease;
+    }
+
+    .orbit-link:hover {
+      color: var(--brand-orange);
+      border-color: var(--brand-orange);
+      background: rgba(252, 100, 35, 0.08);
+      transform: translateY(-1px);
+    }
+
+    /* 底部自动返航计数器 */
+    .auto-return {
+      margin-top: 22px;
+      font-size: 12px;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    #countdown {
+      color: var(--brand-orange);
+      font-weight: 700;
+      font-family: ui-monospace, monospace;
+      padding: 1px 6px;
+      background: rgba(252, 100, 35, 0.1);
+      border-radius: 4px;
+    }
+
+    .pause-btn {
+      background: none;
+      border: none;
+      color: var(--brand-cyan);
+      cursor: pointer;
+      font-size: 12px;
+      text-decoration: underline;
+      padding: 0 4px;
+    }
+
+    .pause-btn:hover {
+      color: var(--brand-orange);
+    }
+
+    /* 响应式微调 */
+    @media (max-width: 600px) {
+      .lost-container {
+        padding: 32px 20px;
+      }
+      .error-code {
+        font-size: 72px;
+      }
+      .error-title {
+        font-size: 19px;
+      }
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cyber-grid"></div>
+
+  <!-- 顶部主题切换独立悬浮球 -->
+  <div class="top-actions">
+    <button class="theme-toggle-btn" id="themeToggleBtn" title="切换深浅主题" aria-label="Theme Toggle">
+      <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- 404 极客迷失主容器 -->
+  <main class="lost-container">
+    <div class="avatar-wrapper">
+      <img src="/images/miku_1.png" alt="Leeyunhe Avatar" class="lost-avatar">
+    </div>
+
+    <div class="header-badge">
+      <div class="pulse-dot"></div>
+      <span>SIGNAL LOST · 0x404_PAGE_NOT_FOUND</span>
+    </div>
+
+    <div class="error-code">404</div>
+    <h1 class="error-title">量子坐标未命中 · 页面迷失在数字宇宙</h1>
+    <p class="error-subtitle">
+      您请求的页面似乎已被迁移、重命名，或坍缩成了未知的量子奇点。请确认输入的 URL 路径是否正确。
+    </p>
+
+    <!-- 极客终端交互框 -->
+    <div class="terminal-box">
+      <div class="terminal-header">
+        <span class="circle red"></span>
+        <span class="circle yellow"></span>
+        <span class="circle green"></span>
+        <span class="terminal-title">leeyunhe@station: ~ /teleport/diagnostics</span>
+      </div>
+      <div class="terminal-body">
+        <div class="prompt-row">
+          <span class="prompt-sym">$</span>
+          <span>curl -I <span class="val-coord" id="currentUrl"></span></span>
+        </div>
+        <div class="log-line"><span class="err-tag">HTTP/2 404 Not Found</span> - Destination coordinate unavailable</div>
+        <div class="log-line"><span class="warn-tag">[FAULT_REASON]</span>: Sector lookup failed across Leeyunhe's memory clusters</div>
+        <div class="log-line"><span class="ok-tag">[RECOVERY]</span>: Navigation beacons active. Safe return routes available below.</div>
+      </div>
+    </div>
+
+    <!-- 快捷导流动作按钮 -->
+    <div class="action-group">
+      <a href="/" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        返回博客首页
+      </a>
+      <a href="/schedule/" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+          <line x1="8" y1="2" x2="8" y2="18"></line>
+          <line x1="16" y1="6" x2="16" y2="22"></line>
+        </svg>
+        探索技术航图 (Roadmap)
+      </a>
+    </div>
+
+    <!-- 快捷卫星导航环 -->
+    <nav class="quick-orbit" aria-label="404 Quick Links">
+      <span class="orbit-label">快速轨道跃迁：</span>
+      <a href="/archives/" class="orbit-link">📚 博文归档</a>
+      <a href="/categories/" class="orbit-link">🏷️ 专栏分类</a>
+      <a href="/about/" class="orbit-link">🧭 关于博主</a>
+      <a href="/guestbook/" class="orbit-link">💬 极客留言板</a>
+    </nav>
+
+    <!-- 自动安全返航倒计时 -->
+    <div class="auto-return">
+      <span>已启动安全返航协议：将于 <span id="countdown">10</span> 秒后自动返回首页</span>
+      <button class="pause-btn" id="pauseBtn">[暂停倒计时]</button>
+    </div>
+  </main>
+
+  <script>
+    // 1. 动态回显当前出错的 URL
+    try {
+      var pathname = window.location.pathname || '/unknown_coordinate';
+      document.getElementById('currentUrl').textContent = pathname;
+    } catch (e) {}
+
+    // 2. 主题一键切换逻辑
+    var themeToggleBtn = document.getElementById('themeToggleBtn');
+    var themeIcon = document.getElementById('themeIcon');
+
+    function updateThemeIcon(isDark) {
+      if (isDark) {
+        // 月亮图标
+        themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      } else {
+        // 太阳图标
+        themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+      }
+    }
+
+    var isCurrentDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    updateThemeIcon(isCurrentDark);
+
+    themeToggleBtn.addEventListener('click', function() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = (current === 'dark') ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateThemeIcon(next === 'dark');
+    });
+
+    // 3. 自动返航倒计时与暂停机制
+    var secondsLeft = 10;
+    var countdownEl = document.getElementById('countdown');
+    var pauseBtn = document.getElementById('pauseBtn');
+    var isPaused = false;
+
+    var timer = setInterval(function() {
+      if (isPaused) return;
+      secondsLeft--;
+      if (countdownEl) countdownEl.textContent = secondsLeft;
+      if (secondsLeft <= 0) {
+        clearInterval(timer);
+        window.location.href = '/';
+      }
+    }, 1000);
+
+    pauseBtn.addEventListener('click', function() {
+      isPaused = !isPaused;
+      if (isPaused) {
+        pauseBtn.textContent = '[恢复倒计时]';
+      } else {
+        pauseBtn.textContent = '[暂停倒计时]';
+      }
+    });
+  </script>
+</body>
+</html>

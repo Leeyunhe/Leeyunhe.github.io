@@ -41,6 +41,31 @@
     lang   : 'zh-CN'
   };
 </script>
+<!-- ============================================================== -->
+<!-- 页面 <head> 早期注入脚本 (Anti-FOUC 防白屏闪烁主题预加载器)        -->
+<!-- 挂载位置: source/_data/head.swig                              -->
+<!-- 说明: 本文件由 source/_data/next.yml 的 custom_file_path.head 注入 -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  var storedTheme = localStorage.getItem('theme');
+  var isDark = false;
+  if (storedTheme === 'dark') {
+    isDark = true;
+  } else if (storedTheme === 'light') {
+    isDark = false;
+  } else {
+    isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  if (isDark) {
+    document.documentElement.classList.add('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.classList.remove('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 
   <title>留言板 | Leeyunhe
 </title>
@@ -380,12 +405,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">171k</span>
+    <span title="站点总字数">172k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:35</span>
+    <span title="站点阅读时长">2:36</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -460,9 +485,29 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   
+
+  
+      
+<link rel="stylesheet" href="/lib/katex/katex.min.css">
+  <script src="/lib/katex/copy-tex.min.js"></script>
+  <link rel="stylesheet" href="/lib/katex/copy-tex.min.css">
+
 
   
 
@@ -709,6 +754,134 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() { clearInterval(lrcTimer); }, 6000);
 });
 </script>
+
+<!-- 4. 手动深色 / 浅色模式一键切换悬浮球 -->
+<div id="theme-toggle-btn" class="theme-toggle-btn" title="切换深色/浅色护眼模式" aria-label="切换深色/浅色护眼模式">
+  <i class="theme-icon fa fa-sun"></i>
+</div>
+
+<script>
+(function() {
+  function updateThemeButton() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+    var icon = btn.querySelector('.theme-icon');
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      icon.className = 'theme-icon fa fa-moon';
+      btn.setAttribute('title', '切换为明亮护眼模式');
+    } else {
+      icon.className = 'theme-icon fa fa-sun';
+      btn.setAttribute('title', '切换为暗黑极客模式');
+    }
+  }
+
+  function toggleTheme() {
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    updateThemeButton();
+    reloadMermaid();
+  }
+
+  // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
+  function reloadMermaid() {
+    if (!window.mermaid) return;
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    var theme = isDark ? 'dark' : 'default';
+    var nodes = document.querySelectorAll('.mermaid[data-mermaid-code]');
+    if (!nodes.length) return;
+
+    try {
+      mermaid.initialize({
+        theme: theme,
+        startOnLoad: false,
+        flowchart: { curve: 'linear' },
+        gantt: { axisFormat: '%m/%d/%Y' },
+        sequence: { actorMargin: 50 }
+      });
+
+      nodes.forEach(function(el, i) {
+        var raw = el.getAttribute('data-mermaid-code');
+        if (!raw) return;
+        var renderId = 'mermaid-render-' + i + '-' + Date.now();
+        mermaid.render(renderId, raw, function(svgGraph) {
+          el.innerHTML = svgGraph;
+        });
+      });
+    } catch (e) {
+      console.warn('Mermaid reload error:', e);
+    }
+  }
+
+  // 拦截 Mermaid 初始化配置，确保首次加载时使用正确的深色/浅色主题
+  try {
+    var _rawMermaid = window.mermaid;
+    Object.defineProperty(window, 'mermaid', {
+      configurable: true,
+      set: function(val) {
+        this._mermaid_instance = val;
+        if (val && typeof val.initialize === 'function') {
+          var origInit = val.initialize;
+          val.initialize = function(options) {
+            options = options || {};
+            var isDark = document.documentElement.classList.contains('dark-mode');
+            options.theme = isDark ? 'dark' : (options.theme || 'default');
+            return origInit.call(val, options);
+          };
+        }
+      },
+      get: function() {
+        return this._mermaid_instance;
+      }
+    });
+    if (_rawMermaid) window.mermaid = _rawMermaid;
+  } catch (e) {
+    // 降级兼容
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+      btn.addEventListener('click', toggleTheme);
+      updateThemeButton();
+    }
+  });
+
+  // 支持 PJAX 页面切换保持按钮状态与图表校验
+  window.addEventListener('pjax:success', function() {
+    updateThemeButton();
+    reloadMermaid();
+  });
+
+  // 监听操作系统深色/浅色偏好变动 (仅在用户未手动锁定时自适应)
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+        updateThemeButton();
+        reloadMermaid();
+      }
+    });
+  }
+})();
+</script>
+
+
+
 
 </body>
 </html>

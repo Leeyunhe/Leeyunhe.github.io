@@ -42,6 +42,31 @@
     lang   : 'zh-CN'
   };
 </script>
+<!-- ============================================================== -->
+<!-- 页面 <head> 早期注入脚本 (Anti-FOUC 防白屏闪烁主题预加载器)        -->
+<!-- 挂载位置: source/_data/head.swig                              -->
+<!-- 说明: 本文件由 source/_data/next.yml 的 custom_file_path.head 注入 -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  var storedTheme = localStorage.getItem('theme');
+  var isDark = false;
+  if (storedTheme === 'dark') {
+    isDark = true;
+  } else if (storedTheme === 'light') {
+    isDark = false;
+  } else {
+    isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  if (isDark) {
+    document.documentElement.classList.add('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.classList.remove('dark-mode');
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+</script>
 
   <title>私密测试博文 | Leeyunhe</title>
   
@@ -306,11 +331,11 @@
      data-wpm="抱歉，密码错误，请核对后重新输入！"
      data-whm="抱歉，密码错误，请核对后重新输入！"
      data-salt="d7c2d86fb77d9440d979fe0f048976b6e794f57eb2d1312d3d42c3ece7eaf5b5"
-     data-nonce="797a9974562eb47f04162d19"
+     data-nonce="2cedf32e61249f9e107349c7"
      data-kdf-iterations="600000"
      data-auto-save="true">
   <script id="hbeData" type="hbeData">
-    f21aa2d9faf522a880cea0aa1470d611c07c7ea4f50c09f43f8e81799a168aa846495506d5cbd7377fbd028b71ca6014cea957278be47a0ac085c67ec96aa2277b21d92c3ddd9afafb82bc25ed2214f97016684dccbfbb33c0f057e148a81cae1739426e5cd642073a6c5dd2aa1bc4b10d86039db64f4af3954bb4e87fbe0ebf688b52e1bbce1587c8073a621ac9f04942a9f6111791b4f2896d8d7125d73a0a8ff660433620f8720cb8e5f0e5a6d925d2f4d1d1de20751def67a37aa979ce622305749ff352ec3640c765b07672d71f09ae4ee10f51e8b64b6cee6277a3ffc5911ffd977a0db3c940c4b729b97f72bcdc02ee78f5730a3395804dbb71142b34c40cb23664024f13eeba0f4f5ef28ed7b422781b783e113792f243320c5c5b4ad2e0bc57d95a2b6a27fc3b3577e94144830123d9a41897e8a22904bf71b31d6c572bc926785565ffa71daa1f67681fbadc195a719e3549a5085d88e6b2558c7f7921046072ecb5401f6f18fd77d88d8a7161f6b743daf2c15fa707afdbfebc4fd5d37de2ff9b3363c1e754aa31b97638df3c037605d4ad72d9405189b384830c124df809e38a7b477480077987c0b871ed75dfc00706590ab7d131b8d8b28ea8363c4e50d3cefe509e40a08134a62d
+    c7dbb4b3b2a94177d2faf012bd015e0a33953993a64efd90b8cdb37127ddc621c4494edc58d135cd7303a169f5cf486f3ee9cb4745c9c3e0bce37b752dc0727b8511810579cc38deac6148d602f3a96a0f06ff7ee51400ac69abf6a0c41c7225e70fde96ef9fa66cafd9201595ccdbd3b3dbfa0cfe146f0b47a05b30ab02b7f04c96e4844c259755ebac5a8926a3ab17abe1147286415e6109ec878ce7966c54273aa9437a2659135ca43d1cfd7b26d38b3d07ab73d3e8a642f926897a5a9f1d6c84a7da5421d240f65fad8aff2743a40f4dab04d64b9b12dae206fd1457a4617a3911fd72de12ee02f52dc9fa9b2cc7d8478ffa3bfeaa6f2130ec0c59c5ca59aff85551e5244308fcad4971d39569d86c25b2b0842f246f3e79ad0ba65c39c12cc6f8303bc17181d8191bfbdc46714de12fa567251bbaf4f89ee08f60d7a44ce07f7bf9a22dd0118e6db71a31e5b070e63e2a75813c26d4809c0340e570ff148655cb1fe70b100e6f72d386fcfc3e9f6feca455d3517c1dd769392b475399bef971af62975d8cdbc7c1dce02295ceca99fdabefacfdec2642bd7e5abc486cbfec3b13680d9bbfba1410e7c2cfbc965c8b73408f944e4ab79d7d7b19fe5870a29496982b1b8a9abcacf21a4f8e46e8
   </script>
   <div class="hbe hbe-content">
     <form id="hbeForm" class="hbe hbe-form" onsubmit="return false">
@@ -495,12 +520,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">171k</span>
+    <span title="站点总字数">172k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:35</span>
+    <span title="站点阅读时长">2:36</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
@@ -575,9 +600,29 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   
+
+  
+      
+<link rel="stylesheet" href="/lib/katex/katex.min.css">
+  <script src="/lib/katex/copy-tex.min.js"></script>
+  <link rel="stylesheet" href="/lib/katex/copy-tex.min.css">
+
 
   
 
@@ -824,6 +869,134 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() { clearInterval(lrcTimer); }, 6000);
 });
 </script>
+
+<!-- 4. 手动深色 / 浅色模式一键切换悬浮球 -->
+<div id="theme-toggle-btn" class="theme-toggle-btn" title="切换深色/浅色护眼模式" aria-label="切换深色/浅色护眼模式">
+  <i class="theme-icon fa fa-sun"></i>
+</div>
+
+<script>
+(function() {
+  function updateThemeButton() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (!btn) return;
+    var icon = btn.querySelector('.theme-icon');
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      icon.className = 'theme-icon fa fa-moon';
+      btn.setAttribute('title', '切换为明亮护眼模式');
+    } else {
+      icon.className = 'theme-icon fa fa-sun';
+      btn.setAttribute('title', '切换为暗黑极客模式');
+    }
+  }
+
+  function toggleTheme() {
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (isDark) {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    updateThemeButton();
+    reloadMermaid();
+  }
+
+  // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
+  function reloadMermaid() {
+    if (!window.mermaid) return;
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    var theme = isDark ? 'dark' : 'default';
+    var nodes = document.querySelectorAll('.mermaid[data-mermaid-code]');
+    if (!nodes.length) return;
+
+    try {
+      mermaid.initialize({
+        theme: theme,
+        startOnLoad: false,
+        flowchart: { curve: 'linear' },
+        gantt: { axisFormat: '%m/%d/%Y' },
+        sequence: { actorMargin: 50 }
+      });
+
+      nodes.forEach(function(el, i) {
+        var raw = el.getAttribute('data-mermaid-code');
+        if (!raw) return;
+        var renderId = 'mermaid-render-' + i + '-' + Date.now();
+        mermaid.render(renderId, raw, function(svgGraph) {
+          el.innerHTML = svgGraph;
+        });
+      });
+    } catch (e) {
+      console.warn('Mermaid reload error:', e);
+    }
+  }
+
+  // 拦截 Mermaid 初始化配置，确保首次加载时使用正确的深色/浅色主题
+  try {
+    var _rawMermaid = window.mermaid;
+    Object.defineProperty(window, 'mermaid', {
+      configurable: true,
+      set: function(val) {
+        this._mermaid_instance = val;
+        if (val && typeof val.initialize === 'function') {
+          var origInit = val.initialize;
+          val.initialize = function(options) {
+            options = options || {};
+            var isDark = document.documentElement.classList.contains('dark-mode');
+            options.theme = isDark ? 'dark' : (options.theme || 'default');
+            return origInit.call(val, options);
+          };
+        }
+      },
+      get: function() {
+        return this._mermaid_instance;
+      }
+    });
+    if (_rawMermaid) window.mermaid = _rawMermaid;
+  } catch (e) {
+    // 降级兼容
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+      btn.addEventListener('click', toggleTheme);
+      updateThemeButton();
+    }
+  });
+
+  // 支持 PJAX 页面切换保持按钮状态与图表校验
+  window.addEventListener('pjax:success', function() {
+    updateThemeButton();
+    reloadMermaid();
+  });
+
+  // 监听操作系统深色/浅色偏好变动 (仅在用户未手动锁定时自适应)
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark-mode');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+        updateThemeButton();
+        reloadMermaid();
+      }
+    });
+  }
+})();
+</script>
+
+
+
 
 </body>
 </html>
