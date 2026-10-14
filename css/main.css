@@ -1220,7 +1220,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #50ff77;
+  background: #ff90ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3532,6 +3532,486 @@ body {
     background: rgba(46,160,67,0.2) !important;
     color: #7ee787 !important;
   }
+  .roadmap-quote {
+    background: rgba(38,38,38,0.75);
+    color: #cbd5e0;
+    border-color: rgba(252,100,35,0.4);
+  }
+  .roadmap-pill {
+    background: rgba(45,55,72,0.65);
+    color: #cbd5e0;
+    border-color: rgba(252,100,35,0.35);
+  }
+  .roadmap-pill:hover {
+    background: #fc6423;
+    color: #fff;
+  }
+  .roadmap-section-title {
+    color: #e2e8f0;
+    border-bottom-color: rgba(255,255,255,0.1);
+  }
+  .roadmap-section-subtitle {
+    color: #a0aec0;
+  }
+  .radar-card {
+    background: rgba(36,36,36,0.85);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .radar-card:hover {
+    border-color: rgba(252,100,35,0.5);
+  }
+  .radar-card-title {
+    color: #e2e8f0;
+  }
+  .radar-tag {
+    background: rgba(255,255,255,0.06);
+    color: #cbd5e0;
+    border-color: rgba(255,255,255,0.08);
+  }
+  .radar-card-desc {
+    color: #cbd5e0;
+  }
+  .radar-output-preview {
+    background: rgba(252,100,35,0.14);
+    color: #ff9153;
+  }
+  .radar-progress-bar {
+    background: rgba(255,255,255,0.1);
+  }
+  .milestone-card {
+    background: rgba(36,36,36,0.85);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .milestone-card:hover {
+    border-color: rgba(252,100,35,0.5);
+  }
+  .milestone-dot {
+    border-color: #242424;
+  }
+  .milestone-title {
+    color: #e2e8f0;
+  }
+  .milestone-summary {
+    color: #cbd5e0;
+  }
+  .milestone-tag {
+    background: rgba(255,255,255,0.06);
+    color: #cbd5e0;
+    border-color: rgba(255,255,255,0.08);
+  }
+  .milestone-post-header {
+    color: #a0aec0;
+  }
+  .milestone-post-card {
+    background: rgba(45,45,45,0.7);
+    border-color: rgba(255,255,255,0.06);
+  }
+  .milestone-post-card:hover {
+    background: rgba(55,55,55,0.95);
+    border-color: #fc6423;
+  }
+  .milestone-post-card .post-card-title {
+    color: #e2e8f0;
+  }
+  .milestone-post-card .post-card-desc {
+    color: #a0aec0;
+  }
+  .milestone-post-card .badge-cat {
+    background: rgba(255,255,255,0.06);
+    color: #a0aec0;
+  }
+}
+.roadmap-container {
+  margin-top: 5px;
+}
+.roadmap-header {
+  margin-bottom: 35px;
+  text-align: center;
+}
+.roadmap-quote {
+  background: rgba(255,255,255,0.72);
+  border-left: 3px solid #fc6423;
+  border-radius: 6px;
+  padding: 14px 20px;
+  color: #4a5568;
+  font-size: 0.95em;
+  font-style: italic;
+  line-height: 1.6;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  backdrop-filter: blur(8px);
+  margin-bottom: 20px;
+}
+.roadmap-quote i {
+  color: #fc6423;
+  opacity: 0.6;
+  margin: 0 4px;
+}
+.roadmap-nav-pills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.roadmap-pill {
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(252,100,35,0.35);
+  color: #4a5568;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-size: 0.88em;
+  font-weight: 600;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(6px);
+}
+.roadmap-pill i {
+  color: #fc6423;
+  transition: transform 0.25s ease;
+}
+.roadmap-pill:hover {
+  background: #fc6423;
+  color: #fff !important;
+  border-color: #fc6423;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(252,100,35,0.35);
+}
+.roadmap-pill:hover i {
+  color: #fff;
+  transform: scale(1.15);
+}
+.roadmap-section {
+  margin-bottom: 45px;
+}
+.roadmap-section-title {
+  font-size: 1.35em;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 6px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(252,100,35,0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.roadmap-section-title i {
+  color: #fc6423;
+}
+.roadmap-section-subtitle {
+  font-size: 0.88em;
+  color: #718096;
+  margin: 0 0 20px 0;
+}
+.roadmap-radar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+}
+.radar-card {
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+.radar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(252,100,35,0.18);
+  border-color: rgba(252,100,35,0.45);
+}
+.radar-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.radar-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.78em;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.radar-badge.in-progress {
+  background: rgba(252,100,35,0.12);
+  color: #fc6423;
+  border: 1px solid rgba(252,100,35,0.3);
+}
+.radar-badge.planned {
+  background: rgba(49,130,206,0.12);
+  color: #3182ce;
+  border: 1px solid rgba(49,130,206,0.3);
+}
+.radar-badge.horizon {
+  background: rgba(128,90,213,0.12);
+  color: #805ad5;
+  border: 1px solid rgba(128,90,213,0.3);
+}
+.radar-eta {
+  font-size: 0.78em;
+  color: #a0aec0;
+}
+.radar-card-title {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+.radar-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.radar-tag {
+  background: rgba(0,0,0,0.04);
+  color: #4a5568;
+  font-size: 0.76em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.radar-card-desc {
+  font-size: 0.86em;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0 0 14px 0;
+  flex-grow: 1;
+}
+.radar-output-preview {
+  font-size: 0.82em;
+  color: #fc6423;
+  font-weight: 600;
+  background: rgba(252,100,35,0.06);
+  border-left: 2px solid #fc6423;
+  padding: 5px 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.radar-output-preview i {
+  margin-right: 4px;
+}
+.radar-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.radar-progress-bar {
+  flex-grow: 1;
+  height: 6px;
+  background: rgba(0,0,0,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.radar-progress-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #fc6423, #ff9153);
+  border-radius: 3px;
+}
+.radar-progress-text {
+  font-size: 0.75em;
+  color: #718096;
+  white-space: nowrap;
+}
+.roadmap-timeline {
+  position: relative;
+  padding-left: 32px;
+  margin-top: 15px;
+}
+.roadmap-timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  bottom: 20px;
+  width: 3px;
+  background: linear-gradient(180deg, #fc6423 0%, #3182ce 50%, #805ad5 100%);
+  border-radius: 2px;
+}
+.milestone-stage {
+  position: relative;
+  margin-bottom: 35px;
+}
+.milestone-badge-wrapper {
+  position: absolute;
+  left: -32px;
+  top: 12px;
+  display: flex;
+  align-items: center;
+}
+.milestone-badge-wrapper .milestone-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fc6423;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px rgba(252,100,35,0.45);
+  margin-left: 9px;
+  z-index: 2;
+}
+.milestone-badge-wrapper .milestone-badge {
+  display: none;
+}
+.milestone-card {
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+.milestone-card:hover {
+  box-shadow: 0 8px 24px rgba(252,100,35,0.16);
+  border-color: rgba(252,100,35,0.4);
+}
+.milestone-time {
+  display: inline-block;
+  font-size: 0.78em;
+  font-weight: 700;
+  color: #fc6423;
+  background: rgba(252,100,35,0.1);
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.milestone-title {
+  font-size: 1.22em;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 10px 0;
+}
+.milestone-summary {
+  font-size: 0.9em;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0 0 14px 0;
+}
+.milestone-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.milestone-tag {
+  background: rgba(0,0,0,0.04);
+  color: #4a5568;
+  font-size: 0.8em;
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.milestone-tag i {
+  color: #fc6423;
+}
+.milestone-post-group {
+  border-top: 1px dashed rgba(0,0,0,0.08);
+  padding-top: 14px;
+}
+.milestone-post-header {
+  font-size: 0.86em;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 10px;
+}
+.milestone-post-header i {
+  color: #fc6423;
+  margin-right: 4px;
+}
+.milestone-post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.milestone-post-card {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(0,0,0,0.06);
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+}
+.milestone-post-card:hover {
+  background: rgba(255,255,255,0.95);
+  border-color: #fc6423;
+  transform: translateX(5px);
+  box-shadow: 0 4px 14px rgba(252,100,35,0.15);
+}
+.milestone-post-card:hover .post-card-title {
+  color: #fc6423;
+}
+.milestone-post-card:hover .badge-read {
+  transform: translateX(3px);
+}
+.milestone-post-card.no-link {
+  cursor: default;
+}
+.milestone-post-card.no-link:hover {
+  background: rgba(255,255,255,0.65);
+  border-color: rgba(0,0,0,0.06);
+  transform: none;
+  box-shadow: none;
+}
+.milestone-post-card.no-link:hover .post-card-title {
+  color: #2d3748;
+}
+.milestone-post-card .post-card-title {
+  font-size: 0.94em;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.25s ease;
+}
+.milestone-post-card .post-card-title i {
+  color: #fc6423;
+  font-size: 0.85em;
+}
+.milestone-post-card .post-card-desc {
+  font-size: 0.84em;
+  color: #718096;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.milestone-post-card .post-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78em;
+}
+.milestone-post-card .badge-cat {
+  background: rgba(0,0,0,0.04);
+  padding: 1px 7px;
+  border-radius: 3px;
+  color: #718096;
+}
+.milestone-post-card .badge-read {
+  color: #fc6423;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.25s ease;
+}
+.milestone-post-card .badge-status {
+  color: #3182ce;
+  font-weight: 600;
 }
 @-moz-keyframes hbeFadeIn {
   from {

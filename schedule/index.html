@@ -17,15 +17,15 @@
     var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="云淡风轻拂往事，执笔从容话人生">
+  <meta name="description" content="格物致知 · 探索无垠。立足当下工程与底层积累，锚定下一代核心技术航向。     探索雷达 (Future Radar)  演进路线 (Tech Roadmap)           未来探索雷达 (Future Radar)   给访问者的期待 · 阶段攻坚目标、前沿技术探索与后续深度专栏预告         重点攻坚中 预计产出: 2026 Q4  边缘 AI 推理与多路硬件编解码">
 <meta property="og:type" content="website">
-<meta property="og:title" content="时间轴">
+<meta property="og:title" content="技术航图与未来雷达">
 <meta property="og:url" content="https://leeyunhe.github.io/schedule/index.html">
 <meta property="og:site_name" content="Leeyunhe">
-<meta property="og:description" content="云淡风轻拂往事，执笔从容话人生">
+<meta property="og:description" content="格物致知 · 探索无垠。立足当下工程与底层积累，锚定下一代核心技术航向。     探索雷达 (Future Radar)  演进路线 (Tech Roadmap)           未来探索雷达 (Future Radar)   给访问者的期待 · 阶段攻坚目标、前沿技术探索与后续深度专栏预告         重点攻坚中 预计产出: 2026 Q4  边缘 AI 推理与多路硬件编解码">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-03T10:07:00.000Z">
-<meta property="article:modified_time" content="2026-09-23T06:32:36.820Z">
+<meta property="article:modified_time" content="2026-10-14T03:19:05.801Z">
 <meta property="article:author" content="Leeyunhe">
 <meta name="twitter:card" content="summary">
 
@@ -42,7 +42,7 @@
   };
 </script>
 
-  <title>时间轴 | Leeyunhe
+  <title>技术航图与未来雷达 | Leeyunhe
 </title>
   
 
@@ -146,6 +146,11 @@
     <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
 
   </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-map-signs fa-fw"></i>路线图</a>
+
+  </li>
         <li class="menu-item menu-item-bbs">
 
     <a href="/guestbook/" rel="section"><i class="fa fa-comment fa-fw"></i>留言板</a>
@@ -216,7 +221,7 @@
     <div class="post-block" lang="zh-CN">
       <header class="post-header">
 
-<h1 class="post-title" itemprop="name headline">时间轴
+<h1 class="post-title" itemprop="name headline">技术航图与未来雷达
 </h1>
 
 <div class="post-meta">
@@ -230,164 +235,364 @@
       
       
       <div class="post-body">
-          <div class="event-list">
-          </div>
-          <script>
-(function() {
-  // Initialization
-  var calendar = {
-    orderBy     : 'startTime',
-    showLocation: false,
-    offsetMax   : 72,
-    offsetMin   : 4,
-    showDeleted : false,
-    singleEvents: true,
-    maxResults  : 250
-  };
+          <div class="roadmap-container">
 
-  // Read config form theme config file
-  Object.assign(calendar, {"calendar_id":"<required>","api_key":"<required>","orderBy":"startTime","offsetMax":24,"offsetMin":4,"showDeleted":false,"singleEvents":true,"maxResults":250});
+<!-- 头部导读与导航锚点胶囊 -->
+<div class="roadmap-header">
+<div class="roadmap-quote">
+<i class="fa fa-quote-left"></i>
+格物致知 · 探索无垠。立足当下工程与底层积累，锚定下一代核心技术航向。
+<i class="fa fa-quote-right"></i>
+</div>
+<div class="roadmap-nav-pills">
+<a href="#future-radar" class="roadmap-pill"><i class="fa fa-crosshairs"></i> 探索雷达 (Future Radar)</a>
+<a href="#tech-milestones" class="roadmap-pill"><i class="fa fa-road"></i> 演进路线 (Tech Roadmap)</a>
+</div>
+</div>
 
-  var now = new Date();
-  var timeMax = new Date();
-  var timeMin = new Date();
+<!-- ====================================================================== -->
+<!-- 模块一：未来探索雷达与规划 (Future Radar)                             -->
+<!-- 给访问者的期待 · 阶段攻坚目标、前沿技术探索与后续深度专栏预告           -->
+<!-- ====================================================================== -->
+<div class="roadmap-section">
+<h2 class="roadmap-section-title" id="future-radar">
+<i class="fa fa-compass"></i> 未来探索雷达 (Future Radar)
+</h2>
+<p class="roadmap-section-subtitle">
+给访问者的期待 · 阶段攻坚目标、前沿技术探索与后续深度专栏预告
+</p>
 
-  timeMax.setHours(now.getHours() + calendar.offsetMax);
-  timeMin.setHours(now.getHours() - calendar.offsetMin);
+<div class="roadmap-radar-grid">
 
-  // Build URL
-  const params = {
-    key         : calendar.api_key,
-    orderBy     : calendar.orderBy,
-    timeMax     : timeMax.toISOString(),
-    timeMin     : timeMin.toISOString(),
-    showDeleted : calendar.showDeleted,
-    singleEvents: calendar.singleEvents,
-    maxResults  : calendar.maxResults
-  };
+<!-- 雷达卡片 1：边缘 AI 推理 -->
+<div class="radar-card">
+<div class="radar-card-header">
+<span class="radar-badge in-progress"><i class="fa fa-spinner fa-spin"></i> 重点攻坚中</span>
+<span class="radar-eta">预计产出: 2026 Q4</span>
+</div>
+<h3 class="radar-card-title">边缘 AI 推理与多路硬件编解码管线</h3>
+<div class="radar-tech-stack">
+<span class="radar-tag">瑞芯微 RK3588</span>
+<span class="radar-tag">NPU (RKNPU2)</span>
+<span class="radar-tag">硬件编解码 (MPP)</span>
+<span class="radar-tag">多路 RTSP/V4L2</span>
+</div>
+<p class="radar-card-desc">
+深入研究嵌入式边缘端神经网络推理加速，打通从摄像头采集、硬件多路解码、YOLO 目标实时检测/追踪到最终渲染输出的端到端超低延迟流水线。
+</p>
+<div class="radar-output-preview">
+<i class="fa fa-book-open"></i> 预告专栏：《RK3588 NPU 实战演进系列》
+</div>
+<div class="radar-progress">
+<div class="radar-progress-bar"><div class="radar-progress-inner" style="width: 75%;"></div></div>
+<span class="radar-progress-text">攻坚进度 75%</span>
+</div>
+</div>
 
-  var request_url = 'https://www.googleapis.com/calendar/v3/calendars/' + calendar.calendar_id + '/events?' + Object.entries(params).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+<!-- 雷达卡片 2：高吞吐工业测控网关 -->
+<div class="radar-card">
+<div class="radar-card-header">
+<span class="radar-badge in-progress"><i class="fa fa-spinner fa-spin"></i> 整理成篇中</span>
+<span class="radar-eta">预计产出: 2026 Q4</span>
+</div>
+<h3 class="radar-card-title">高吞吐工业测控网关与分布式总控架构</h3>
+<div class="radar-tech-stack">
+<span class="radar-tag">串口转网口网关</span>
+<span class="radar-tag">环形无锁缓冲</span>
+<span class="radar-tag">CAN / TCP 报文解析</span>
+<span class="radar-tag">银河麒麟 KylinOS</span>
+</div>
+<p class="radar-card-desc">
+针对工业测控恶劣环境设计高可靠透明转发服务，支持跨平台故障自愈、报文完整性强校验与毫秒级状态同步，完成百万级工业数据包高压测试。
+</p>
+<div class="radar-output-preview">
+<i class="fa fa-book-open"></i> 预告专栏：《国产化平台工业测控上位机与网关架构指南》
+</div>
+<div class="radar-progress">
+<div class="radar-progress-bar"><div class="radar-progress-inner" style="width: 85%;"></div></div>
+<span class="radar-progress-text">实机验证 85%</span>
+</div>
+</div>
 
-  fetchData();
-  var fetchDataTimer = setInterval(fetchData, 60000);
-  window.addEventListener('pjax:send', () => {
-    clearInterval(fetchDataTimer);
-  });
+<!-- 雷达卡片 3：现代图形学 Vulkan -->
+<div class="radar-card">
+<div class="radar-card-header">
+<span class="radar-badge planned"><i class="fa fa-clock"></i> 规划探索中</span>
+<span class="radar-eta">预计立项: 2027 H1</span>
+</div>
+<h3 class="radar-card-title">现代底层图形学与无绑定渲染管线</h3>
+<div class="radar-tech-stack">
+<span class="radar-tag">Vulkan API</span>
+<span class="radar-tag">Modern C++20</span>
+<span class="radar-tag">Bindless Textures</span>
+<span class="radar-tag">PBR 物理渲染</span>
+</div>
+<p class="radar-card-desc">
+从传统 OpenGL 状态机跨越至现代显卡显式低开销多线程控制，重构高性能跨平台轻量级 3D 渲染器内核，探索光追与现代着色器架构。
+</p>
+<div class="radar-output-preview">
+<i class="fa fa-book-open"></i> 预告专栏：《现代底层图形学与 Vulkan 探索指南》
+</div>
+<div class="radar-progress">
+<div class="radar-progress-bar"><div class="radar-progress-inner" style="width: 35%;"></div></div>
+<span class="radar-progress-text">理论构建 35%</span>
+</div>
+</div>
 
-  function fetchData() {
-    var eventList = document.querySelector('.event-list');
-    if (!eventList) return;
+<!-- 雷达卡片 4：实时内核调度 -->
+<div class="radar-card">
+<div class="radar-card-header">
+<span class="radar-badge horizon"><i class="fa fa-binoculars"></i> 远期雷达</span>
+<span class="radar-eta">长期跟踪</span>
+</div>
+<h3 class="radar-card-title">硬实时内核调度与异构多核协同</h3>
+<div class="radar-tech-stack">
+<span class="radar-tag">Linux PREEMPT_RT</span>
+<span class="radar-tag">FreeRTOS</span>
+<span class="radar-tag">异构多核通信 (OpenAMP)</span>
+<span class="radar-tag">中断抖动压制</span>
+</div>
+<p class="radar-card-desc">
+探索硬实时工业测控中的微秒级抖动压制方案，研究 Linux RT 实时内核补丁与实时协处理器核心的高效 IPC 共享内存交互机制。
+</p>
+<div class="radar-output-preview">
+<i class="fa fa-book-open"></i> 预告专栏：《硬实时 Linux 与异构测控底层实践》
+</div>
+<div class="radar-progress">
+<div class="radar-progress-bar"><div class="radar-progress-inner" style="width: 20%;"></div></div>
+<span class="radar-progress-text">预研调研 20%</span>
+</div>
+</div>
 
-    fetch(request_url).then(response => {
-      return response.json();
-    }).then(data => {
-      if (data.items.length === 0) {
-        eventList.innerHTML = '<hr>';
-        return;
-      }
-      // Clean the event list
-      eventList.innerHTML = '';
-      var prevEnd = 0; // used to decide where to insert an <hr>
+</div>
+</div>
 
-      data.items.forEach(event => {
-        // Parse data
-        var utc   = new Date().getTimezoneOffset() * 60000;
-        var start = event.start.dateTime = new Date(event.start.dateTime || (new Date(event.start.date).getTime() + utc));
-        var end   = event.end.dateTime = new Date(event.end.dateTime || (new Date(event.end.date).getTime() + utc));
+<!-- ====================================================================== -->
+<!-- 模块二：个人技术演进路线与博文里程碑 (Tech Milestones & Roadmap)         -->
+<!-- 从孤立篇章到系统图谱 · 串联博客已沉淀的代表性核心技术博文              -->
+<!-- ====================================================================== -->
+<div class="roadmap-section">
+<h2 class="roadmap-section-title" id="tech-milestones">
+<i class="fa fa-layer-group"></i> 个人技术演进路线与博文里程碑 (Tech Roadmap)
+</h2>
+<p class="roadmap-section-subtitle">
+从孤立篇章到系统图谱 · 串联博客已沉淀的代表性核心技术博文
+</p>
 
-        tense = judgeTense(now, start, end); // 0:now 1:future -1:past
+<div class="roadmap-timeline">
 
-        if (tense === 1 && prevEnd < now) {
-          eventList.innerHTML += '<hr>';
-        }
+<!-- 里程碑 M1: 编程语言底层与体系基石 -->
+<div class="milestone-stage">
+<div class="milestone-badge-wrapper">
+<div class="milestone-dot"></div>
+<div class="milestone-badge">M1</div>
+</div>
+<div class="milestone-card">
+<div class="milestone-time">2021 ~ 2023 · 阶段 01</div>
+<h3 class="milestone-title">编程语言底层与体系基石</h3>
+<p class="milestone-summary">
+打磨扎实的系统编程功底：深入 C/C++ 内存空间布局、指针本质、多维数组演进、函数指针与算法调试，筑牢全栈底层工程根基。
+</p>
+<div class="milestone-skills">
+<span class="milestone-tag"><i class="fa fa-microchip"></i> C/C++ 内存模型</span>
+<span class="milestone-tag"><i class="fa fa-arrows-split-up-and-left"></i> 多级指针运算</span>
+<span class="milestone-tag"><i class="fa fa-table-cells"></i> 数组指针与地址推导</span>
+<span class="milestone-tag"><i class="fa fa-code-branch"></i> 基础算法与排序</span>
+</div>
+<div class="milestone-post-group">
+<div class="milestone-post-header"><i class="fa fa-link"></i> 该阶段串联沉淀的代表性博文：</div>
+<div class="milestone-post-list">
+<a href="/2023/05/12/001C基础/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> C语言基础进阶</div>
+<div class="post-card-desc">9万字系统硬核长文：全景解析内存划分、if-else选择控制、多维数组与地址推导、指针数组与数组指针、冒泡与选择排序底层实现。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · C基础</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+</div>
+</div>
+</div>
+</div>
 
-        eventDOM = buildEventDOM(tense, event);
-        eventList.innerHTML += eventDOM;
+<!-- 里程碑 M2: 嵌入式多媒体与视频采集管线 -->
+<div class="milestone-stage">
+<div class="milestone-badge-wrapper">
+<div class="milestone-dot"></div>
+<div class="milestone-badge">M2</div>
+</div>
+<div class="milestone-card">
+<div class="milestone-time">2023 · 阶段 02</div>
+<h3 class="milestone-title">嵌入式多媒体与视频采集管线</h3>
+<p class="milestone-summary">
+攻克 Linux 嵌入式视频输入输出链路：从内核 V4L2 驱动框架、内存映射 MMAP 与双向帧缓冲，到 YUV/RGB 像素格式变换数学模型与 G2D 硬件图形加速器。
+</p>
+<div class="milestone-skills">
+<span class="milestone-tag"><i class="fa fa-video"></i> Linux V4L2 框架</span>
+<span class="milestone-tag"><i class="fa fa-palette"></i> YUV / RGB 色彩空间</span>
+<span class="milestone-tag"><i class="fa fa-bolt"></i> G2D 硬件加速</span>
+<span class="milestone-tag"><i class="fa fa-camera"></i> 摄像头驱动采集</span>
+</div>
+<div class="milestone-post-group">
+<div class="milestone-post-header"><i class="fa fa-link"></i> 该阶段串联沉淀的代表性博文体系：</div>
+<div class="milestone-post-list">
+<a href="/2023/04/13/1-V4l2/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> Video for Linux two(初识v4l2)</div>
+<div class="post-card-desc">系统剖析 Linux 视频采集驱动标准架构、IOCTL 控制指令流、VIDIOC_REQBUFS 申请缓冲及 MMAP 映射机制。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · 嵌入式/V4L2</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/13/2-YUV&RGB/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> 图像格式之 YUV & RGB</div>
+<div class="post-card-desc">深度解析 YUV 色彩采样标准（YUV444/422/420）、紧凑打包与平面分块存储差异、以及 RGB 与 YUV 双向转换矩阵。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · 图像格式</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/14/3-G2D/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> G2D 硬件图形加速</div>
+<div class="post-card-desc">深入 2D 图形硬件加速引擎：格式快速转换、高画质缩放、全角度旋转与图层混合，大幅释放 CPU 算力。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · 硬件加速</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+</div>
+</div>
+</div>
+</div>
 
-        prevEnd = end;
-      });
-    });
-  }
+<!-- 里程碑 M3: 计算机图形学与嵌入式 3D 渲染 -->
+<div class="milestone-stage">
+<div class="milestone-badge-wrapper">
+<div class="milestone-dot"></div>
+<div class="milestone-badge">M3</div>
+</div>
+<div class="milestone-card">
+<div class="milestone-time">2023 · 阶段 03</div>
+<h3 class="milestone-title">计算机图形学与嵌入式 3D 渲染 (OpenGL / ES / GLSL)</h3>
+<p class="milestone-summary">
+完整走通从固定功能管线到现代可编程渲染流水线：精通 OpenGL ES 3.x 嵌入式图形架构、显存顶点缓冲管理 (VBO/VAO)、离屏渲染与多渲染目标 (FBO)、GLSL 可编程着色器编写及 3D 空间变换数学矩阵。
+</p>
+<div class="milestone-skills">
+<span class="milestone-tag"><i class="fa fa-cubes"></i> OpenGL / ES 3.x</span>
+<span class="milestone-tag"><i class="fa fa-code"></i> GLSL 着色器语言</span>
+<span class="milestone-tag"><i class="fa fa-clone"></i> FBO 离屏渲染</span>
+<span class="milestone-tag"><i class="fa fa-memory"></i> VBO & VAO 显存管理</span>
+<span class="milestone-tag"><i class="fa fa-calculator"></i> GLM 空间变换矩阵</span>
+</div>
+<div class="milestone-post-group">
+<div class="milestone-post-header"><i class="fa fa-link"></i> 该阶段串联沉淀的代表性博文体系（系列篇章）：</div>
+<div class="milestone-post-list">
+<a href="/2023/04/14/4-1-OpenGL/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> 什么是OpenGL?</div>
+<div class="post-card-desc">图形学开篇：渲染管线全流程剖析、状态机模型、图元装配与光栅化底层机制。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · OpenGL</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/14/4-2-OpenGL ES/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> OpenGL ES 3.x架构</div>
+<div class="post-card-desc">移动与嵌入式 3D 渲染演进：架构裁切设计、上下文状态切换与移动端功耗优化。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · OpenGL ES</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/14/4-3-OpenGL常用API函数/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> OpenGL常用API函数</div>
+<div class="post-card-desc">高频 API 速查手册与调用时序规范，精准规避状态机漏设与黑屏陷阱。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · OpenGL API</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/14/4-6-VBO与VAO/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> OpenGl ES---VBO,VAO</div>
+<div class="post-card-desc">顶点数据高效传输：深入 VBO 显存申请与 VAO 状态绑定，消除 CPU-GPU 数据瓶颈。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · VBO/VAO</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/14/4-5-FBO/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> OpenGl ES---FBO</div>
+<div class="post-card-desc">离屏渲染利器：帧缓冲对象 (FBO) 挂载纹理与渲染缓冲附件，实现后期画质处理。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · FBO离屏渲染</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/14/4-7-GLSL着色器语言/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> GLSL着色器语言</div>
+<div class="post-card-desc">可编程管线核心：顶点着色器、片元着色器语法、精度限定符与插值变量原理。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · GLSL</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+<a href="/2023/04/14/4-8-OpenGL矩阵运算-GLM库的使用/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> OpenGL矩阵运算---GLM库的使用</div>
+<div class="post-card-desc">3D 空间数学基础：模型矩阵、观察矩阵、透视投影矩阵 (MVP) 与 GLM 实战。</div>
+<div class="post-card-meta"><span class="badge-cat">笔记 · GLM数学库</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+</div>
+</div>
+</div>
+</div>
 
-  function getRelativeTime(current, previous) {
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
+<!-- 里程碑 M4: 工业测控上位机与国产化平台整机工程 -->
+<div class="milestone-stage">
+<div class="milestone-badge-wrapper">
+<div class="milestone-dot"></div>
+<div class="milestone-badge">M4</div>
+</div>
+<div class="milestone-card">
+<div class="milestone-time">2023 ~ 至今 · 阶段 04</div>
+<h3 class="milestone-title">工业测控上位机与国产化平台整机工程</h3>
+<p class="milestone-summary">
+立足工控行业落地实战：以银河麒麟 (KylinOS)、国产飞腾 D2000 与瑞芯微 RK3588 工业整机为平台，攻关跨平台桌面 GUI (Qt / WPF / WinForm)、串口转网口网关透明转发服务、CAN 总线总控交互、报文解析引擎与工业数据本地高可靠存储。
+</p>
+<div class="milestone-skills">
+<span class="milestone-tag"><i class="fa fa-desktop"></i> Qt (C++) 银河麒麟</span>
+<span class="milestone-tag"><i class="fa fa-window-maximize"></i> C# WinForm / WPF</span>
+<span class="milestone-tag"><i class="fa fa-microchip"></i> 飞腾 D2000 / RK3588</span>
+<span class="milestone-tag"><i class="fa fa-network-wired"></i> 串口转网口网关转发</span>
+<span class="milestone-tag"><i class="fa fa-car-battery"></i> CAN 总线通信</span>
+<span class="milestone-tag"><i class="fa fa-sliders"></i> 测控总控状态机</span>
+</div>
+<div class="milestone-post-group">
+<div class="milestone-post-header"><i class="fa fa-hammer"></i> 工程沉淀与体系关联：</div>
+<div class="milestone-post-list">
+<div class="milestone-post-card no-link">
+<div class="post-card-title"><i class="fa fa-gears"></i> 工业级跨平台总控测控软件架构实战</div>
+<div class="post-card-desc">基于 Qt 与 WPF 的工业多通道测控系统，集成底层串口网关透明转发、十六进制自定义协议解析校验、CAN 节点拓扑监控与毫秒级高精度数据记录。</div>
+<div class="post-card-meta"><span class="badge-cat">工程实战 · 测控系统</span><span class="badge-status">持续演进部署中</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-    var elapsed = current - previous;
-    var tense = elapsed > 0 ? 'ago' : 'later';
+<!-- 里程碑 M5: 读书随笔与思考沉淀 -->
+<div class="milestone-stage">
+<div class="milestone-badge-wrapper">
+<div class="milestone-dot"></div>
+<div class="milestone-badge">M5</div>
+</div>
+<div class="milestone-card">
+<div class="milestone-time">2021 ~ 至今 · 阶段 05</div>
+<h3 class="milestone-title">读书随笔与认知思维沉淀</h3>
+<p class="milestone-summary">
+硬核技术之外的人文精神与方法论：构建终身学习体系，探索深度阅读、技术方法论与知识体系构建。
+</p>
+<div class="milestone-skills">
+<span class="milestone-tag"><i class="fa fa-book"></i> 深度阅读</span>
+<span class="milestone-tag"><i class="fa fa-brain"></i> 思维模型</span>
+<span class="milestone-tag"><i class="fa fa-lightbulb"></i> 方法论</span>
+</div>
+<div class="milestone-post-group">
+<div class="milestone-post-header"><i class="fa fa-link"></i> 该阶段串联沉淀的代表性博文：</div>
+<div class="milestone-post-list">
+<a href="/2021/01/07/如何阅读一本书/" class="milestone-post-card">
+<div class="post-card-title"><i class="fa fa-file-lines"></i> 如何阅读一本书</div>
+<div class="post-card-desc">重读经典随笔：从基础阅读、检视阅读、分析阅读到主题阅读的四层次阅读框架，掌握主动阅读的技术精髓。</div>
+<div class="post-card-meta"><span class="badge-cat">随笔 · 读书</span><span class="badge-read"><i class="fa fa-arrow-right"></i> 点击阅读</span></div>
+</a>
+</div>
+</div>
+</div>
+</div>
 
-    elapsed = Math.abs(elapsed);
+<!-- 
+========================================================================
+【预留架构槽位说明 / ARCHITECTURE EXTENSION SLOT】
+后续博文增多或开辟新阶段时，请直接复制下方标准模板：
+- 阶段扩展：复制 <div class="milestone-stage">...</div> 递增 M 编号
+- 文章追加：在对应阶段的 <div class="milestone-post-list"> 中追加 <a class="milestone-post-card">...</a>
+- 规范详见: docs/03-博文撰写与排版指南.md 第六章
+========================================================================
+-->
 
-    if      ( elapsed < msPerHour  ) {
-      return Math.round(elapsed / msPerMinute) + ' minutes ' + tense;
-    }
-    else if ( elapsed < msPerDay   ) {
-      return Math.round(elapsed / msPerHour) + ' hours ' + tense;
-    }
-    else if ( elapsed < msPerMonth ) {
-      return 'about ' + Math.round(elapsed / msPerDay) + ' days ' + tense;
-    }
-    else if ( elapsed < msPerYear  ) {
-      return 'about ' + Math.round(elapsed / msPerMonth) + ' months ' + tense;
-    }
-    else {
-      return 'about' + Math.round(elapsed / msPerYear) + ' years' + tense;
-    }
-  }
+</div>
+</div>
 
-  function judgeTense(now, eventStart, eventEnd) {
-    if      (eventEnd   < now) { return -1; }
-    else if (eventStart > now) { return  1; }
-    else                       { return  0; }
-  }
+</div>
 
-  function buildEventDOM(tense, event) {
-    var tenseClass = '';
-    var start      = event.start.dateTime;
-    var end        = event.end.dateTime;
-    switch(tense) {
-      case 0 : // now
-        tenseClass = 'event-now';
-        break;
-      case 1 : // future
-        tenseClass = 'event-future';
-        break;
-      case -1: // past
-        tenseClass = 'event-past';
-        break;
-      default:
-        throw 'Time data error';
-    }
-    var durationFormat = {
-      weekday: 'short',
-      hour   : '2-digit',
-      minute : '2-digit'
-    };
-    var relativeTimeStr = (tense === 0) ? 'NOW' : getRelativeTime(now, start);
-    var durationStr = start.toLocaleTimeString([], durationFormat) + ' - ' + end.toLocaleTimeString([], durationFormat);
-
-    var locationDOM = '';
-    if (calendar.showLocation && event.location) {
-      locationDOM = '<span class="event-location event-details">' + event.location + '</span>';
-    }
-
-    var eventContent = `<div class="event ${tenseClass}">
-        <h2 class="event-summary">
-          ${event.summary}
-          <span class="event-relative-time">${relativeTimeStr}</span>
-        </h2>
-        ${locationDOM}
-        <span class="event-duration event-details">${durationStr}</span>
-      </div>`;
-    return eventContent;
-  }
-})();
-</script>
-
-        
       </div>
       
       
@@ -448,6 +653,11 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#future-radar"><span class="nav-number">1.</span> <span class="nav-text">
+ 未来探索雷达 (Future Radar)
+</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">边缘 AI 推理与多路硬件编解码管线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">高吞吐工业测控网关与分布式总控架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">现代底层图形学与无绑定渲染管线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.4.</span> <span class="nav-text">硬实时内核调度与异构多核协同</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tech-milestones"><span class="nav-number">2.</span> <span class="nav-text">
+ 个人技术演进路线与博文里程碑 (Tech Roadmap)
+</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.1.</span> <span class="nav-text">编程语言底层与体系基石</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.2.</span> <span class="nav-text">嵌入式多媒体与视频采集管线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.3.</span> <span class="nav-text">计算机图形学与嵌入式 3D 渲染 (OpenGL &#x2F; ES &#x2F; GLSL)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.4.</span> <span class="nav-text">工业测控上位机与国产化平台整机工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.5.</span> <span class="nav-text">读书随笔与认知思维沉淀</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -606,6 +816,86 @@
 
   
 
+  <script>
+  (function() {
+    function relockCurrentPage() {
+      var currentPath = location.pathname;
+      var targetKey = 'hbe.v4.' + currentPath + location.search;
+      localStorage.removeItem(targetKey);
+      localStorage.removeItem('hbe.v4.' + currentPath);
+      localStorage.removeItem('hbe.v4.' + currentPath.replace(/\/+$/, ''));
+      localStorage.removeItem('hbe.v4.' + currentPath + '/');
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('hbe.v4.') === 0) {
+          if (k.indexOf(currentPath) !== -1 || k.indexOf(encodeURI(currentPath)) !== -1 || k.indexOf(decodeURI(currentPath)) !== -1) {
+            localStorage.removeItem(k);
+          }
+        }
+      }
+      location.reload();
+    }
+
+    function injectRelockUI() {
+      var container = document.querySelector('#hexo-blog-encrypt.hbe-decrypted-content');
+      if (!container) return;
+
+      // 1. 顶部解密状态与快捷上锁栏
+      if (!container.querySelector('.hbe-unlocked-banner')) {
+        var topBanner = document.createElement('div');
+        topBanner.className = 'hbe-unlocked-banner';
+        topBanner.innerHTML = '<span class="hbe-unlocked-info"><i class="fa fa-unlock-alt"></i> <span>已解锁私密保护内容</span></span>' +
+                              '<button type="button" class="hbe-relock-btn" title="清除本地凭证并重新锁定本页"><i class="fa fa-lock"></i> 重新上锁</button>';
+        topBanner.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
+        container.insertBefore(topBanner, container.firstChild);
+      }
+
+      // 2. 底部重新上锁操作卡片
+      if (!container.querySelector('.hbe-relock-footer')) {
+        var footer = document.createElement('div');
+        footer.className = 'hbe-relock-footer';
+        footer.innerHTML = '<button type="button" class="hbe-relock-btn hbe-relock-btn-primary" title="清除本地解密凭证"><i class="fa fa-lock"></i> 重新锁定此页</button>' +
+                           '<div class="hbe-relock-tip"><i class="fa fa-info-circle"></i> <span>已开启免密访问。离开设备或公用电脑使用完毕后，点击可立即恢复锁定。</span></div>';
+        footer.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
+        container.appendChild(footer);
+      }
+    }
+
+    function checkCopyrightVisibility() {
+      var hbe = document.getElementById('hexo-blog-encrypt');
+      var cp = document.querySelector('.post-copyright');
+      if (hbe && cp) {
+        if (!hbe.classList.contains('hbe-decrypted-content')) {
+          cp.style.display = 'none';
+        } else {
+          cp.style.display = '';
+        }
+      }
+    }
+
+    // 监听解密成功事件
+    window.addEventListener('hexo-blog-decrypt', function() {
+      setTimeout(function() {
+        injectRelockUI();
+        checkCopyrightVisibility();
+      }, 50);
+    });
+
+    // 若此前已 autoSave 自动解密，DOM ready 时检测并补齐 UI
+    function initGuard() {
+      checkCopyrightVisibility();
+      injectRelockUI();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initGuard, 200);
+      });
+    } else {
+      setTimeout(initGuard, 200);
+    }
+  })();
+  </script>
+  
   <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
   (function() {
@@ -718,86 +1008,6 @@
         initTwikoo();
       }
     });
-  })();
-  </script>
-  
-  <script>
-  (function() {
-    function relockCurrentPage() {
-      var currentPath = location.pathname;
-      var targetKey = 'hbe.v4.' + currentPath + location.search;
-      localStorage.removeItem(targetKey);
-      localStorage.removeItem('hbe.v4.' + currentPath);
-      localStorage.removeItem('hbe.v4.' + currentPath.replace(/\/+$/, ''));
-      localStorage.removeItem('hbe.v4.' + currentPath + '/');
-      for (var i = localStorage.length - 1; i >= 0; i--) {
-        var k = localStorage.key(i);
-        if (k && k.indexOf('hbe.v4.') === 0) {
-          if (k.indexOf(currentPath) !== -1 || k.indexOf(encodeURI(currentPath)) !== -1 || k.indexOf(decodeURI(currentPath)) !== -1) {
-            localStorage.removeItem(k);
-          }
-        }
-      }
-      location.reload();
-    }
-
-    function injectRelockUI() {
-      var container = document.querySelector('#hexo-blog-encrypt.hbe-decrypted-content');
-      if (!container) return;
-
-      // 1. 顶部解密状态与快捷上锁栏
-      if (!container.querySelector('.hbe-unlocked-banner')) {
-        var topBanner = document.createElement('div');
-        topBanner.className = 'hbe-unlocked-banner';
-        topBanner.innerHTML = '<span class="hbe-unlocked-info"><i class="fa fa-unlock-alt"></i> <span>已解锁私密保护内容</span></span>' +
-                              '<button type="button" class="hbe-relock-btn" title="清除本地凭证并重新锁定本页"><i class="fa fa-lock"></i> 重新上锁</button>';
-        topBanner.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
-        container.insertBefore(topBanner, container.firstChild);
-      }
-
-      // 2. 底部重新上锁操作卡片
-      if (!container.querySelector('.hbe-relock-footer')) {
-        var footer = document.createElement('div');
-        footer.className = 'hbe-relock-footer';
-        footer.innerHTML = '<button type="button" class="hbe-relock-btn hbe-relock-btn-primary" title="清除本地解密凭证"><i class="fa fa-lock"></i> 重新锁定此页</button>' +
-                           '<div class="hbe-relock-tip"><i class="fa fa-info-circle"></i> <span>已开启免密访问。离开设备或公用电脑使用完毕后，点击可立即恢复锁定。</span></div>';
-        footer.querySelector('.hbe-relock-btn').addEventListener('click', relockCurrentPage);
-        container.appendChild(footer);
-      }
-    }
-
-    function checkCopyrightVisibility() {
-      var hbe = document.getElementById('hexo-blog-encrypt');
-      var cp = document.querySelector('.post-copyright');
-      if (hbe && cp) {
-        if (!hbe.classList.contains('hbe-decrypted-content')) {
-          cp.style.display = 'none';
-        } else {
-          cp.style.display = '';
-        }
-      }
-    }
-
-    // 监听解密成功事件
-    window.addEventListener('hexo-blog-decrypt', function() {
-      setTimeout(function() {
-        injectRelockUI();
-        checkCopyrightVisibility();
-      }, 50);
-    });
-
-    // 若此前已 autoSave 自动解密，DOM ready 时检测并补齐 UI
-    function initGuard() {
-      checkCopyrightVisibility();
-      injectRelockUI();
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(initGuard, 200);
-      });
-    } else {
-      setTimeout(initGuard, 200);
-    }
   })();
   </script>
   <!-- ============================================================== -->
