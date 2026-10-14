@@ -1192,7 +1192,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #dd6f30;
+  background: #8bd490;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3195,6 +3195,21 @@ body {
   color: #fc6423;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(252,100,35,0.2);
+}
+.busuanzi-count {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--text-color, #555);
+}
+.busuanzi-count .post-meta-item {
+  margin: 0 4px;
+}
+.busuanzi-count .post-meta-item-icon i {
+  color: #fc6423;
+  margin-right: 3px;
+}
+#busuanzi_container_page_pv .post-meta-item-icon i {
+  color: #fc6423;
 }
 @-moz-keyframes hbeFadeIn {
   from {

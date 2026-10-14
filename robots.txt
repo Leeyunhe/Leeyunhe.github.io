@@ -1,0 +1,20 @@
+# robots.txt for Leeyunhe's Technical Blog
+# Domain: https://leeyunhe.github.io
+
+User-agent: *
+Allow: /
+Allow: /archives/
+Allow: /categories/
+Allow: /tags/
+Allow: /about/
+Allow: /guestbook/
+
+# Disallow private notebook and non-content resources
+Disallow: /notebook/
+Disallow: /js/
+Disallow: /css/
+Disallow: /lib/
+
+# Sitemaps
+Sitemap: https://leeyunhe.github.io/sitemap.xml
+Sitemap: https://leeyunhe.github.io/baidusitemap.xml
