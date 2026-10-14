@@ -18,6 +18,34 @@
   --btn-default-hover-color: #fff;
   --btn-default-hover-border-color: #222;
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-bg-color: #282828;
+    --content-bg-color: #333;
+    --card-bg-color: #555;
+    --text-color: #ccc;
+    --blockquote-color: #bbb;
+    --link-color: #ccc;
+    --link-hover-color: #eee;
+    --brand-color: #ddd;
+    --brand-hover-color: #ddd;
+    --table-row-odd-bg-color: #282828;
+    --table-row-hover-bg-color: #363636;
+    --menu-item-bg-color: #555;
+    --btn-default-bg: #222;
+    --btn-default-color: #ccc;
+    --btn-default-border-color: #555;
+    --btn-default-hover-bg: #666;
+    --btn-default-hover-color: #ccc;
+    --btn-default-hover-border-color: #666;
+  }
+  img {
+    opacity: 0.75;
+  }
+  img:hover {
+    opacity: 0.9;
+  }
+}
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -1192,7 +1220,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #c8d2c7;
+  background: #50ff77;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3291,6 +3319,219 @@ body {
 }
 .post-block:has(#hexo-blog-encrypt:not(.hbe-decrypted-content)) .post-copyright {
   display: none !important;
+}
+@media (prefers-color-scheme: dark) {
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(18,18,18,0.45);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .header-inner {
+    background: rgba(36,36,36,0.85);
+  }
+  .about-tech-section h4 {
+    color: #e2e8f0;
+  }
+  .about-tag {
+    background: rgba(45,55,72,0.65);
+    color: #cbd5e0;
+    border-color: rgba(252,100,35,0.35);
+  }
+  .about-tag:hover {
+    background: rgba(252,100,35,0.22);
+    color: #ff9153;
+    border-color: #fc6423;
+  }
+  .post-copyright {
+    background: rgba(42,42,42,0.75);
+    color: #cbd5e0;
+  }
+  .post-copyright li strong {
+    color: #edf2f7;
+  }
+  .medium-zoom-overlay {
+    background: rgba(18,18,18,0.94) !important;
+  }
+  .hbe-relock-footer {
+    background: rgba(42,42,42,0.75);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .hbe-relock-footer .hbe-relock-tip {
+    color: #a0aec0;
+  }
+  .hbe-unlocked-banner {
+    background: rgba(252,100,35,0.14);
+    color: #cbd5e0;
+  }
+  .search-popup {
+    background: #282828 !important;
+    color: #e2e8f0 !important;
+  }
+  .search-popup input.search-input {
+    color: #fff !important;
+    background: rgba(40,40,40,0.8) !important;
+  }
+  #tcomment .tk-meta-input .el-input {
+    background: rgba(45,45,45,0.75);
+  }
+  #tcomment .tk-meta-input .el-input input {
+    color: #e2e8f0;
+  }
+  #tcomment .el-textarea__inner {
+    background: rgba(45,45,45,0.75);
+    color: #e2e8f0;
+  }
+  .highlight-container {
+    background: #1e1e1e !important;
+  }
+  .highlight,
+  pre {
+    background: #1e1e1e !important;
+    color: #d4d4d4 !important;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  }
+  .highlight *::selection,
+  pre *::selection {
+    background: #264f78 !important;
+  }
+  .highlight table,
+  .highlight tr,
+  .highlight td {
+    background: transparent !important;
+    border: 0 !important;
+  }
+  .highlight .code pre {
+    background: #1e1e1e !important;
+    color: #d4d4d4 !important;
+  }
+  .highlight .gutter pre {
+    background: #252526 !important;
+    color: #6e7681 !important;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .highlight figcaption {
+    background: #252526 !important;
+    color: #ccc !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .highlight figcaption a {
+    color: #9cdcfe !important;
+  }
+  .highlight figcaption a:hover {
+    color: #fc6423 !important;
+    border-bottom-color: #fc6423 !important;
+  }
+  .copy-btn {
+    background: #2d2d2d !important;
+    color: #cbd5e0 !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+  .copy-btn:hover {
+    background: #fc6423 !important;
+    color: #fff !important;
+    border-color: #fc6423 !important;
+  }
+  :not(pre) > code {
+    background: rgba(255,255,255,0.1) !important;
+    color: #ff9153 !important;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+  pre code {
+    background: transparent !important;
+    color: inherit !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+  .highlight .comment,
+  pre .comment {
+    color: #6a9955 !important;
+    font-style: italic;
+  }
+  .highlight .keyword,
+  pre .keyword,
+  .highlight .javascript .function,
+  pre .javascript .function {
+    color: #c586c0 !important;
+  }
+  .highlight .string,
+  pre .string,
+  .highlight .symbol,
+  pre .symbol,
+  .highlight .value,
+  pre .value,
+  .highlight .ruby .symbol,
+  pre .ruby .symbol,
+  .highlight .xml .cdata,
+  pre .xml .cdata,
+  .highlight .special,
+  pre .special,
+  .highlight .formula,
+  pre .formula {
+    color: #ce9178 !important;
+  }
+  .highlight .number,
+  pre .number,
+  .highlight .built_in,
+  pre .built_in,
+  .highlight .builtin-name,
+  pre .builtin-name,
+  .highlight .literal,
+  pre .literal,
+  .highlight .params,
+  pre .params,
+  .highlight .constant,
+  pre .constant,
+  .highlight .command,
+  pre .command {
+    color: #b5cea8 !important;
+  }
+  .highlight .title,
+  pre .title,
+  .highlight .function,
+  pre .function,
+  .highlight .css .hexcolor,
+  pre .css .hexcolor {
+    color: #dcdcaa !important;
+  }
+  .highlight .variable,
+  pre .variable,
+  .highlight .attribute,
+  pre .attribute,
+  .highlight .tag,
+  pre .tag,
+  .highlight .name,
+  pre .name,
+  .highlight .regexp,
+  pre .regexp,
+  .highlight .preprocessor,
+  pre .preprocessor,
+  .highlight .meta,
+  pre .meta {
+    color: #9cdcfe !important;
+  }
+  .highlight .deletion,
+  pre .deletion {
+    background: rgba(248,81,73,0.2) !important;
+    color: #ff7b72 !important;
+  }
+  .highlight .addition,
+  pre .addition {
+    background: rgba(46,160,67,0.2) !important;
+    color: #7ee787 !important;
+  }
 }
 @-moz-keyframes hbeFadeIn {
   from {
