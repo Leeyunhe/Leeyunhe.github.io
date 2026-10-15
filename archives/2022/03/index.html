@@ -14,7 +14,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="云淡风轻拂往事，执笔从容话人生">
@@ -877,6 +877,136 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+})();
+</script>
+
+<!-- 6. Mac 拟态代码块增强：语言徽章与超长代码智能折叠 (v2.7.0) -->
+<script>
+(function() {
+  function initMacCodeblocks() {
+    var figures = document.querySelectorAll('figure.highlight');
+    if (!figures.length) return;
+
+    figures.forEach(function(fig) {
+      var container = fig.closest('.highlight-container') || fig;
+      if (container.dataset.macEnhanced) return;
+      container.dataset.macEnhanced = 'true';
+
+      // 1. 提取并注入语言徽章 (Language Badge)
+      if (!container.querySelector('.code-lang-badge')) {
+        var classes = Array.prototype.slice.call(fig.classList);
+        var langClass = classes.find(function(c) {
+          return c !== 'highlight' && c !== 'table-container' && c.trim() !== '';
+        });
+        var langText = 'CODE';
+        if (langClass) {
+          var map = {
+            'js': 'JAVASCRIPT',
+            'javascript': 'JAVASCRIPT',
+            'ts': 'TYPESCRIPT',
+            'typescript': 'TYPESCRIPT',
+            'c': 'C',
+            'cpp': 'C++',
+            'cc': 'C++',
+            'cxx': 'C++',
+            'h': 'C/C++ HEADER',
+            'hpp': 'C++ HEADER',
+            'py': 'PYTHON',
+            'python': 'PYTHON',
+            'sh': 'BASH',
+            'bash': 'BASH',
+            'zsh': 'ZSH',
+            'shell': 'SHELL',
+            'html': 'HTML',
+            'css': 'CSS',
+            'styl': 'STYLUS',
+            'stylus': 'STYLUS',
+            'yml': 'YAML',
+            'yaml': 'YAML',
+            'json': 'JSON',
+            'xml': 'XML',
+            'sql': 'SQL',
+            'glsl': 'GLSL',
+            'plaintext': 'TEXT',
+            'text': 'TEXT',
+            'markdown': 'MARKDOWN',
+            'md': 'MARKDOWN'
+          };
+          langText = map[langClass.toLowerCase()] || langClass.toUpperCase();
+        }
+
+        var badge = document.createElement('span');
+        badge.className = 'code-lang-badge';
+        badge.textContent = langText;
+        container.appendChild(badge);
+      }
+
+      // 2. 超长代码块智能折叠 (> 30 行或内容高度 > 360px)
+      var lines = fig.querySelectorAll('.gutter .line').length ||
+                  fig.querySelectorAll('.code .line').length;
+
+      var isLong = lines >= 30;
+      if (!isLong && fig.offsetHeight > 360) {
+        isLong = true;
+      }
+
+      if (isLong && !container.classList.contains('code-collapsed') && !container.classList.contains('code-expanded')) {
+        container.classList.add('code-collapsed');
+
+        var mask = document.createElement('div');
+        mask.className = 'code-fold-mask';
+        container.appendChild(mask);
+
+        var btnWrap = document.createElement('div');
+        btnWrap.className = 'code-fold-btn-wrap';
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-fold-btn';
+        btn.setAttribute('aria-label', '展开全部代码');
+        var lineLabel = lines > 0 ? ' (' + lines + ' 行)' : '';
+        btn.innerHTML = '<i class="fa fa-angle-down"></i> <span>展开全部代码' + lineLabel + '</span>';
+
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          var isCollapsed = container.classList.contains('code-collapsed');
+          if (isCollapsed) {
+            container.classList.remove('code-collapsed');
+            container.classList.add('code-expanded');
+            btn.innerHTML = '<i class="fa fa-angle-up"></i> <span>收起代码</span>';
+          } else {
+            container.classList.remove('code-expanded');
+            container.classList.add('code-collapsed');
+            btn.innerHTML = '<i class="fa fa-angle-down"></i> <span>展开全部代码' + lineLabel + '</span>';
+
+            // 智能视口回滚：若代码块顶部已被滚出屏幕上方，则平滑滚回代码块起始位置
+            var rect = container.getBoundingClientRect();
+            if (rect.top < 60) {
+              window.scrollTo({
+                top: window.scrollY + rect.top - 80,
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+
+        btnWrap.appendChild(btn);
+        container.appendChild(btnWrap);
+      }
+    });
+  }
+
+  // 挂载执行：DOM 就绪与 PJAX 路由切换
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initMacCodeblocks, 60);
+    });
+  } else {
+    setTimeout(initMacCodeblocks, 60);
+  }
+  window.addEventListener('pjax:success', function() {
+    setTimeout(initMacCodeblocks, 60);
+  });
 })();
 </script>
 
