@@ -14,7 +14,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过多次转化和多次测试，最后以二维像素的形式显示在屏幕上。OpenGL管线的最终渲染目的地被称作帧缓存（framebuffer）。帧缓冲是一些二维数组和OpenG所使用的存储区的集合：颜色缓存、深度缓存、模板缓存和累计缓存。一般情况下，帧缓存完全由window系统">
@@ -338,7 +338,7 @@
   </div>
   <div class="outdated-warning-content">
     <div class="outdated-warning-title">文章时效性提示</div>
-    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1279 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
+    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1280 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
   </div>
 </div>
 <h1 id="OpenGl-ES—FBO"><a href="#OpenGl-ES—FBO" class="headerlink" title="OpenGl ES—FBO"></a>OpenGl ES—FBO</h1><p>（Frame Buffer Object帧缓存对象）</p>
@@ -350,7 +350,7 @@
 <p>有两种类型的“帧缓存关联图像”：纹理图像（texture images）和渲染缓存图像（renderbuffer images）。如果纹理对象的图像数据关联到帧缓存，OpenGL执行的是“渲染到纹理”（render to texture）操作。如果渲染缓存的图像数据关联到帧缓存，OpenGL执行的是离线渲染（offscreen rendering）。</p>
 <p>这里要提到的是，渲染缓存对象是在GL_EXT_framebuffer_object扩展中定义的一种新的存储类型。在渲染过程中它被用作存储单幅二维图像。</p>
 <p>下面这幅图显示了帧缓存对象、纹理对象和渲染缓存对象之间的联系。多多个纹理对象或者渲染缓存对象能够通过关联点关联到一个帧缓存对象上。</p>
-<p><img src="/2023/04/14/4-5-FBO/25.png"></p>
+<p><img data-src="/2023/04/14/4-5-FBO/25.png"></p>
 <p>在一个帧缓存对象中有多个颜色关联点（GL_COLOR_ATTACHMENT0_EXT,…,GL_COLOR_ATTACHMENTn_EXT），一个深度关联点（GL_DEPTH_ATTACHMENT_EXT），和一个模板关联点（GL_STENCIL_ATTACHMENT_EXT）。每个FBO中至少有一个颜色关联点，其数目与实体显卡相关。可以通过GL_MAX_COLOR_ATTACHMENTS_EXT来查询颜色关联点的最大数目。FBO有多个颜色关联点的原因是这样可以同时将颜色而换成渲染到多个FBO关联区。这种“多渲染目标”（multiple rendertargets,MRT）可以通过GL_ARB_draw_buffers扩展实现。需要注意的是：FBO本身并没有任何图像存储区，只有多个关联点。</p>
 <p>FBO提供了一种高效的切换机制；将前面的帧缓存关联图像从FBO分离，然后把新的帧缓存关联图像关联到FBO。在帧缓存关联图像之间切换比在FBO之间切换要快得多。FBO提供了glFramebufferTexture2DEXT()来切换2D纹理对象和glFramebufferRenderbufferEXT()来切换渲染缓存对象。</p>
 <h2 id="1、帧缓冲创建"><a href="#1、帧缓冲创建" class="headerlink" title="1、帧缓冲创建"></a>1、帧缓冲创建</h2><p> 使用glGenFrameBuffer函数来创建一个帧缓冲（FBO） </p>
@@ -408,6 +408,70 @@
         <div class="popular-posts-excerpt"><p>OpenGL ES 2.0 API</p></div>
     </li>
   </ul>
+<!-- ============================================================== -->
+<!-- 一键生成精美极客“技术分享长图 / 金句海报” (Post Share Poster)    -->
+<!-- 挂载位置: source/_data/post-body-end.swig                      -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.postBodyEnd 载入 -->
+<!-- ============================================================== -->
+    
+
+    
+
+    
+
+    <div class="post-poster-trigger-wrapper">
+      <button type="button" class="btn-post-poster" id="btn-post-poster"
+        data-title="OpenGl ES---FBO"
+        data-date="2023-04-14"
+        data-url="https://leeyunhe.github.io/2023/04/14/4-5-FBO/"
+        data-category="笔记"
+        data-tags="嵌入式,OpenGL"
+        data-description=""
+        data-author="Leeyunhe"
+        title="一键生成高清技术分享长图与金句海报"
+      >
+        <i class="fa fa-camera-retro"></i>
+        <span>生成技术分享长图</span>
+      </button>
+    </div>
+
+    <!-- 海报预览与保存全屏模态弹窗 -->
+    <div class="post-poster-modal" id="post-poster-modal" style="display: none;" aria-hidden="true">
+      <div class="post-poster-backdrop"></div>
+      <div class="post-poster-dialog" role="dialog" aria-modal="true">
+        <div class="post-poster-header">
+          <div class="post-poster-title">
+            <i class="fa fa-image"></i>
+            <span>技术分享长图 · 金句海报</span>
+          </div>
+          <button type="button" class="post-poster-close" id="post-poster-close-btn" title="关闭 (Esc)">&times;</button>
+        </div>
+        <div class="post-poster-body">
+          <div class="post-poster-loading" id="post-poster-loading">
+            <i class="fa fa-spinner fa-spin"></i>
+            <span>正在排版并即时绘制 Retina 2x 高清海报...</span>
+          </div>
+          <div class="post-poster-preview" id="post-poster-preview" style="display: none;">
+            <img id="post-poster-img" src="" alt="博文技术分享海报预览" />
+          </div>
+        </div>
+        <div class="post-poster-footer">
+          <a id="post-poster-download-btn" href="#" download="post-poster.png" class="btn-poster-action btn-poster-download">
+            <i class="fa fa-download"></i>
+            <span>保存高清长图</span>
+          </a>
+          <button type="button" class="btn-poster-action btn-poster-cancel" id="post-poster-cancel-btn">
+            关闭
+          </button>
+        </div>
+        <div class="post-poster-mobile-hint">
+          <i class="fa fa-mobile-alt"></i>
+          <span>手机端长按海报可直接保存到相册或分发给微信/技术社群好友</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/post-poster.js" defer></script>
 
         
 
@@ -570,6 +634,77 @@
   </div>
 
 
+<!-- ============================================================== -->
+<!-- 侧边栏“极客博客运行里程碑”状态徽章栏 (Milestone Badges)        -->
+<!-- 挂载位置: source/_data/sidebar.swig                           -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.sidebar 载入 -->
+<!-- ============================================================== -->
+
+<div class="geek-milestones motion-element">
+  <div class="milestones-title">
+    <i class="fa fa-tachometer-alt"></i>
+    <span>运行里程碑 · BLOG STATUS</span>
+  </div>
+  <div class="milestones-container">
+    <!-- 运行状态徽章 (带绿光呼吸脉冲) -->
+    <div class="milestone-badge badge-status" title="博客系统健康在线，各项基础设施稳定运行">
+      <span class="badge-label"><i class="badge-pulse-dot"></i> 状态</span>
+      <span class="badge-val val-green">ONLINE · PASSING</span>
+    </div>
+
+    <!-- 运行历程徽章 (建站基准日 2021-01-07 动态累加) -->
+    <div class="milestone-badge badge-runtime" title="自 2021 年建站至今不间断运行">
+      <span class="badge-label"><i class="fa fa-hourglass-half"></i> 历程</span>
+      <span class="badge-val val-orange" id="blog-runtime-val">载入中...</span>
+    </div>
+
+    <!-- 全站篇数徽章 -->
+    <div class="milestone-badge badge-posts" title="全站已公开发表的技术文章总篇数">
+      <span class="badge-label"><i class="fa fa-file-alt"></i> 文章</span>
+      <span class="badge-val val-blue">16 篇技术归档</span>
+    </div>
+
+    <!-- 极客内核架构徽章 -->
+    <div class="milestone-badge badge-version" title="博客静态渲染引擎与主题架构版本">
+      <span class="badge-label"><i class="fa fa-microchip"></i> 内核</span>
+      <span class="badge-val val-purple">Hexo v7 · NexT v7.8</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  function updateBlogRuntime() {
+    var elem = document.getElementById('blog-runtime-val');
+    if (!elem) return;
+
+    // 建站起始时间：2021年1月7日
+    var startDate = new Date('2021/01/07 00:00:00');
+    var now = new Date();
+    var diffMs = now.getTime() - startDate.getTime();
+
+    if (diffMs < 0) {
+      elem.textContent = '1 天';
+      return;
+    }
+
+    var totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    var totalHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    elem.textContent = totalDays + ' 天 ' + totalHours + ' 时';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateBlogRuntime);
+  } else {
+    updateBlogRuntime();
+  }
+
+  // 每小时自动刷新一次运行时长显示
+  setInterval(updateBlogRuntime, 3600000);
+  window.addEventListener('pjax:success', updateBlogRuntime);
+})();
+</script>
 
       </div>
 
@@ -645,6 +780,7 @@
   
   <script src="/lib/anime.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/lozad/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -983,6 +1119,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateThemeButton();
     reloadMermaid();
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: isDark ? 'light' : 'dark' } }));
   }
 
   // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
@@ -1203,6 +1340,173 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 })();
 </script>
+
+<!-- ============================================================== -->
+<!-- 6. 3D 赛博空间立体球形标签云 (3D Cyber Space TagCanvas)        -->
+<!-- 挂载位置: source/_data/body-end.swig                          -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  function init3DTagCloud() {
+    var tagCloudTags = document.querySelector('.tag-cloud-tags');
+    if (!tagCloudTags) return;
+
+    // 1. 五重隐私安全拦截：过滤剔除私密标签
+    var tagLinks = tagCloudTags.querySelectorAll('a');
+    tagLinks.forEach(function(a) {
+      var text = (a.textContent || '').trim().toLowerCase();
+      if (text === '私密' || text === 'secret' || text === 'private') {
+        a.remove();
+      }
+    });
+
+    if (document.getElementById('tag-canvas-wrap')) return;
+
+    // 2. 插入 Canvas 容器与交互指引
+    var wrap = document.createElement('div');
+    wrap.id = 'tag-canvas-wrap';
+    wrap.className = 'tag-canvas-wrap';
+
+    var tip = document.createElement('div');
+    tip.className = 'tag-canvas-tip';
+    tip.innerHTML = '<i class="fa fa-atom"></i> <span>3D 赛博空间悬浮交互 · 鼠标移入可自由旋转 · 点击标签直达</span>';
+    wrap.appendChild(tip);
+
+    var canvas = document.createElement('canvas');
+    canvas.id = 'tag-canvas';
+    canvas.className = 'tag-canvas';
+    
+    var containerWidth = (tagCloudTags.parentElement.clientWidth || 560) - 20;
+    var canvasWidth = Math.min(520, Math.max(300, containerWidth));
+    var canvasHeight = Math.min(420, Math.max(280, Math.floor(canvasWidth * 0.8)));
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    canvas.innerHTML = '<p>您的浏览器暂不支持 3D Canvas 标签球效果</p>';
+    wrap.appendChild(canvas);
+
+    tagCloudTags.parentElement.insertBefore(wrap, tagCloudTags);
+
+    if (!tagCloudTags.id) {
+      tagCloudTags.id = 'tag-cloud-source-list';
+    }
+
+    // 3. 核心启动与配色适配
+    function runTagCanvas() {
+      if (!window.TagCanvas) return;
+      var isDark = document.documentElement.classList.contains('dark-mode') || 
+                   (localStorage.getItem('theme') === 'dark');
+
+      var options = {
+        textColour: isDark ? '#38bdf8' : '#fc6423',
+        outlineColour: isDark ? 'rgba(56, 189, 248, 0.3)' : 'rgba(252, 100, 35, 0.3)',
+        outlineThickness: 1.5,
+        outlineMethod: 'outline',
+        maxSpeed: 0.035,
+        minSpeed: 0.008,
+        decel: 0.96,
+        depth: 0.92,
+        initial: [0.12, -0.08],
+        wheelZoom: false,
+        fadeIn: 600,
+        reverse: true,
+        activeCursor: 'pointer',
+        pulsateTo: 1.15,
+        pulsateTime: 0.5,
+        weight: true,
+        weightMode: 'both',
+        weightSize: 1.2,
+        clickToFront: 400,
+        shuffleTags: true,
+        minTags: 18,
+        shadow: isDark ? '#0284c7' : '#ff8038',
+        shadowBlur: isDark ? 4 : 2,
+        textHeight: 18,
+        textFont: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+      };
+
+      if (isDark) {
+        options.weightGradient = {
+          0: '#ff8038',
+          0.33: '#38bdf8',
+          0.66: '#34d399',
+          1: '#a78bfa'
+        };
+      } else {
+        options.weightGradient = {
+          0: '#ea580c',
+          0.33: '#fc6423',
+          0.66: '#0284c7',
+          1: '#475569'
+        };
+      }
+
+      try {
+        TagCanvas.Start('tag-canvas', tagCloudTags.id, options);
+        tagCloudTags.classList.add('tag-cloud-hidden');
+      } catch (err) {
+        console.warn('TagCanvas fallback to 2D:', err);
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      }
+    }
+
+    // 4. 按需加载本地 tagcanvas.min.js
+    if (window.TagCanvas) {
+      runTagCanvas();
+    } else {
+      var script = document.createElement('script');
+      script.src = '/lib/tagcanvas/tagcanvas.min.js';
+      script.async = true;
+      script.onload = runTagCanvas;
+      script.onerror = function() {
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      };
+      document.body.appendChild(script);
+    }
+
+    // 5. 监听深浅主题切换事件，动态重绘 3D 球体配色
+    window.addEventListener('themeChanged', function() {
+      if (window.TagCanvas && document.getElementById('tag-canvas')) {
+        try {
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        } catch (e) {}
+      }
+    });
+
+    // 6. 响应式视口自适应
+    var resizeTimer = null;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        var cvs = document.getElementById('tag-canvas');
+        if (!cvs || !window.TagCanvas) return;
+        var newW = Math.min(520, Math.max(300, (tagCloudTags.parentElement.clientWidth || 560) - 20));
+        var newH = Math.min(420, Math.max(280, Math.floor(newW * 0.8)));
+        if (Math.abs(cvs.width - newW) > 25) {
+          cvs.width = newW;
+          cvs.height = newH;
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        }
+      }, 300);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init3DTagCloud);
+  } else {
+    init3DTagCloud();
+  }
+  window.addEventListener('pjax:success', init3DTagCloud);
+})();
+</script>
+
+<!-- 8. 博文段落内嵌单曲 / 播客音频胶囊交互驱动引擎 (Geek Audio Pill) -->
+<script src="/js/audio-pill.js" defer></script>
+
 
 
 

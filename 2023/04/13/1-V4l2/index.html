@@ -14,7 +14,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="Video for Linux two(简称v4l2)   一、概述 vl42是video for Linux 2的缩写，是一套Linux内核视频设备的驱动框架，该驱动框架为应用层提供一套统一的操作接口(一系列的ioctl)。包括一套数据结构和底层V4L2驱动接口。只能在Linux下使用。">
@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://leeyunhe.github.io/2023/04/13/1-V4l2/2.png">
 <meta property="og:image" content="https://leeyunhe.github.io/2023/04/13/1-V4l2/3.png">
 <meta property="article:published_time" content="2023-04-13T03:56:11.000Z">
-<meta property="article:modified_time" content="2026-09-23T06:32:36.761Z">
+<meta property="article:modified_time" content="2026-10-16T05:38:38.369Z">
 <meta property="article:author" content="Leeyunhe">
 <meta property="article:tag" content="嵌入式">
 <meta name="twitter:card" content="summary">
@@ -278,7 +278,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2026-09-23 14:32:36" itemprop="dateModified" datetime="2026-09-23T14:32:36+08:00">2026-09-23</time>
+                <time title="修改时间：2026-10-16 13:38:38" itemprop="dateModified" datetime="2026-10-16T13:38:38+08:00">2026-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -339,7 +339,7 @@
   </div>
   <div class="outdated-warning-content">
     <div class="outdated-warning-title">文章时效性提示</div>
-    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1281 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
+    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1282 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
   </div>
 </div>
 <div align = "center">Video for Linux two(简称v4l2)</div>
@@ -354,6 +354,34 @@
 <p>video overlay interface：视频直接传输接口，可以将采集到的视频数据直接传输到显示设备，不需要cpu参与，这种方式的显示图像的效率比其他方式高得多</p>
 <p>其他接口这里就不介绍了，下面来看一下v4l2的API</p>
 <h1 id="二、作用"><a href="#二、作用" class="headerlink" title="二、作用"></a>二、作用</h1><p>它使程序有发现设备和操作设备的能力。它主要是用一系列的回调函数来实现这些功能。像设置摄像头的频率、帧频、视频压缩格式和图像参数等等。并使得它们的输出标准化。当然也可以用于其他多媒体的开发，如音频等。</p>
+
+<div class="geek-audio-pill" data-src="/audio/tech_tone_sample.wav">
+  <audio class="audio-element" preload="metadata" src="/audio/tech_tone_sample.wav"></audio>
+  <button type="button" class="audio-control-btn" aria-label="播放/暂停" title="播放 / 暂停">
+    <i class="fa fa-play icon-play"></i>
+    <i class="fa fa-pause icon-pause" style="display: none;"></i>
+  </button>
+  <div class="audio-wave-anim" aria-hidden="true" title="动态声波振幅指示">
+    <span class="wave-bar bar-1"></span>
+    <span class="wave-bar bar-2"></span>
+    <span class="wave-bar bar-3"></span>
+    <span class="wave-bar bar-4"></span>
+  </div>
+  <div class="audio-meta">
+    <span class="audio-title" title="多媒体双频纯音测试 (523Hz + 659Hz)">多媒体双频纯音测试 (523Hz + 659Hz)</span>
+    <span class="audio-artist" title="Leeyunhe 合成"> · Leeyunhe 合成</span>
+  </div>
+  <div class="audio-progress-wrap" role="slider" aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" title="点击快进或快退">
+    <div class="audio-progress-bar">
+      <div class="audio-progress-current"></div>
+    </div>
+  </div>
+  <div class="audio-time">
+    <span class="time-current">0:00</span><span class="time-sep">/</span><span class="time-duration">--:--</span>
+  </div>
+</div>
+
+
 <h1 id="三、存放位置"><a href="#三、存放位置" class="headerlink" title="三、存放位置"></a>三、存放位置</h1><p>在Linux下，所有外设都被看成一种特殊的文件，成为“设备文件”，可以象访问普通文件一样对其进行读写。一般来说，采用V4L2驱动的摄像头设备文是&#x2F;dev&#x2F;v4l&#x2F;video0。为了通用，可以建立一个到&#x2F;dev&#x2F;video0的链接。V4L2支持两种方式来采集图像：内存映射方式(mmap)和直接读取方式(read)。V4L2在include&#x2F;linux&#x2F;videodev.h文件中定义了一些重要的数据结构，在采集图像的过程中，就是通过对这些数据的操作来获得最终的图像数据。Linux系统V4L2的能力可在Linux内核编译阶段配置，默认情况下都有此开发接口。V4L2从Linux 2.5.x版本的内核中开始出现。结构体详细参数可以在&#x2F;include&#x2F;uapi&#x2F;linux&#x2F;videodev2.h中查看。</p>
 <h1 id="四、V4l2框架操作流程"><a href="#四、V4l2框架操作流程" class="headerlink" title="四、V4l2框架操作流程"></a>四、V4l2框架操作流程</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.打开视频设备文件</span></span><br><span class="line"><span class="type">int</span> fd = open(<span class="string">&quot;/dev/video0&quot;</span>,O_RDWR);</span><br><span class="line"><span class="comment">//2.查询视频设备属性，如：是否具有视频输入或者音频输入输出等</span></span><br><span class="line">ioctl(fd,VIDIOC_QUERYCAP,&amp;cap);</span><br><span class="line"><span class="comment">//3.选择视频输入，一个视频设备可以有多个视频输入</span></span><br><span class="line"><span class="comment">//4.设置视频采集的参数:视频的制式，图像的采集窗口，帧格式，帧率，旋转方式</span></span><br><span class="line">ioctl(fd,VIDIOC_S_FMT,&amp;fmt);</span><br><span class="line"><span class="comment">//5.向驱动申请视频流数据的帧缓冲区，一般为4个。</span></span><br><span class="line">ioctl(fd, VIDIOC_REQBUFS, &amp;req);</span><br><span class="line"><span class="comment">//6.查询帧缓冲区在内核空间中的长度和偏移量 </span></span><br><span class="line">ioctl(fd, VIDIOC_QUERYBUF, &amp;buf);</span><br><span class="line"><span class="comment">//7.将申请到的帧缓冲映射到用户空间mmap，这样可以直接操作采集到的帧，不用复制</span></span><br><span class="line">buffers[i].length = buf.length;</span><br><span class="line">buffers[i].start = mmap(<span class="literal">NULL</span>, buffers[i].length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, buffers[i].offset);;</span><br><span class="line"><span class="comment">//8.将申请到的帧缓冲全部放入视频采集输出队列，以便存放采集的数据</span></span><br><span class="line">ioctl (fd, VIDIOC_QBUF, &amp;buf);</span><br><span class="line"><span class="comment">//9.开始视频采集</span></span><br><span class="line">ioctl (fd, VIDIOC_STREAMON, &amp;type);</span><br><span class="line"><span class="comment">//10.出列以取得已采集数据的帧缓冲，取得原始数据</span></span><br><span class="line">ioctl (fd, VIDIOC_DQBUF, &amp;buf);</span><br><span class="line"><span class="comment">//此时应用程序处理该帧缓冲区的数据，如：进行数据的处理和保存，</span></span><br><span class="line">fp = fopen(picture.yuv,<span class="string">&quot;w&quot;</span>);<span class="comment">//保存图片&quot;w&quot;，保存视频&quot;a&quot;追加写</span></span><br><span class="line">fwrite(addr,<span class="number">1</span>,length,fp);</span><br><span class="line">fclose(fp);</span><br><span class="line"><span class="comment">//11.处理完后，将该帧缓冲区重新入列,这样便可以循环采集数据，直到停止采集</span></span><br><span class="line">ioctl (fd, VIDIOC_QBUF, &amp;buf);</span><br><span class="line"><span class="comment">//12.停止视频的采集</span></span><br><span class="line">ioctl (fd, VIDIOC_STREAMOFF, &amp;type);</span><br><span class="line"><span class="comment">//13.释放申请的视频帧缓冲区</span></span><br><span class="line">unmap;</span><br><span class="line"><span class="comment">//14.关闭视频设备文件</span></span><br><span class="line">close(fd);</span><br></pre></td></tr></table></figure>
 
@@ -421,16 +449,58 @@
 
 
 
-<h2 id="2、图示"><a href="#2、图示" class="headerlink" title="2、图示"></a>2、图示</h2><img src="1.png"  />
+<h2 id="2、图示"><a href="#2、图示" class="headerlink" title="2、图示"></a>2、图示</h2><img data-src="1.png"  />
 
-<img src="2.png"  />
+<img data-src="2.png"  />
 
-<img src="3.png" style="zoom:80%;" />
+<img data-src="3.png" style="zoom:80%;" />
 
 <h2 id="3、主要框架"><a href="#3、主要框架" class="headerlink" title="3、主要框架"></a>3、主要框架</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;...&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">video_device</span>* <span class="title">video_dev</span>;</span></span><br><span class="line"><span class="type">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_device</span> <span class="title">v4l2_dev</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 实现各种系统调用 */</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_file_operations</span> <span class="title">video_dev_fops</span> =</span> &#123;</span><br><span class="line">	.owner		    = THIS_MODULE,</span><br><span class="line">	.release        = vdev_close,</span><br><span class="line">	.read           = vdev_read,</span><br><span class="line">	.poll		    = vdev_poll,</span><br><span class="line">	.ioctl          = video_ioctl2,</span><br><span class="line">	.mmap           = vdev_mmap,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 实现各种系统调用 */</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">v4l2_ioctl_ops</span> <span class="title">video_dev_ioctl_ops</span> =</span> &#123;</span><br><span class="line">	.vidioc_querycap      = vidioc_querycap,</span><br><span class="line">	.vidioc_enum_fmt_vid_cap  = vidioc_enum_fmt_vid_cap,</span><br><span class="line">	.vidioc_g_fmt_vid_cap     = vidioc_g_fmt_vid_cap,</span><br><span class="line">	.vidioc_try_fmt_vid_cap   = vidioc_try_fmt_vid_cap,</span><br><span class="line">	.vidioc_s_fmt_vid_cap     = vidioc_s_fmt_vid_cap,</span><br><span class="line">	.vidioc_reqbufs       = vidioc_reqbufs,</span><br><span class="line">	.vidioc_querybuf      = vidioc_querybuf,</span><br><span class="line">	.vidioc_qbuf          = vidioc_qbuf,</span><br><span class="line">	.vidioc_dqbuf         = vidioc_dqbuf,</span><br><span class="line">	.vidioc_enum_input    = vidioc_enum_input,</span><br><span class="line">	.vidioc_g_input       = vidioc_g_input,</span><br><span class="line">	.vidioc_s_input       = vidioc_s_input,</span><br><span class="line">	.vidioc_streamon      = vidioc_streamon,</span><br><span class="line">	.vidioc_streamoff     = vidioc_streamoff,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> __init <span class="title function_">video_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* 分配并设置一个video_device */</span></span><br><span class="line">    video_dev = video_device_alloc();</span><br><span class="line">    video_dev-&gt;fops = &amp;video_dev_fops;</span><br><span class="line">    video_dev-&gt;ioctl_ops = &amp;video_dev_ioctl_ops;</span><br><span class="line">    video_dev-&gt;release = video_device_release;</span><br><span class="line">    video_dev-&gt;tvnorms = V4L2_STD_525_60;</span><br><span class="line">    video_dev-&gt;current_norm = V4L2_STD_NTSC_M;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 注册一个v4l2_device */</span></span><br><span class="line">    v4l2_device_register(video_dev-&gt;dev, &amp;v4l2_dev);    </span><br><span class="line">    video_dev-&gt;v4l2_dev = &amp;video_dev;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 注册一个video_device字符设备 */</span></span><br><span class="line">    video_register_device(video_dev, VFL_TYPE_GRABBER, <span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> __exit <span class="title function_">video_exit</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//注销</span></span><br><span class="line">    video_unregister_device(video_dev);</span><br><span class="line">    v4l2_device_unregister(&amp;v4l2_dev);</span><br><span class="line">    video_device_release(video_dev);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module_init(video_init);</span><br><span class="line">module_exit(video_exit);</span><br><span class="line">MODULE_LICENSE(<span class="string">&quot;GPL&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <h1 id="八、多路video输入分析"><a href="#八、多路video输入分析" class="headerlink" title="八、多路video输入分析"></a>八、多路video输入分析</h1><h2 id="1、多路操作流程"><a href="#1、多路操作流程" class="headerlink" title="1、多路操作流程"></a>1、多路操作流程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.设备初始化</span></span><br><span class="line">_Init()&#123;</span><br><span class="line">    _open()｛</span><br><span class="line">        fd[i] = open(dev_name[i], O_RDWR <span class="comment">/* required */</span>  | O_NONBLOCK, <span class="number">0</span>);</span><br><span class="line">    ioctl(fd[i], VIDIOC_S_INPUT, &amp;inp);<span class="comment">//设置输入</span></span><br><span class="line">    ioctl(fd[i], VIDIOC_S_PARM, &amp;parms);<span class="comment">//主要用来设置采集帧数</span></span><br><span class="line">        ｝;<span class="comment">//打开设备节点</span></span><br><span class="line">    _Fmtset()｛</span><br><span class="line">        ioctl(fd[i], VIDIOC_S_FMT, &amp;fmt);<span class="comment">//设置</span></span><br><span class="line">        ioctl(fd[i], VIDIOC_G_FMT, &amp;fmt);<span class="comment">//查询，判断设置是否成功</span></span><br><span class="line">        ｝;<span class="comment">//设置视频捕获模式</span></span><br><span class="line">    _BuffReq()｛</span><br><span class="line">        ioctl(fd[i], VIDIOC_REQBUFS, &amp;req);</span><br><span class="line">        ioctl(fd[i], VIDIOC_QUERYBUF, &amp;buf);</span><br><span class="line">        ioctl(fd[i], VIDIOC_QBUF, &amp;buf);</span><br><span class="line">        ｝;<span class="comment">//申请帧缓存，查询缓存转换地址，放入队列</span></span><br><span class="line">    _ON&#123;</span><br><span class="line">        ioctl(fd[i], VIDIOC_STREAMON, &amp;type);</span><br><span class="line">    &#125;;<span class="comment">//开启视频捕获</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//2.创建多线程</span></span><br><span class="line">pthread_create(&amp;capture_pth, <span class="literal">NULL</span>,Video_Capture, <span class="literal">NULL</span>);</span><br><span class="line"><span class="comment">//3.采集数据</span></span><br><span class="line">Video_Capture()&#123;</span><br><span class="line">    <span class="comment">//用select监视文件描述符，等待采集，如果有准备好的</span></span><br><span class="line">    select(fd[<span class="number">3</span>] + <span class="number">1</span>, &amp;fdr, <span class="literal">NULL</span>, <span class="literal">NULL</span>, &amp;tv);<span class="comment">//IO多路复用</span></span><br><span class="line">    <span class="comment">//当准备好时，采用互斥锁的方式，唤醒休眠的数据处理函数</span></span><br><span class="line">    <span class="keyword">if</span>( FD_ISSET(fd[<span class="number">0</span>],&amp;fdr) &amp;&amp; FD_ISSET(fd[<span class="number">1</span>],&amp;fdr) &amp;&amp; \</span><br><span class="line">		FD_ISSET(fd[<span class="number">2</span>],&amp;fdr) &amp;&amp; FD_ISSET(fd[<span class="number">3</span>],&amp;fdr))</span><br><span class="line">		&#123;</span><br><span class="line">            _Queryaddr()&#123;</span><br><span class="line">                ioctl(fd[i], VIDIOC_DQBUF, &amp;buf);<span class="comment">//出列</span></span><br><span class="line">                VideoPhyAddr[i] = buf.m.planes[<span class="number">0</span>].m.mem_offset;</span><br><span class="line">                ioctl(fd[i], VIDIOC_QBUF, &amp;buf);<span class="comment">//入列</span></span><br><span class="line">            &#125;;</span><br><span class="line">            pthread_mutex_lock(&amp;VideoMutex);<span class="comment">//上锁</span></span><br><span class="line">            pthread_cond_signal(&amp;VideoCond);<span class="comment">//唤醒休眠</span></span><br><span class="line">            pthread_mutex_unlock(&amp;VideoMutex);<span class="comment">//解锁</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//4.数据处理</span></span><br><span class="line">_LoadVideoData()&#123;</span><br><span class="line">    pthread_mutex_lock(&amp;VideoMutex);<span class="comment">//上锁</span></span><br><span class="line">	pthread_cond_wait(&amp;VideoCond, &amp;VideoMutex);<span class="comment">//休眠</span></span><br><span class="line">	pthread_mutex_unlock(&amp;VideoMutex);<span class="comment">//解锁</span></span><br><span class="line">    <span class="comment">//************************</span></span><br><span class="line">    <span class="comment">//***原始视频流数据处理***</span></span><br><span class="line">    <span class="comment">//************************</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
+<hr>
+<h1 id="九、芯片手册与技术规格书在线翻阅演示"><a href="#九、芯片手册与技术规格书在线翻阅演示" class="headerlink" title="九、芯片手册与技术规格书在线翻阅演示"></a>九、芯片手册与技术规格书在线翻阅演示</h1><blockquote>
+<p>[!TIP]<br>此处演示使用原生零依赖标签插件 <code>&#123;% pdf ... %&#125;</code> 在博文中直接内嵌翻阅芯片数据手册。支持顶部工具栏全屏预览、本地下载、双模渲染与移动端自适应。</p>
+</blockquote>
+
+<div class="pdf-container" data-pdf-url="/pdf/stm32f4_datasheet_sample.pdf" style="width: 100%;">
+  <div class="pdf-toolbar">
+    <div class="pdf-toolbar-left" title="STM32F407 芯片技术规格书 (Datasheet)">
+      <i class="fa fa-file-pdf pdf-icon"></i>
+      <span class="pdf-title">STM32F407 芯片技术规格书 (Datasheet)</span>
+    </div>
+    <div class="pdf-toolbar-right">
+      <a href="/pdf/stm32f4_datasheet_sample.pdf" target="_blank" rel="noopener noreferrer" class="pdf-btn pdf-btn-open" title="在新标签页全屏预览">
+        <i class="fa fa-external-link-alt"></i>
+        <span>全屏预览</span>
+      </a>
+      <a href="/pdf/stm32f4_datasheet_sample.pdf" download class="pdf-btn pdf-btn-download" title="下载 PDF 文件到本地">
+        <i class="fa fa-download"></i>
+        <span>下载文档</span>
+      </a>
+    </div>
+  </div>
+  <div class="pdf-viewer-wrap" style="height: 650px;">
+    <object data="/pdf/stm32f4_datasheet_sample.pdf" type="application/pdf" class="pdf-object" width="100%" height="100%">
+      <iframe src="/pdf/stm32f4_datasheet_sample.pdf" class="pdf-iframe" width="100%" height="100%" frameborder="0">
+        <div class="pdf-fallback-card">
+          <i class="fa fa-file-pdf pdf-fallback-icon"></i>
+          <p class="pdf-fallback-text">当前浏览器暂不支持直接内嵌渲染 PDF 文档</p>
+          <a href="/pdf/stm32f4_datasheet_sample.pdf" target="_blank" rel="noopener noreferrer" class="pdf-fallback-btn">
+            <i class="fa fa-external-link-alt"></i> 点击在线阅读或下载 PDF
+          </a>
+        </div>
+      </iframe>
+    </object>
+  </div>
+  <div class="pdf-mobile-banner">
+    <i class="fa fa-mobile-alt"></i>
+    <span>移动端推荐点击</span>
+    <a href="/pdf/stm32f4_datasheet_sample.pdf" target="_blank" rel="noopener noreferrer">全屏查看 PDF</a>
+    <span>获取最佳缩放与排版体验</span>
+  </div>
+</div>
 
     </div>
 
@@ -461,6 +531,70 @@
         <div class="popular-posts-excerpt"><p>OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过...</p></div>
     </li>
   </ul>
+<!-- ============================================================== -->
+<!-- 一键生成精美极客“技术分享长图 / 金句海报” (Post Share Poster)    -->
+<!-- 挂载位置: source/_data/post-body-end.swig                      -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.postBodyEnd 载入 -->
+<!-- ============================================================== -->
+    
+
+    
+
+    
+
+    <div class="post-poster-trigger-wrapper">
+      <button type="button" class="btn-post-poster" id="btn-post-poster"
+        data-title="Video for Linux two(简称v4l2)"
+        data-date="2023-04-13"
+        data-url="https://leeyunhe.github.io/2023/04/13/1-V4l2/"
+        data-category="笔记"
+        data-tags="嵌入式"
+        data-description=""
+        data-author="Leeyunhe"
+        title="一键生成高清技术分享长图与金句海报"
+      >
+        <i class="fa fa-camera-retro"></i>
+        <span>生成技术分享长图</span>
+      </button>
+    </div>
+
+    <!-- 海报预览与保存全屏模态弹窗 -->
+    <div class="post-poster-modal" id="post-poster-modal" style="display: none;" aria-hidden="true">
+      <div class="post-poster-backdrop"></div>
+      <div class="post-poster-dialog" role="dialog" aria-modal="true">
+        <div class="post-poster-header">
+          <div class="post-poster-title">
+            <i class="fa fa-image"></i>
+            <span>技术分享长图 · 金句海报</span>
+          </div>
+          <button type="button" class="post-poster-close" id="post-poster-close-btn" title="关闭 (Esc)">&times;</button>
+        </div>
+        <div class="post-poster-body">
+          <div class="post-poster-loading" id="post-poster-loading">
+            <i class="fa fa-spinner fa-spin"></i>
+            <span>正在排版并即时绘制 Retina 2x 高清海报...</span>
+          </div>
+          <div class="post-poster-preview" id="post-poster-preview" style="display: none;">
+            <img id="post-poster-img" src="" alt="博文技术分享海报预览" />
+          </div>
+        </div>
+        <div class="post-poster-footer">
+          <a id="post-poster-download-btn" href="#" download="post-poster.png" class="btn-poster-action btn-poster-download">
+            <i class="fa fa-download"></i>
+            <span>保存高清长图</span>
+          </a>
+          <button type="button" class="btn-poster-action btn-poster-cancel" id="post-poster-cancel-btn">
+            关闭
+          </button>
+        </div>
+        <div class="post-poster-mobile-hint">
+          <i class="fa fa-mobile-alt"></i>
+          <span>手机端长按海报可直接保存到相册或分发给微信/技术社群好友</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/post-poster.js" defer></script>
 
         
 
@@ -575,7 +709,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">二、作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">三、存放位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81V4l2%E6%A1%86%E6%9E%B6%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">四、V4l2框架操作流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81V4l2%E7%9A%84%E5%B8%B8%E7%94%A8IOCTL%E6%8E%A5%E5%8F%A3%E5%91%BD%E4%BB%A4%E2%80%93-%E7%BB%93%E6%9E%84%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">五、V4l2的常用IOCTL接口命令–&gt;&gt;结构体介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%B8%B8%E7%94%A8%E7%9A%84IOCTL%E6%8E%A5%E5%8F%A3%E5%91%BD%E4%BB%A4"><span class="nav-number">5.1.</span> <span class="nav-text">1、常用的IOCTL接口命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">5.2.</span> <span class="nav-text">2、常用的结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81v4l2-capability"><span class="nav-number">5.2.1.</span> <span class="nav-text">1、v4l2_capability</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81v4l2-input"><span class="nav-number">5.2.2.</span> <span class="nav-text">2、v4l2_input</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81v4l2-format"><span class="nav-number">5.2.3.</span> <span class="nav-text">3、v4l2_format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81v4l2-requestbuffers"><span class="nav-number">5.2.4.</span> <span class="nav-text">4、v4l2_requestbuffers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81v4l2-buffer"><span class="nav-number">5.2.5.</span> <span class="nav-text">5、v4l2_buffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81v4l2-captureparm"><span class="nav-number">5.2.6.</span> <span class="nav-text">6、v4l2_captureparm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81v4l2-exportbuffer"><span class="nav-number">5.2.7.</span> <span class="nav-text">7、v4l2_exportbuffer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">六、应用程序代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%BF%9D%E5%AD%98%E5%9B%BE%E5%83%8Fpicture-yuv"><span class="nav-number">6.1.</span> <span class="nav-text">1、保存图像picture.yuv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BF%9D%E5%AD%98%E8%A7%86%E9%A2%91video-yuv"><span class="nav-number">6.2.</span> <span class="nav-text">2、保存视频video.yuv</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81V4l2%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6"><span class="nav-number">7.</span> <span class="nav-text">七、V4l2驱动框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%B8%BB%E8%A6%81%E5%AF%B9%E8%B1%A1"><span class="nav-number">7.1.</span> <span class="nav-text">1、主要对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81video-device"><span class="nav-number">7.1.1.</span> <span class="nav-text">1、video_device</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#v4l2-file-operations"><span class="nav-number">7.1.1.1.</span> <span class="nav-text">v4l2_file_operations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#v4l2-ioctl-ops"><span class="nav-number">7.1.1.2.</span> <span class="nav-text">v4l2_ioctl_ops</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81v4l2-device"><span class="nav-number">7.1.2.</span> <span class="nav-text">2、v4l2_device</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81v4l2-subdev"><span class="nav-number">7.1.3.</span> <span class="nav-text">3、v4l2_subdev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81V4l2%E6%8F%90%E4%BE%9B%E7%9A%84%E6%B3%A8%E5%86%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">7.1.4.</span> <span class="nav-text">4、V4l2提供的注册接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%9B%BE%E7%A4%BA"><span class="nav-number">7.2.</span> <span class="nav-text">2、图示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E4%B8%BB%E8%A6%81%E6%A1%86%E6%9E%B6"><span class="nav-number">7.3.</span> <span class="nav-text">3、主要框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%A4%9A%E8%B7%AFvideo%E8%BE%93%E5%85%A5%E5%88%86%E6%9E%90"><span class="nav-number">8.</span> <span class="nav-text">八、多路video输入分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%A4%9A%E8%B7%AF%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">8.1.</span> <span class="nav-text">1、多路操作流程</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">二、作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">三、存放位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81V4l2%E6%A1%86%E6%9E%B6%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">四、V4l2框架操作流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81V4l2%E7%9A%84%E5%B8%B8%E7%94%A8IOCTL%E6%8E%A5%E5%8F%A3%E5%91%BD%E4%BB%A4%E2%80%93-%E7%BB%93%E6%9E%84%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">五、V4l2的常用IOCTL接口命令–&gt;&gt;结构体介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%B8%B8%E7%94%A8%E7%9A%84IOCTL%E6%8E%A5%E5%8F%A3%E5%91%BD%E4%BB%A4"><span class="nav-number">5.1.</span> <span class="nav-text">1、常用的IOCTL接口命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">5.2.</span> <span class="nav-text">2、常用的结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81v4l2-capability"><span class="nav-number">5.2.1.</span> <span class="nav-text">1、v4l2_capability</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81v4l2-input"><span class="nav-number">5.2.2.</span> <span class="nav-text">2、v4l2_input</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81v4l2-format"><span class="nav-number">5.2.3.</span> <span class="nav-text">3、v4l2_format</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81v4l2-requestbuffers"><span class="nav-number">5.2.4.</span> <span class="nav-text">4、v4l2_requestbuffers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81v4l2-buffer"><span class="nav-number">5.2.5.</span> <span class="nav-text">5、v4l2_buffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81v4l2-captureparm"><span class="nav-number">5.2.6.</span> <span class="nav-text">6、v4l2_captureparm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81v4l2-exportbuffer"><span class="nav-number">5.2.7.</span> <span class="nav-text">7、v4l2_exportbuffer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">六、应用程序代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%BF%9D%E5%AD%98%E5%9B%BE%E5%83%8Fpicture-yuv"><span class="nav-number">6.1.</span> <span class="nav-text">1、保存图像picture.yuv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BF%9D%E5%AD%98%E8%A7%86%E9%A2%91video-yuv"><span class="nav-number">6.2.</span> <span class="nav-text">2、保存视频video.yuv</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81V4l2%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6"><span class="nav-number">7.</span> <span class="nav-text">七、V4l2驱动框架</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%B8%BB%E8%A6%81%E5%AF%B9%E8%B1%A1"><span class="nav-number">7.1.</span> <span class="nav-text">1、主要对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81video-device"><span class="nav-number">7.1.1.</span> <span class="nav-text">1、video_device</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#v4l2-file-operations"><span class="nav-number">7.1.1.1.</span> <span class="nav-text">v4l2_file_operations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#v4l2-ioctl-ops"><span class="nav-number">7.1.1.2.</span> <span class="nav-text">v4l2_ioctl_ops</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81v4l2-device"><span class="nav-number">7.1.2.</span> <span class="nav-text">2、v4l2_device</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81v4l2-subdev"><span class="nav-number">7.1.3.</span> <span class="nav-text">3、v4l2_subdev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81V4l2%E6%8F%90%E4%BE%9B%E7%9A%84%E6%B3%A8%E5%86%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">7.1.4.</span> <span class="nav-text">4、V4l2提供的注册接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%9B%BE%E7%A4%BA"><span class="nav-number">7.2.</span> <span class="nav-text">2、图示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E4%B8%BB%E8%A6%81%E6%A1%86%E6%9E%B6"><span class="nav-number">7.3.</span> <span class="nav-text">3、主要框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%A4%9A%E8%B7%AFvideo%E8%BE%93%E5%85%A5%E5%88%86%E6%9E%90"><span class="nav-number">8.</span> <span class="nav-text">八、多路video输入分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%A4%9A%E8%B7%AF%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">8.1.</span> <span class="nav-text">1、多路操作流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E8%8A%AF%E7%89%87%E6%89%8B%E5%86%8C%E4%B8%8E%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6%E5%9C%A8%E7%BA%BF%E7%BF%BB%E9%98%85%E6%BC%94%E7%A4%BA"><span class="nav-number">9.</span> <span class="nav-text">九、芯片手册与技术规格书在线翻阅演示</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -622,6 +756,77 @@
   </div>
 
 
+<!-- ============================================================== -->
+<!-- 侧边栏“极客博客运行里程碑”状态徽章栏 (Milestone Badges)        -->
+<!-- 挂载位置: source/_data/sidebar.swig                           -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.sidebar 载入 -->
+<!-- ============================================================== -->
+
+<div class="geek-milestones motion-element">
+  <div class="milestones-title">
+    <i class="fa fa-tachometer-alt"></i>
+    <span>运行里程碑 · BLOG STATUS</span>
+  </div>
+  <div class="milestones-container">
+    <!-- 运行状态徽章 (带绿光呼吸脉冲) -->
+    <div class="milestone-badge badge-status" title="博客系统健康在线，各项基础设施稳定运行">
+      <span class="badge-label"><i class="badge-pulse-dot"></i> 状态</span>
+      <span class="badge-val val-green">ONLINE · PASSING</span>
+    </div>
+
+    <!-- 运行历程徽章 (建站基准日 2021-01-07 动态累加) -->
+    <div class="milestone-badge badge-runtime" title="自 2021 年建站至今不间断运行">
+      <span class="badge-label"><i class="fa fa-hourglass-half"></i> 历程</span>
+      <span class="badge-val val-orange" id="blog-runtime-val">载入中...</span>
+    </div>
+
+    <!-- 全站篇数徽章 -->
+    <div class="milestone-badge badge-posts" title="全站已公开发表的技术文章总篇数">
+      <span class="badge-label"><i class="fa fa-file-alt"></i> 文章</span>
+      <span class="badge-val val-blue">16 篇技术归档</span>
+    </div>
+
+    <!-- 极客内核架构徽章 -->
+    <div class="milestone-badge badge-version" title="博客静态渲染引擎与主题架构版本">
+      <span class="badge-label"><i class="fa fa-microchip"></i> 内核</span>
+      <span class="badge-val val-purple">Hexo v7 · NexT v7.8</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  function updateBlogRuntime() {
+    var elem = document.getElementById('blog-runtime-val');
+    if (!elem) return;
+
+    // 建站起始时间：2021年1月7日
+    var startDate = new Date('2021/01/07 00:00:00');
+    var now = new Date();
+    var diffMs = now.getTime() - startDate.getTime();
+
+    if (diffMs < 0) {
+      elem.textContent = '1 天';
+      return;
+    }
+
+    var totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    var totalHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    elem.textContent = totalDays + ' 天 ' + totalHours + ' 时';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateBlogRuntime);
+  } else {
+    updateBlogRuntime();
+  }
+
+  // 每小时自动刷新一次运行时长显示
+  setInterval(updateBlogRuntime, 3600000);
+  window.addEventListener('pjax:success', updateBlogRuntime);
+})();
+</script>
 
       </div>
 
@@ -697,6 +902,7 @@
   
   <script src="/lib/anime.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/lozad/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -1035,6 +1241,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateThemeButton();
     reloadMermaid();
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: isDark ? 'light' : 'dark' } }));
   }
 
   // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
@@ -1255,6 +1462,173 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 })();
 </script>
+
+<!-- ============================================================== -->
+<!-- 6. 3D 赛博空间立体球形标签云 (3D Cyber Space TagCanvas)        -->
+<!-- 挂载位置: source/_data/body-end.swig                          -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  function init3DTagCloud() {
+    var tagCloudTags = document.querySelector('.tag-cloud-tags');
+    if (!tagCloudTags) return;
+
+    // 1. 五重隐私安全拦截：过滤剔除私密标签
+    var tagLinks = tagCloudTags.querySelectorAll('a');
+    tagLinks.forEach(function(a) {
+      var text = (a.textContent || '').trim().toLowerCase();
+      if (text === '私密' || text === 'secret' || text === 'private') {
+        a.remove();
+      }
+    });
+
+    if (document.getElementById('tag-canvas-wrap')) return;
+
+    // 2. 插入 Canvas 容器与交互指引
+    var wrap = document.createElement('div');
+    wrap.id = 'tag-canvas-wrap';
+    wrap.className = 'tag-canvas-wrap';
+
+    var tip = document.createElement('div');
+    tip.className = 'tag-canvas-tip';
+    tip.innerHTML = '<i class="fa fa-atom"></i> <span>3D 赛博空间悬浮交互 · 鼠标移入可自由旋转 · 点击标签直达</span>';
+    wrap.appendChild(tip);
+
+    var canvas = document.createElement('canvas');
+    canvas.id = 'tag-canvas';
+    canvas.className = 'tag-canvas';
+    
+    var containerWidth = (tagCloudTags.parentElement.clientWidth || 560) - 20;
+    var canvasWidth = Math.min(520, Math.max(300, containerWidth));
+    var canvasHeight = Math.min(420, Math.max(280, Math.floor(canvasWidth * 0.8)));
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    canvas.innerHTML = '<p>您的浏览器暂不支持 3D Canvas 标签球效果</p>';
+    wrap.appendChild(canvas);
+
+    tagCloudTags.parentElement.insertBefore(wrap, tagCloudTags);
+
+    if (!tagCloudTags.id) {
+      tagCloudTags.id = 'tag-cloud-source-list';
+    }
+
+    // 3. 核心启动与配色适配
+    function runTagCanvas() {
+      if (!window.TagCanvas) return;
+      var isDark = document.documentElement.classList.contains('dark-mode') || 
+                   (localStorage.getItem('theme') === 'dark');
+
+      var options = {
+        textColour: isDark ? '#38bdf8' : '#fc6423',
+        outlineColour: isDark ? 'rgba(56, 189, 248, 0.3)' : 'rgba(252, 100, 35, 0.3)',
+        outlineThickness: 1.5,
+        outlineMethod: 'outline',
+        maxSpeed: 0.035,
+        minSpeed: 0.008,
+        decel: 0.96,
+        depth: 0.92,
+        initial: [0.12, -0.08],
+        wheelZoom: false,
+        fadeIn: 600,
+        reverse: true,
+        activeCursor: 'pointer',
+        pulsateTo: 1.15,
+        pulsateTime: 0.5,
+        weight: true,
+        weightMode: 'both',
+        weightSize: 1.2,
+        clickToFront: 400,
+        shuffleTags: true,
+        minTags: 18,
+        shadow: isDark ? '#0284c7' : '#ff8038',
+        shadowBlur: isDark ? 4 : 2,
+        textHeight: 18,
+        textFont: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+      };
+
+      if (isDark) {
+        options.weightGradient = {
+          0: '#ff8038',
+          0.33: '#38bdf8',
+          0.66: '#34d399',
+          1: '#a78bfa'
+        };
+      } else {
+        options.weightGradient = {
+          0: '#ea580c',
+          0.33: '#fc6423',
+          0.66: '#0284c7',
+          1: '#475569'
+        };
+      }
+
+      try {
+        TagCanvas.Start('tag-canvas', tagCloudTags.id, options);
+        tagCloudTags.classList.add('tag-cloud-hidden');
+      } catch (err) {
+        console.warn('TagCanvas fallback to 2D:', err);
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      }
+    }
+
+    // 4. 按需加载本地 tagcanvas.min.js
+    if (window.TagCanvas) {
+      runTagCanvas();
+    } else {
+      var script = document.createElement('script');
+      script.src = '/lib/tagcanvas/tagcanvas.min.js';
+      script.async = true;
+      script.onload = runTagCanvas;
+      script.onerror = function() {
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      };
+      document.body.appendChild(script);
+    }
+
+    // 5. 监听深浅主题切换事件，动态重绘 3D 球体配色
+    window.addEventListener('themeChanged', function() {
+      if (window.TagCanvas && document.getElementById('tag-canvas')) {
+        try {
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        } catch (e) {}
+      }
+    });
+
+    // 6. 响应式视口自适应
+    var resizeTimer = null;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        var cvs = document.getElementById('tag-canvas');
+        if (!cvs || !window.TagCanvas) return;
+        var newW = Math.min(520, Math.max(300, (tagCloudTags.parentElement.clientWidth || 560) - 20));
+        var newH = Math.min(420, Math.max(280, Math.floor(newW * 0.8)));
+        if (Math.abs(cvs.width - newW) > 25) {
+          cvs.width = newW;
+          cvs.height = newH;
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        }
+      }, 300);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init3DTagCloud);
+  } else {
+    init3DTagCloud();
+  }
+  window.addEventListener('pjax:success', init3DTagCloud);
+})();
+</script>
+
+<!-- 8. 博文段落内嵌单曲 / 播客音频胶囊交互驱动引擎 (Geek Audio Pill) -->
+<script src="/js/audio-pill.js" defer></script>
+
 
 
 

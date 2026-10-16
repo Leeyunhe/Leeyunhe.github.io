@@ -14,7 +14,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="C基础之Linux操作系统一，操作系统介绍什么是操作系统？​		操作系统是一套计算机管理控制系统，用来管理计算机硬件资源。 操作系统的作用： 管理与配置内存；  决定系统资源供需的优先次序；  操作网络；  管理文件系统；  控制输入输出设备；">
@@ -346,7 +346,7 @@
   </div>
   <div class="outdated-warning-content">
     <div class="outdated-warning-title">文章时效性提示</div>
-    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1251 天（约 3.4 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
+    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1252 天（约 3.4 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
   </div>
 </div>
 <h1 id="C基础之Linux操作系统"><a href="#C基础之Linux操作系统" class="headerlink" title="C基础之Linux操作系统"></a>C基础之Linux操作系统</h1><h2 id="一，操作系统介绍"><a href="#一，操作系统介绍" class="headerlink" title="一，操作系统介绍"></a>一，操作系统介绍</h2><h3 id="什么是操作系统？"><a href="#什么是操作系统？" class="headerlink" title="什么是操作系统？"></a>什么是操作系统？</h3><p>​		操作系统是一套<strong>计算机管理控制系统</strong>，用来管理计算机硬件资源。</p>
@@ -734,7 +734,7 @@
 <h3 id="（7）sizeof运算符"><a href="#（7）sizeof运算符" class="headerlink" title="（7）sizeof运算符"></a>（7）sizeof运算符</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">计算操作数在内存中所占空间的大小，单位是 byte。将算好的数字作为返回值返回。</span><br><span class="line">    <span class="number">64</span>位操作系统会把返回值定义成 <span class="type">long</span> <span class="type">int</span> --- %ld</span><br><span class="line">    <span class="number">32</span>位操作系统会把返回值定义成 <span class="type">int</span> --- %d</span><br><span class="line"><span class="title function_">sizeof</span><span class="params">(变量名)</span>；</span><br><span class="line"><span class="title function_">sizeof</span><span class="params">(数据类型名)</span>；</span><br><span class="line">    </span><br><span class="line">例：</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> a = <span class="number">8</span>; </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%ld\n&quot;</span>,<span class="keyword">sizeof</span>(a)); <span class="comment">// 打印 4</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%ld\n&quot;</span>,<span class="keyword">sizeof</span>(<span class="type">long</span> <span class="type">int</span>)); <span class="comment">// 打印 8</span></span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="11，运算符优先级"><a href="#11，运算符优先级" class="headerlink" title="11，运算符优先级"></a>11，运算符优先级</h2><p>​		不清楚优先级谁高谁低，那就加 （）。 </p>
-<p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7.png"></p>
+<p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E8%BF%90%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E7%BA%A7.png"></p>
 <p>​		题目：终端输入两个数存在变量a,b中，把他们数据交换后再打印a,b。</p>
 <h2 id="12，数据交换"><a href="#12，数据交换" class="headerlink" title="12，数据交换"></a>12，数据交换</h2><h3 id="（1）中间变量"><a href="#（1）中间变量" class="headerlink" title="（1）中间变量"></a>（1）中间变量</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> a,b,temp;</span><br><span class="line"> <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;a,&amp;b); <span class="comment">//a = 5;b = 6</span></span><br><span class="line">    </span><br><span class="line"> temp = a; <span class="comment">// a = 5;b = 6;temp = 5</span></span><br><span class="line"> a = b; <span class="comment">// a = 6;b = 6;temp = 5</span></span><br><span class="line"> b = temp; <span class="comment">// a = 6;b = 5</span></span><br><span class="line"> </span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%d %d\n&quot;</span>,a,b);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -777,18 +777,18 @@
 <td>NULL</td>
 </tr>
 </tbody></table>
-<h2 id="14，内存划分"><a href="#14，内存划分" class="headerlink" title="14，内存划分"></a>14，内存划分</h2><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E5%86%85%E5%AD%98%E5%88%92%E5%88%86.png"></p>
-<h1 id="C基础之常用三语句"><a href="#C基础之常用三语句" class="headerlink" title="C基础之常用三语句"></a>C基础之常用三语句</h1><h2 id="一、C基础之条件语句"><a href="#一、C基础之条件语句" class="headerlink" title="一、C基础之条件语句"></a>一、C基础之条件语句</h2><h3 id="1，基本if语句"><a href="#1，基本if语句" class="headerlink" title="1，基本if语句"></a>1，基本if语句</h3><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/if%E8%AF%AD%E5%8F%A5.png"></p>
+<h2 id="14，内存划分"><a href="#14，内存划分" class="headerlink" title="14，内存划分"></a>14，内存划分</h2><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E5%86%85%E5%AD%98%E5%88%92%E5%88%86.png"></p>
+<h1 id="C基础之常用三语句"><a href="#C基础之常用三语句" class="headerlink" title="C基础之常用三语句"></a>C基础之常用三语句</h1><h2 id="一、C基础之条件语句"><a href="#一、C基础之条件语句" class="headerlink" title="一、C基础之条件语句"></a>一、C基础之条件语句</h2><h3 id="1，基本if语句"><a href="#1，基本if语句" class="headerlink" title="1，基本if语句"></a>1，基本if语句</h3><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/if%E8%AF%AD%E5%8F%A5.png"></p>
 <p>​		格式：<br>​					if(表达式)<br>​					{<br>​							语句块；<br>​					}</p>
 <p>​		例： </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> a;</span><br><span class="line"> <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a);</span><br><span class="line">    </span><br><span class="line"> <span class="keyword">if</span>(a&lt;<span class="number">10</span>)</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;a小于10\n&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;程序结束啦\n&quot;</span>);</span><br><span class="line"> </span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果表达式为真，就执行语句块</span></span><br><span class="line"><span class="comment">//如果表达式为假，就跳过语句块直接执行后面的语句。</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2，分支if-else语句"><a href="#2，分支if-else语句" class="headerlink" title="2，分支if-else语句"></a>2，分支if-else语句</h3><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/if-else%E8%AF%AD%E5%8F%A5.png"></p>
+<h3 id="2，分支if-else语句"><a href="#2，分支if-else语句" class="headerlink" title="2，分支if-else语句"></a>2，分支if-else语句</h3><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/if-else%E8%AF%AD%E5%8F%A5.png"></p>
 <p>​		格式：<br>​						if(表达式)<br>​						{<br>​								语句块1；<br>​						}<br>​						else<br>​						{<br>​								语句块2；<br>​						} </p>
 <p>​		例：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> a;</span><br><span class="line"> <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a);</span><br><span class="line"> <span class="keyword">if</span>(a&lt;<span class="number">10</span>)</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;a小于10\n&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">else</span></span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;a不小于10\n&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;程序结束啦\n&quot;</span>);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果表达式为真，就执行语句块1</span></span><br><span class="line"><span class="comment">//如果表达式为假，就执行语句块2</span></span><br><span class="line"><span class="comment">//两个语句块一定是二选一去执行的，不可能两个都执行到</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3，嵌套if-else-if语句"><a href="#3，嵌套if-else-if语句" class="headerlink" title="3，嵌套if-else-if语句"></a>3，嵌套if-else-if语句</h3><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E5%B5%8C%E5%A5%97if-else-if.png"></p>
+<h3 id="3，嵌套if-else-if语句"><a href="#3，嵌套if-else-if语句" class="headerlink" title="3，嵌套if-else-if语句"></a>3，嵌套if-else-if语句</h3><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E5%B5%8C%E5%A5%97if-else-if.png"></p>
 <p>​		格式： </p>
 <p>​					if( 表达式1 )<br>​					{<br>​							语句块1；<br>​					}<br>​					else if( 表达式2 )<br>​					{<br>​							语句块2；<br>​					}<br>​					else if( 表达式3 )<br>​							…<br>​					else<br>​					{<br>​						语句块n；<br>​					} </p>
 <p>​		例： </p>
@@ -864,7 +864,7 @@
 
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">题目：给一个<span class="number">3</span>*<span class="number">3</span>的二维数组赋随机值，打印其中的最大数及行号和列号。</span><br><span class="line"> max = arr[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)</span><br><span class="line"> &#123; </span><br><span class="line">     <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">3</span>;j++)</span><br><span class="line">     &#123; </span><br><span class="line">         <span class="keyword">if</span>(max &lt; arr[i][j])</span><br><span class="line">         &#123; </span><br><span class="line">             max = arr[i][j];</span><br><span class="line">             h = i;</span><br><span class="line">             l = j;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%d %d %d\n&quot;</span>,max,h,l);</span><br></pre></td></tr></table></figure>
 
-<h1 id="C基础之排序算法"><a href="#C基础之排序算法" class="headerlink" title="C基础之排序算法"></a>C基础之排序算法</h1><h2 id="一，冒泡排序"><a href="#一，冒泡排序" class="headerlink" title="一，冒泡排序"></a>一，冒泡排序</h2><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.png"></p>
+<h1 id="C基础之排序算法"><a href="#C基础之排序算法" class="headerlink" title="C基础之排序算法"></a>C基础之排序算法</h1><h2 id="一，冒泡排序"><a href="#一，冒泡排序" class="headerlink" title="一，冒泡排序"></a>一，冒泡排序</h2><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">90</span> <span class="number">21</span> <span class="number">132</span> <span class="number">6</span> <span class="number">34</span>			 从小到大排序 一共<span class="number">5</span>个数字 （n）</span><br><span class="line">（<span class="number">1</span>）第一轮 					  做了四轮比较 （n<span class="number">-1</span>） i</span><br><span class="line">①因为<span class="number">90</span>&gt;<span class="number">21</span>，所以换位置 			 每轮比较（n-i）次</span><br><span class="line">		<span class="number">21</span> <span class="number">90</span> <span class="number">132</span> <span class="number">6</span> <span class="number">34</span></span><br><span class="line">②因为<span class="number">90</span>&lt;<span class="number">132</span>，所以不动</span><br><span class="line">③因为<span class="number">132</span>&gt;<span class="number">6</span>，所以换位置</span><br><span class="line">		<span class="number">21</span> <span class="number">90</span> <span class="number">6</span> <span class="number">132</span> <span class="number">34</span></span><br><span class="line">④因为<span class="number">132</span>&gt;<span class="number">34</span>，所以换位置</span><br><span class="line">		<span class="number">21</span> <span class="number">90</span> <span class="number">6</span> <span class="number">34</span> <span class="number">132</span></span><br><span class="line">（<span class="number">2</span>）第二轮</span><br><span class="line">①因为<span class="number">21</span>&lt;<span class="number">90</span>，所以不动</span><br><span class="line">②因为<span class="number">90</span>&gt;<span class="number">6</span>，所以换位置</span><br><span class="line">		<span class="number">21</span> <span class="number">6</span> <span class="number">90</span> <span class="number">34</span> <span class="number">132</span></span><br><span class="line">③因为<span class="number">90</span>&gt;<span class="number">34</span>，所以换位置</span><br><span class="line">		<span class="number">21</span> <span class="number">6</span> <span class="number">34</span> <span class="number">90</span> <span class="number">132</span></span><br><span class="line">（<span class="number">3</span>）第三轮</span><br><span class="line">①因为<span class="number">21</span>&gt;<span class="number">6</span>，所以换位置</span><br><span class="line">		<span class="number">6</span> <span class="number">21</span> <span class="number">34</span> <span class="number">90</span> <span class="number">132</span></span><br><span class="line">②因为<span class="number">21</span>&lt;<span class="number">34</span>，所以不动</span><br><span class="line">		<span class="number">6</span> <span class="number">21</span> <span class="number">34</span> <span class="number">90</span> <span class="number">132</span></span><br><span class="line">（<span class="number">4</span>）第四轮</span><br><span class="line">①因为<span class="number">6</span>&lt;<span class="number">21</span>，所以不动</span><br><span class="line">		<span class="number">6</span> <span class="number">21</span> <span class="number">34</span> <span class="number">90</span> <span class="number">132</span></span><br></pre></td></tr></table></figure>
 
 
@@ -873,7 +873,7 @@
 
 
 
-<h2 id="二，选择排序"><a href="#二，选择排序" class="headerlink" title="二，选择排序"></a>二，选择排序</h2><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.png"></p>
+<h2 id="二，选择排序"><a href="#二，选择排序" class="headerlink" title="二，选择排序"></a>二，选择排序</h2><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">90</span> <span class="number">21</span> <span class="number">132</span> <span class="number">6</span> <span class="number">34</span> 				从小到大排序 一共<span class="number">5</span>个数 n</span><br><span class="line">								比较了n<span class="number">-1</span>轮 i</span><br><span class="line">（<span class="number">1</span>）第一轮 							每轮比较 n-i 次</span><br><span class="line">将未排序数列中的第一个数<span class="number">90</span>当作是最小数。</span><br><span class="line">①因为<span class="number">90</span>&gt;<span class="number">21</span>，所心中的最小数变为<span class="number">21</span></span><br><span class="line">②因为<span class="number">21</span>&lt;<span class="number">132</span>，所以心中的最小数不变</span><br><span class="line">③因为<span class="number">21</span>&gt;<span class="number">6</span>，所以心中的最小数变为<span class="number">6</span></span><br><span class="line">④因为<span class="number">6</span>&lt;<span class="number">34</span>，所以心中的最小数不变</span><br><span class="line">将心中的最小数和未排序数列的首位 数据交换</span><br><span class="line">						<span class="number">6</span> <span class="number">21</span> <span class="number">132</span> <span class="number">90</span> <span class="number">34</span></span><br><span class="line">（<span class="number">2</span>）第二轮</span><br><span class="line">将未排序数列中的第一个数<span class="number">21</span>当作是最小数。</span><br><span class="line">①因为<span class="number">21</span>&lt;<span class="number">132</span>，所以心中的最小数不变</span><br><span class="line">②因为<span class="number">21</span>&lt;<span class="number">90</span>，所以心中的最小数不变</span><br><span class="line">③因为<span class="number">21</span>&lt;<span class="number">34</span>，所以心中的最小数不变</span><br><span class="line">将心中的最小数和未排序数列的首位 数据交换</span><br><span class="line">						<span class="number">6</span> <span class="number">21</span> <span class="number">132</span> <span class="number">90</span> <span class="number">34</span></span><br><span class="line">（<span class="number">3</span>）第三轮</span><br><span class="line">将未排序数列中的第一个数<span class="number">132</span>当作是最小数。</span><br><span class="line">①因为<span class="number">132</span>&gt;<span class="number">90</span>，所以中的最小数变为<span class="number">90</span></span><br><span class="line">②因为<span class="number">90</span>&gt;<span class="number">34</span>，所以中的最小数变为<span class="number">34</span></span><br><span class="line">将心中的最小数和未排序数列的首位 数据交换</span><br><span class="line">						<span class="number">6</span> <span class="number">21</span> <span class="number">34</span> <span class="number">90</span> <span class="number">132</span></span><br><span class="line">（<span class="number">4</span>）第四轮</span><br><span class="line">将未排序数列中的第一个数<span class="number">90</span>当作是最小数。</span><br><span class="line">①因为<span class="number">90</span>&lt;<span class="number">132</span>，所以心中的最小数不变</span><br><span class="line">将心中的最小数和未排序数列的首位 数据交换</span><br><span class="line">						<span class="number">6</span> <span class="number">21</span> <span class="number">34</span> <span class="number">90</span> <span class="number">132</span></span><br></pre></td></tr></table></figure>
 
 
@@ -939,15 +939,15 @@
 
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">题目：给一个容量为<span class="number">5</span>的整型数组初始化后，用指针的形式来打印每个元素</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span> </span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123; </span><br><span class="line">     <span class="type">int</span> arr[<span class="number">5</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">     <span class="type">int</span> *p=arr,i;</span><br><span class="line">     <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</span><br><span class="line">     &#123;</span><br><span class="line">     	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,*(p+i));</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">题目：输入一个英文句子，删除空格后打印字符串，只在同一个数组中操作</span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">     <span class="type">char</span> arr[<span class="number">30</span>];</span><br><span class="line">     gets(arr);</span><br><span class="line">     <span class="type">char</span> *pa = arr;</span><br><span class="line">     <span class="type">char</span> *pa_copy = arr;</span><br><span class="line">     <span class="keyword">for</span>( ; *pa!=<span class="string">&#x27;\0&#x27;</span> ; pa++ )</span><br><span class="line">     &#123;</span><br><span class="line">         <span class="keyword">if</span>(*pa!=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">         &#123;</span><br><span class="line">             *pa_copy = *pa;</span><br><span class="line">             pa_copy++;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     *pa_copy = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">      <span class="built_in">puts</span>(arr);</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">题目：用指针的形式实现字符串拼接的功能。</span><br></pre></td></tr></table></figure>
 
-<h2 id="8，数组指针和指针数组"><a href="#8，数组指针和指针数组" class="headerlink" title="8，数组指针和指针数组"></a>8，数组指针和指针数组</h2><h3 id="（1）数组指针"><a href="#（1）数组指针" class="headerlink" title="（1）数组指针"></a>（1）数组指针</h3><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E6%95%B0%E7%BB%84%E6%8C%87%E9%92%88.png"></p>
+<h2 id="8，数组指针和指针数组"><a href="#8，数组指针和指针数组" class="headerlink" title="8，数组指针和指针数组"></a>8，数组指针和指针数组</h2><h3 id="（1）数组指针"><a href="#（1）数组指针" class="headerlink" title="（1）数组指针"></a>（1）数组指针</h3><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E6%95%B0%E7%BB%84%E6%8C%87%E9%92%88.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">数组指针 本质是个 指针，指向的是一个 数组整体的地址。</span></span><br><span class="line"><span class="comment">格式：</span></span><br><span class="line"><span class="comment">	数据类型 (*指针变量名)[ 数组容量 ]；</span></span><br><span class="line"><span class="comment">--------------------------------------------------------------------------*/</span></span><br><span class="line">例：</span><br><span class="line">    <span class="type">int</span> (*p1)[<span class="number">5</span>]; <span class="comment">//声明了一个指针变量p1，指向容量为5的整型数组的地址</span></span><br><span class="line">    <span class="type">char</span> (*p2)[<span class="number">6</span>]; <span class="comment">//声明了一个指针变量p2，指向容量为6的字符型数组的地址</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> (*p1)[<span class="number">5</span>];</span><br><span class="line"> <span class="type">char</span> (*p2)[<span class="number">6</span>]; </span><br><span class="line"> </span><br><span class="line"> <span class="type">int</span> arr[<span class="number">5</span>];</span><br><span class="line"> <span class="type">char</span> brr[<span class="number">6</span>];</span><br><span class="line"> </span><br><span class="line"> p1 = &amp;arr; <span class="comment">//用 数组指针 来接收 数组整体的地址</span></span><br><span class="line"> p2 = &amp;brr;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%p\n&quot;</span>,p1);</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%p\n&quot;</span>,p1+<span class="number">1</span>); <span class="comment">//p1的格局是20byte，所以+1就跳转20byte</span></span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="（2）指针数组"><a href="#（2）指针数组" class="headerlink" title="（2）指针数组"></a>（2）指针数组</h3><p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84.png"></p>
+<h3 id="（2）指针数组"><a href="#（2）指针数组" class="headerlink" title="（2）指针数组"></a>（2）指针数组</h3><p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">指针数组 本质是 数组。每个元素都是指针。</span></span><br><span class="line"><span class="comment">格式：</span></span><br><span class="line"><span class="comment">	数据类型 *数组名[ 数组容量 ]；</span></span><br><span class="line"><span class="comment">--------------------------------------------------------------------------*/</span></span><br><span class="line">例：</span><br><span class="line"> <span class="type">int</span> *arr[<span class="number">5</span>]; <span class="comment">//声明了一个容量为5的数组，每个元素都是一个整型指针，每个元素</span></span><br><span class="line">都会指向一个整型空间的地址</span><br><span class="line"> <span class="type">char</span> *brr[<span class="number">6</span>]; <span class="comment">//声明了一个容量为6的数组，每个元素都是一个字符型指针，每个元素都会指向一个字符型空间的地址</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="9，二维数组中的地址"><a href="#9，二维数组中的地址" class="headerlink" title="9，二维数组中的地址"></a>9，二维数组中的地址</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">--------------------------------------------------------------------------</span><br><span class="line"><span class="number">1</span>）* 不叫取值符号，我们为了好理解，就叫他<span class="string">&quot;降维符&quot;</span>，或<span class="string">&quot;降级符&quot;</span>。</span><br><span class="line"><span class="number">2</span>）数组名并不是代表元素的地址，而是代表数组最大概念的地址。</span><br><span class="line">    <span class="type">int</span> a[<span class="number">3</span>][<span class="number">5</span>];</span><br><span class="line">     	行，列，数</span><br><span class="line">    a <span class="comment">//数组名，这个维度的数组中最大概念的地址；</span></span><br><span class="line">    *a <span class="comment">//星号+数组名， *（降级符）可以把星号后面表示的概念降一级；</span></span><br><span class="line">    *（*a） <span class="comment">//对于二维数组来说，这个操作是将行降级到列再降级到数据；</span></span><br><span class="line">在二维数组中	</span><br><span class="line">    a+i <span class="comment">//表示的是二维数组每一行的首地址</span></span><br><span class="line">    *(a+i) <span class="comment">//表示的是二维数组中第 i 行的第 0 列的地址</span></span><br><span class="line">    *(a+i)+j <span class="comment">//表示的是二维数组中第 i 行的第 j 列元素的地址</span></span><br><span class="line">    *(*(a+i)+j) <span class="comment">//表示的是二维数组中第 i 行的第 j 列元素的数据</span></span><br><span class="line">--------------------------------------------------------------------------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E5%9C%B0%E5%9D%80.png"></p>
+<p><img data-src="/2023/05/12/001C%E5%9F%BA%E7%A1%80/%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E5%9C%B0%E5%9D%80.png"></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">作业：</span><br><span class="line"> <span class="number">1</span>）用指针编写<span class="built_in">strlen</span>函数的功能</span><br><span class="line"> <span class="number">2</span>）用指针编写<span class="built_in">strcmp</span>函数的功能</span><br><span class="line"> <span class="number">3</span>）用指针编写<span class="built_in">strcpy</span>函数的功能</span><br><span class="line"> <span class="number">4</span>）用指针编写<span class="built_in">strcat</span>函数的功能；</span><br><span class="line"> <span class="number">5</span>）从键盘输入一个字符串，然后再输入一个字符，用指针遍历字符串，打印有几个这样的字符。</span><br><span class="line">复习作业：</span><br><span class="line"> <span class="number">6</span>）复习运算符：给出一个 <span class="number">32</span> 位的有符号整数，从终端输入，你需要将这个整数中每位上的数字进行反转。</span><br><span class="line">    例如： 输入：<span class="number">123</span> 输出 <span class="number">321</span></span><br><span class="line"> 	输入：<span class="number">-123</span> 输出 <span class="number">-321</span> </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> num,new=<span class="number">0</span>,i,j,k,m;</span><br><span class="line"> <span class="type">int</span> arr[<span class="number">15</span>];</span><br><span class="line"> <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;num);</span><br><span class="line"> <span class="keyword">if</span>(num&lt;<span class="number">0</span>)</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="built_in">printf</span>(<span class="string">&quot;-&quot;</span>);</span><br><span class="line">     num = num * (<span class="number">-1</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">for</span>( i=<span class="number">0</span> ; num != <span class="number">0</span> ; i++ )</span><br><span class="line"> &#123;</span><br><span class="line">     arr[i] = num%<span class="number">10</span>;</span><br><span class="line">     num = num/<span class="number">10</span>;</span><br><span class="line"> &#125;</span><br><span class="line">    </span><br><span class="line"> i--;</span><br><span class="line">    </span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;=i ;j++ )</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;i-j;k++ )</span><br><span class="line">     	arr[j] = arr[j]*<span class="number">10</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;=i;j++)</span><br><span class="line"> &#123;</span><br><span class="line"> 	new = new + arr[j];</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,new);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="number">7</span>）复习数组：给定一个容量为<span class="number">10</span>的整数数组 nums 存放<span class="number">10</span>以内的随机数 和 一个目标值target，请你在该数组中找出 和为目标值的那 两个 整数，并返回他们的数组下标。每两个数只能相加一次。</span><br><span class="line">    例如：</span><br><span class="line">         给定 nums[<span class="number">10</span>] = &#123;<span class="number">2</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">15</span>&#125;, target = <span class="number">9</span></span><br><span class="line">         因为 nums[<span class="number">0</span>] + nums[<span class="number">1</span>] = <span class="number">2</span> + <span class="number">7</span> = <span class="number">9</span> </span><br><span class="line">         所以打印下标 <span class="number">0</span>和<span class="number">1</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> *argv[])</span><br><span class="line">&#123;</span><br><span class="line"> <span class="type">int</span> arr[<span class="number">10</span>],target;</span><br><span class="line"> <span class="type">int</span> i,j,flag=<span class="number">0</span>;</span><br><span class="line"> srand(time(<span class="number">0</span>));</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)</span><br><span class="line"> &#123;</span><br><span class="line">     arr[i] = rand()%<span class="number">10</span>;</span><br><span class="line">     <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,arr[i]);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"> <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;target);</span><br><span class="line"> <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)</span><br><span class="line"> &#123;</span><br><span class="line">     <span class="keyword">for</span>(j=i+<span class="number">1</span>;j&lt;<span class="number">10</span>;j++)</span><br><span class="line">     &#123;</span><br><span class="line">         <span class="keyword">if</span>(arr[i]+arr[j]==target)</span><br><span class="line">         &#123;</span><br><span class="line">             <span class="built_in">printf</span>(<span class="string">&quot;%d %d\n&quot;</span>,i,j);</span><br><span class="line">             flag = <span class="number">1</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">if</span>(flag==<span class="number">0</span>)</span><br><span class="line"> &#123; </span><br><span class="line">	 <span class="built_in">printf</span>(<span class="string">&quot;无满足情况\n&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="C基础之函数"><a href="#C基础之函数" class="headerlink" title="C基础之函数"></a>C基础之函数</h1><p>​		函数 是一组一起执行一个任务的语句。每个C程序都至少有一个函数，即主函数main( )，所 有简单的程序都可以定义其他额外的函数。 </p>
@@ -1005,6 +1005,70 @@
         <div class="popular-posts-excerpt"><p>OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过...</p></div>
     </li>
   </ul>
+<!-- ============================================================== -->
+<!-- 一键生成精美极客“技术分享长图 / 金句海报” (Post Share Poster)    -->
+<!-- 挂载位置: source/_data/post-body-end.swig                      -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.postBodyEnd 载入 -->
+<!-- ============================================================== -->
+    
+
+    
+
+    
+
+    <div class="post-poster-trigger-wrapper">
+      <button type="button" class="btn-post-poster" id="btn-post-poster"
+        data-title="C基础"
+        data-date="2023-05-12"
+        data-url="https://leeyunhe.github.io/2023/05/12/001C%E5%9F%BA%E7%A1%80/"
+        data-category="笔记"
+        data-tags="计算机"
+        data-description=""
+        data-author="Leeyunhe"
+        title="一键生成高清技术分享长图与金句海报"
+      >
+        <i class="fa fa-camera-retro"></i>
+        <span>生成技术分享长图</span>
+      </button>
+    </div>
+
+    <!-- 海报预览与保存全屏模态弹窗 -->
+    <div class="post-poster-modal" id="post-poster-modal" style="display: none;" aria-hidden="true">
+      <div class="post-poster-backdrop"></div>
+      <div class="post-poster-dialog" role="dialog" aria-modal="true">
+        <div class="post-poster-header">
+          <div class="post-poster-title">
+            <i class="fa fa-image"></i>
+            <span>技术分享长图 · 金句海报</span>
+          </div>
+          <button type="button" class="post-poster-close" id="post-poster-close-btn" title="关闭 (Esc)">&times;</button>
+        </div>
+        <div class="post-poster-body">
+          <div class="post-poster-loading" id="post-poster-loading">
+            <i class="fa fa-spinner fa-spin"></i>
+            <span>正在排版并即时绘制 Retina 2x 高清海报...</span>
+          </div>
+          <div class="post-poster-preview" id="post-poster-preview" style="display: none;">
+            <img id="post-poster-img" src="" alt="博文技术分享海报预览" />
+          </div>
+        </div>
+        <div class="post-poster-footer">
+          <a id="post-poster-download-btn" href="#" download="post-poster.png" class="btn-poster-action btn-poster-download">
+            <i class="fa fa-download"></i>
+            <span>保存高清长图</span>
+          </a>
+          <button type="button" class="btn-poster-action btn-poster-cancel" id="post-poster-cancel-btn">
+            关闭
+          </button>
+        </div>
+        <div class="post-poster-mobile-hint">
+          <i class="fa fa-mobile-alt"></i>
+          <span>手机端长按海报可直接保存到相册或分发给微信/技术社群好友</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/post-poster.js" defer></script>
 
         
 
@@ -1166,6 +1230,77 @@
   </div>
 
 
+<!-- ============================================================== -->
+<!-- 侧边栏“极客博客运行里程碑”状态徽章栏 (Milestone Badges)        -->
+<!-- 挂载位置: source/_data/sidebar.swig                           -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.sidebar 载入 -->
+<!-- ============================================================== -->
+
+<div class="geek-milestones motion-element">
+  <div class="milestones-title">
+    <i class="fa fa-tachometer-alt"></i>
+    <span>运行里程碑 · BLOG STATUS</span>
+  </div>
+  <div class="milestones-container">
+    <!-- 运行状态徽章 (带绿光呼吸脉冲) -->
+    <div class="milestone-badge badge-status" title="博客系统健康在线，各项基础设施稳定运行">
+      <span class="badge-label"><i class="badge-pulse-dot"></i> 状态</span>
+      <span class="badge-val val-green">ONLINE · PASSING</span>
+    </div>
+
+    <!-- 运行历程徽章 (建站基准日 2021-01-07 动态累加) -->
+    <div class="milestone-badge badge-runtime" title="自 2021 年建站至今不间断运行">
+      <span class="badge-label"><i class="fa fa-hourglass-half"></i> 历程</span>
+      <span class="badge-val val-orange" id="blog-runtime-val">载入中...</span>
+    </div>
+
+    <!-- 全站篇数徽章 -->
+    <div class="milestone-badge badge-posts" title="全站已公开发表的技术文章总篇数">
+      <span class="badge-label"><i class="fa fa-file-alt"></i> 文章</span>
+      <span class="badge-val val-blue">16 篇技术归档</span>
+    </div>
+
+    <!-- 极客内核架构徽章 -->
+    <div class="milestone-badge badge-version" title="博客静态渲染引擎与主题架构版本">
+      <span class="badge-label"><i class="fa fa-microchip"></i> 内核</span>
+      <span class="badge-val val-purple">Hexo v7 · NexT v7.8</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  function updateBlogRuntime() {
+    var elem = document.getElementById('blog-runtime-val');
+    if (!elem) return;
+
+    // 建站起始时间：2021年1月7日
+    var startDate = new Date('2021/01/07 00:00:00');
+    var now = new Date();
+    var diffMs = now.getTime() - startDate.getTime();
+
+    if (diffMs < 0) {
+      elem.textContent = '1 天';
+      return;
+    }
+
+    var totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    var totalHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    elem.textContent = totalDays + ' 天 ' + totalHours + ' 时';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateBlogRuntime);
+  } else {
+    updateBlogRuntime();
+  }
+
+  // 每小时自动刷新一次运行时长显示
+  setInterval(updateBlogRuntime, 3600000);
+  window.addEventListener('pjax:success', updateBlogRuntime);
+})();
+</script>
 
       </div>
 
@@ -1241,6 +1376,7 @@
   
   <script src="/lib/anime.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/lozad/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -1579,6 +1715,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateThemeButton();
     reloadMermaid();
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: isDark ? 'light' : 'dark' } }));
   }
 
   // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
@@ -1799,6 +1936,173 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 })();
 </script>
+
+<!-- ============================================================== -->
+<!-- 6. 3D 赛博空间立体球形标签云 (3D Cyber Space TagCanvas)        -->
+<!-- 挂载位置: source/_data/body-end.swig                          -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  function init3DTagCloud() {
+    var tagCloudTags = document.querySelector('.tag-cloud-tags');
+    if (!tagCloudTags) return;
+
+    // 1. 五重隐私安全拦截：过滤剔除私密标签
+    var tagLinks = tagCloudTags.querySelectorAll('a');
+    tagLinks.forEach(function(a) {
+      var text = (a.textContent || '').trim().toLowerCase();
+      if (text === '私密' || text === 'secret' || text === 'private') {
+        a.remove();
+      }
+    });
+
+    if (document.getElementById('tag-canvas-wrap')) return;
+
+    // 2. 插入 Canvas 容器与交互指引
+    var wrap = document.createElement('div');
+    wrap.id = 'tag-canvas-wrap';
+    wrap.className = 'tag-canvas-wrap';
+
+    var tip = document.createElement('div');
+    tip.className = 'tag-canvas-tip';
+    tip.innerHTML = '<i class="fa fa-atom"></i> <span>3D 赛博空间悬浮交互 · 鼠标移入可自由旋转 · 点击标签直达</span>';
+    wrap.appendChild(tip);
+
+    var canvas = document.createElement('canvas');
+    canvas.id = 'tag-canvas';
+    canvas.className = 'tag-canvas';
+    
+    var containerWidth = (tagCloudTags.parentElement.clientWidth || 560) - 20;
+    var canvasWidth = Math.min(520, Math.max(300, containerWidth));
+    var canvasHeight = Math.min(420, Math.max(280, Math.floor(canvasWidth * 0.8)));
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    canvas.innerHTML = '<p>您的浏览器暂不支持 3D Canvas 标签球效果</p>';
+    wrap.appendChild(canvas);
+
+    tagCloudTags.parentElement.insertBefore(wrap, tagCloudTags);
+
+    if (!tagCloudTags.id) {
+      tagCloudTags.id = 'tag-cloud-source-list';
+    }
+
+    // 3. 核心启动与配色适配
+    function runTagCanvas() {
+      if (!window.TagCanvas) return;
+      var isDark = document.documentElement.classList.contains('dark-mode') || 
+                   (localStorage.getItem('theme') === 'dark');
+
+      var options = {
+        textColour: isDark ? '#38bdf8' : '#fc6423',
+        outlineColour: isDark ? 'rgba(56, 189, 248, 0.3)' : 'rgba(252, 100, 35, 0.3)',
+        outlineThickness: 1.5,
+        outlineMethod: 'outline',
+        maxSpeed: 0.035,
+        minSpeed: 0.008,
+        decel: 0.96,
+        depth: 0.92,
+        initial: [0.12, -0.08],
+        wheelZoom: false,
+        fadeIn: 600,
+        reverse: true,
+        activeCursor: 'pointer',
+        pulsateTo: 1.15,
+        pulsateTime: 0.5,
+        weight: true,
+        weightMode: 'both',
+        weightSize: 1.2,
+        clickToFront: 400,
+        shuffleTags: true,
+        minTags: 18,
+        shadow: isDark ? '#0284c7' : '#ff8038',
+        shadowBlur: isDark ? 4 : 2,
+        textHeight: 18,
+        textFont: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+      };
+
+      if (isDark) {
+        options.weightGradient = {
+          0: '#ff8038',
+          0.33: '#38bdf8',
+          0.66: '#34d399',
+          1: '#a78bfa'
+        };
+      } else {
+        options.weightGradient = {
+          0: '#ea580c',
+          0.33: '#fc6423',
+          0.66: '#0284c7',
+          1: '#475569'
+        };
+      }
+
+      try {
+        TagCanvas.Start('tag-canvas', tagCloudTags.id, options);
+        tagCloudTags.classList.add('tag-cloud-hidden');
+      } catch (err) {
+        console.warn('TagCanvas fallback to 2D:', err);
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      }
+    }
+
+    // 4. 按需加载本地 tagcanvas.min.js
+    if (window.TagCanvas) {
+      runTagCanvas();
+    } else {
+      var script = document.createElement('script');
+      script.src = '/lib/tagcanvas/tagcanvas.min.js';
+      script.async = true;
+      script.onload = runTagCanvas;
+      script.onerror = function() {
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      };
+      document.body.appendChild(script);
+    }
+
+    // 5. 监听深浅主题切换事件，动态重绘 3D 球体配色
+    window.addEventListener('themeChanged', function() {
+      if (window.TagCanvas && document.getElementById('tag-canvas')) {
+        try {
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        } catch (e) {}
+      }
+    });
+
+    // 6. 响应式视口自适应
+    var resizeTimer = null;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        var cvs = document.getElementById('tag-canvas');
+        if (!cvs || !window.TagCanvas) return;
+        var newW = Math.min(520, Math.max(300, (tagCloudTags.parentElement.clientWidth || 560) - 20));
+        var newH = Math.min(420, Math.max(280, Math.floor(newW * 0.8)));
+        if (Math.abs(cvs.width - newW) > 25) {
+          cvs.width = newW;
+          cvs.height = newH;
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        }
+      }, 300);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init3DTagCloud);
+  } else {
+    init3DTagCloud();
+  }
+  window.addEventListener('pjax:success', init3DTagCloud);
+})();
+</script>
+
+<!-- 8. 博文段落内嵌单曲 / 播客音频胶囊交互驱动引擎 (Geek Audio Pill) -->
+<script src="/js/audio-pill.js" defer></script>
+
 
 
 

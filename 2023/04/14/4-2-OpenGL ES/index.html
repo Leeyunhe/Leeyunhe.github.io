@@ -14,7 +14,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"leeyunhe.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="一、OpenGL ES 3.x概述OpenGL ES 是基于 OpenGL 三维图形 API 的子集，主要是针对手机以及 PDA（掌上电脑）等嵌入式设备设计的。 OpenGL ES 的 API 由 Khronos 组织定义并推广， Khronos 是一个图形软硬件行业协会，该协会致力于为这些 API 建立免费的开发标准。 1、 OpenGL ES3.x简介OpenGL 的应用领域较为广泛，适用于">
@@ -349,7 +349,7 @@
   </div>
   <div class="outdated-warning-content">
     <div class="outdated-warning-title">文章时效性提示</div>
-    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1279 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
+    <div class="outdated-warning-desc">本文发布或最后更新于 <strong>1280 天（约 3.5 年）</strong> 前，文中所涉及的技术细节、API 接口、依赖版本或系统环境可能已经发生迭代变迁，请注意甄别与测试。</div>
   </div>
 </div>
 <h1 id="一、OpenGL-ES-3-x概述"><a href="#一、OpenGL-ES-3-x概述" class="headerlink" title="一、OpenGL ES 3.x概述"></a>一、OpenGL ES 3.x概述</h1><p>OpenGL ES 是基于 OpenGL 三维图形 API 的子集，主要是针对手机以及 PDA（掌上电脑）等嵌入式设备设计的。 OpenGL ES 的 API 由 Khronos 组织定义并推广， Khronos 是一个图形软硬件行业协会，该协会致力于为这些 API 建立免费的开发标准。</p>
@@ -380,14 +380,14 @@
 <li>创建渲染上下文<br> EGL 的最新版本时 EGL v1.4</li>
 </ul>
 <h3 id="4-4使用流程"><a href="#4-4使用流程" class="headerlink" title="4.4使用流程"></a>4.4使用流程</h3><p>任何OpenGL ES应用程序都必须在开始渲染之前使用EGL执行如下任务：</p>
-<img src="9.jpg" style="zoom: 80%;" />
+<img data-src="9.jpg" style="zoom: 80%;" />
 
 
 
 
 
-<h2 id="5-OpenGL-ES-3-0图形管线的各个阶段"><a href="#5-OpenGL-ES-3-0图形管线的各个阶段" class="headerlink" title="5.OpenGL ES 3.0图形管线的各个阶段"></a>5.OpenGL ES 3.0图形管线的各个阶段</h2><p><img src="/2023/04/14/4-2-OpenGL%20ES/8.png"></p>
-<p><img src="/2023/04/14/4-2-OpenGL%20ES/10.jpg"></p>
+<h2 id="5-OpenGL-ES-3-0图形管线的各个阶段"><a href="#5-OpenGL-ES-3-0图形管线的各个阶段" class="headerlink" title="5.OpenGL ES 3.0图形管线的各个阶段"></a>5.OpenGL ES 3.0图形管线的各个阶段</h2><p><img data-src="/2023/04/14/4-2-OpenGL%20ES/8.png"></p>
+<p><img data-src="/2023/04/14/4-2-OpenGL%20ES/10.jpg"></p>
 <h3 id="5-1顶点着色器"><a href="#5-1顶点着色器" class="headerlink" title="5.1顶点着色器"></a>5.1顶点着色器</h3><p>顶点和顶点着色器(Vertex &amp; Vertex shader)，shader 是指运行在GPU可编程管线上的程序，也就是GPU所用的编程语言，本质是一种类C语言。<br> Vertex shader 的内容包含：</p>
 <ul>
 <li><p>shader程序： 用来描述顶点上执⾏操作的顶点着⾊器程序源代码&#x2F;可执⾏⽂件 </p>
@@ -397,7 +397,7 @@
 <li><p>uniform(统一变量)  Vertex&#x2F;Pixel shader 使用的不变的变量，如：颜色数据</p>
 </li>
 <li><p>采样器， 代表顶点着⾊器使⽤纹理的特殊统⼀变量类型。 </p>
-<p><img src="/2023/04/14/4-2-OpenGL%20ES/11.jpg"></p>
+<p><img data-src="/2023/04/14/4-2-OpenGL%20ES/11.jpg"></p>
 </li>
 </ul>
 <p> 如图所示，可以由很多属性输入到顶点着色器，最后顶点着色器也会输出属性数据，其中gl_Position和gl_PointSize是OpenGL的内建变量。</p>
@@ -406,7 +406,7 @@
 <p>图元装配: 将顶点数据计算成⼀个个图元.在这个阶段会执⾏裁剪、透视分割和Viewport变换操作。</p>
 <p>  对于每个单独图元及其对应的顶点， 图元装配阶段执⾏的操作包括：将顶点着⾊器的输出值执⾏裁剪、透视分割、视⼝变换后进⼊光栅化阶段 </p>
 <h3 id="5-3光栅化"><a href="#5-3光栅化" class="headerlink" title="5.3光栅化"></a>5.3光栅化</h3><p> 光栅化是将<strong>图元转换为一组二维片段的过程</strong>，此后这些片段就会交给Pixel shader 处理，这些二维片段就是屏幕上可以绘制的像素。 </p>
-<p><img src="/2023/04/14/4-2-OpenGL%20ES/12.jpg"></p>
+<p><img data-src="/2023/04/14/4-2-OpenGL%20ES/12.jpg"></p>
 <h3 id="5-4-⽚元着⾊器-⽚段着⾊器"><a href="#5-4-⽚元着⾊器-⽚段着⾊器" class="headerlink" title="5.4 ⽚元着⾊器&#x2F;⽚段着⾊器"></a>5.4 <strong>⽚元着⾊器&#x2F;⽚段着⾊器</strong></h3><p>片段着色器（Pixel shader&#x2F;Fragment shader）为片段操作实现了通用的可编程方法，它的组成如下：</p>
 <ul>
 <li><p>Shader 程序– 描述⽚段上执⾏操作的⽚元着⾊器程序源代码&#x2F;可执⾏⽂件 </p>
@@ -416,10 +416,10 @@
 <li><p>输出变量– 统⼀变量(uniform)–顶点&#x2F;⽚元着⾊器使⽤的不变数据 </p>
 </li>
 <li><p>采样器–代表⽚元着⾊器使⽤纹理的特殊统⼀变量类型 </p>
-<p><img src="/2023/04/14/4-2-OpenGL%20ES/13.jpg"></p>
+<p><img data-src="/2023/04/14/4-2-OpenGL%20ES/13.jpg"></p>
 </li>
 </ul>
-<h3 id="5-5逐片段操作"><a href="#5-5逐片段操作" class="headerlink" title="5.5逐片段操作"></a>5.5逐片段操作</h3><p><img src="/2023/04/14/4-2-OpenGL%20ES/14.webp"></p>
+<h3 id="5-5逐片段操作"><a href="#5-5逐片段操作" class="headerlink" title="5.5逐片段操作"></a>5.5逐片段操作</h3><p><img data-src="/2023/04/14/4-2-OpenGL%20ES/14.webp"></p>
 <ul>
 <li>像素归属测试: 确定帧缓存区中位置(Xw,Yw)的像素⽬前是不是归属于OpenGL ES所有. 例如,如果⼀个显示OpenGL ES帧缓存区View被另外⼀个View 所遮蔽.则窗⼝系统可以确定被遮蔽的像素不属于OpenGL ES 上下⽂.从⽽不全显示这些像素. ⽽像素归属测试是OpenGL ES 的⼀部分,它不由开发者开⼈为控制,⽽是由OpenGL ES 内部进⾏。</li>
 <li>裁剪测试: 裁剪测试确定(Xw,Yw)是否位于作为OpenGL ES状态的⼀部分裁剪矩形范围内.如果该⽚段位于裁剪区域之外,则被抛弃。</li>
@@ -430,19 +430,19 @@
 <h1 id="二、环境搭建"><a href="#二、环境搭建" class="headerlink" title="二、环境搭建"></a>二、环境搭建</h1><h1 id="三、第一个OpenGL-ES-3-0程序"><a href="#三、第一个OpenGL-ES-3-0程序" class="headerlink" title="三、第一个OpenGL ES 3.0程序"></a>三、第一个OpenGL ES 3.0程序</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;esUtil.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="comment">// Handle to a program object</span></span><br><span class="line">   GLuint programObject;</span><br><span class="line"></span><br><span class="line">&#125; UserData;</span><br><span class="line"></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">// Create a shader object, load the shader source, and</span></span><br><span class="line"><span class="comment">// compile the shader.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">GLuint <span class="title function_">LoadShader</span> <span class="params">( GLenum type, <span class="type">const</span> <span class="type">char</span> *shaderSrc )</span></span><br><span class="line">&#123;</span><br><span class="line">   GLuint shader;</span><br><span class="line">   GLint compiled;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Create the shader object,创建指定类型的新着色器对象</span></span><br><span class="line">   shader = glCreateShader ( type );</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> ( shader == <span class="number">0</span> )</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Load the shader source着色器源代码本身用glShaderSource加载到着色器对象</span></span><br><span class="line">   glShaderSource ( shader, <span class="number">1</span>, &amp;shaderSrc, <span class="literal">NULL</span> );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Compile the shader着色器用glCompileShader函数编译</span></span><br><span class="line">   glCompileShader ( shader );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Check the compile status确定编译的状态，打印输出生成的错误</span></span><br><span class="line">   glGetShaderiv ( shader, GL_COMPILE_STATUS, &amp;compiled );</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> ( !compiled )</span><br><span class="line">   &#123;</span><br><span class="line">      GLint infoLen = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      glGetShaderiv ( shader, GL_INFO_LOG_LENGTH, &amp;infoLen );</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> ( infoLen &gt; <span class="number">1</span> )</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="type">char</span> *infoLog = <span class="built_in">malloc</span> ( <span class="keyword">sizeof</span> ( <span class="type">char</span> ) * infoLen );</span><br><span class="line"></span><br><span class="line">         glGetShaderInfoLog ( shader, infoLen, <span class="literal">NULL</span>, infoLog );</span><br><span class="line">         esLogMessage ( <span class="string">&quot;Error compiling shader:\n%s\n&quot;</span>, infoLog );</span><br><span class="line"></span><br><span class="line">         <span class="built_in">free</span> ( infoLog );</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      glDeleteShader ( shader );</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> shader;<span class="comment">//着色器编译成功，则返回一个新的着色器对象。</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">// Initialize the shader and program object</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Init</span> <span class="params">( ESContext *esContext )</span></span><br><span class="line">&#123;</span><br><span class="line">   UserData *userData = esContext-&gt;userData;</span><br><span class="line">    <span class="comment">//顶点着色器</span></span><br><span class="line">   <span class="type">char</span> vShaderStr[] =</span><br><span class="line">      <span class="string">&quot;#version 300 es                          \n&quot;</span></span><br><span class="line">      <span class="string">&quot;layout(location = 0) in vec4 vPosition;  \n&quot;</span></span><br><span class="line">      <span class="string">&quot;void main()                              \n&quot;</span></span><br><span class="line">      <span class="string">&quot;&#123;                                        \n&quot;</span></span><br><span class="line">      <span class="string">&quot;   gl_Position = vPosition;              \n&quot;</span></span><br><span class="line">      <span class="string">&quot;&#125;                                        \n&quot;</span>;</span><br><span class="line">	<span class="comment">/*1.声明着色器版本；</span></span><br><span class="line"><span class="comment">	2.声明一个名为vPosition的4分量向量输入属性，layout（location=0）限定符表示这个变量的位置是顶点属性0；</span></span><br><span class="line"><span class="comment">	3.声明一个main函数，表示着色器执行的开始，&#123;&#125;中是着色器主体，将vPosition输入属性拷贝到名为gl_Position的特殊输出变量。每个顶点着色器必须在gl_Position变量中输出一个位置，这个变量定义传递到管线下一个阶段的位置。*/</span></span><br><span class="line">    <span class="comment">//片断着色器</span></span><br><span class="line">   <span class="type">char</span> fShaderStr[] =</span><br><span class="line">      <span class="string">&quot;#version 300 es                              \n&quot;</span></span><br><span class="line">      <span class="string">&quot;precision mediump float;                     \n&quot;</span></span><br><span class="line">      <span class="string">&quot;out vec4 fragColor;                          \n&quot;</span></span><br><span class="line">      <span class="string">&quot;void main()                                  \n&quot;</span></span><br><span class="line">      <span class="string">&quot;&#123;                                            \n&quot;</span></span><br><span class="line">      <span class="string">&quot;   fragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );  \n&quot;</span></span><br><span class="line">      <span class="string">&quot;&#125;                                            \n&quot;</span>;</span><br><span class="line"></span><br><span class="line">   GLuint vertexShader;</span><br><span class="line">   GLuint fragmentShader;</span><br><span class="line">   GLuint programObject;</span><br><span class="line">   GLint linked;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Load the vertex/fragment shaders.编译和加载着色器</span></span><br><span class="line">   vertexShader = LoadShader ( GL_VERTEX_SHADER, vShaderStr );</span><br><span class="line">   fragmentShader = LoadShader ( GL_FRAGMENT_SHADER, fShaderStr );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Create the program object创建一个程序对象</span></span><br><span class="line">   programObject = glCreateProgram ( );</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> ( programObject == <span class="number">0</span> )</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">   &#125;</span><br><span class="line">	<span class="comment">//用glAttachShader将顶点着色器和片断着色器连接到对象上。</span></span><br><span class="line">   glAttachShader ( programObject, vertexShader );</span><br><span class="line">   glAttachShader ( programObject, fragmentShader );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Link the program连接程序</span></span><br><span class="line">   glLinkProgram ( programObject );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Check the link status检查错误</span></span><br><span class="line">   glGetProgramiv ( programObject, GL_LINK_STATUS, &amp;linked );</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> ( !linked )</span><br><span class="line">   &#123;</span><br><span class="line">      GLint infoLen = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      glGetProgramiv ( programObject, GL_INFO_LOG_LENGTH, &amp;infoLen );</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> ( infoLen &gt; <span class="number">1</span> )</span><br><span class="line">      &#123;</span><br><span class="line">         <span class="type">char</span> *infoLog = <span class="built_in">malloc</span> ( <span class="keyword">sizeof</span> ( <span class="type">char</span> ) * infoLen );</span><br><span class="line"></span><br><span class="line">         glGetProgramInfoLog ( programObject, infoLen, <span class="literal">NULL</span>, infoLog );</span><br><span class="line">         esLogMessage ( <span class="string">&quot;Error linking program:\n%s\n&quot;</span>, infoLog );</span><br><span class="line"></span><br><span class="line">         <span class="built_in">free</span> ( infoLog );</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      glDeleteProgram ( programObject );</span><br><span class="line">      <span class="keyword">return</span> FALSE;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Store the program object.保存程序对象。对象连接成功后，可以使用程序对象进行渲染，可以调用glUseProgram ( userData-&gt;programObject )来使用程序对象</span></span><br><span class="line">   userData-&gt;programObject = programObject;</span><br><span class="line"></span><br><span class="line">   glClearColor ( <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">1.0f</span>, <span class="number">0.0f</span> );</span><br><span class="line">   <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///</span></span><br><span class="line"><span class="comment">// Draw a triangle using the shader pair created in Init()</span></span><br><span class="line"><span class="comment">//Draw回调函数用于绘制帧</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Draw</span> <span class="params">( ESContext *esContext )</span></span><br><span class="line">&#123;</span><br><span class="line">   UserData *userData = esContext-&gt;userData;</span><br><span class="line">   GLfloat vVertices[] = &#123;  <span class="number">0.0f</span>,  <span class="number">0.5f</span>, <span class="number">0.3f</span>,</span><br><span class="line">                            <span class="number">-0.5f</span>, <span class="number">-0.5f</span>, <span class="number">0.5f</span>,</span><br><span class="line">                            <span class="number">0.5f</span>, <span class="number">-0.5f</span>, <span class="number">-0.4f</span></span><br><span class="line">                         &#125;;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Set the viewport设置视口的原点和宽高</span></span><br><span class="line">   glViewport ( <span class="number">0</span>, <span class="number">0</span>, esContext-&gt;width, esContext-&gt;height );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Clear the color buffer清除缓冲区，清除颜色为glClearColor指定的颜色</span></span><br><span class="line">   glClear ( GL_COLOR_BUFFER_BIT );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Use the program object对象连接成功后，可以使用程序对象进行渲染</span></span><br><span class="line">   glUseProgram ( userData-&gt;programObject );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Load the vertex data加载几何形状和绘制图元</span></span><br><span class="line">    <span class="comment">//三角形的顶点由vVertices数组中的三个坐标（x， y， z）指定。顶点位置使用glVertexAttribPointer加载到GL，并连接到顶点着色器生命的vPosition属性</span></span><br><span class="line">   glVertexAttribPointer ( <span class="number">0</span>, <span class="number">3</span>, GL_FLOAT, GL_FALSE, <span class="number">0</span>, vVertices );</span><br><span class="line">   glEnableVertexAttribArray ( <span class="number">0</span> );</span><br><span class="line"></span><br><span class="line">   glDrawArrays ( GL_TRIANGLES, <span class="number">0</span>, <span class="number">3</span> );<span class="comment">//告诉OpenGL ES绘制图元</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Shutdown</span> <span class="params">( ESContext *esContext )</span></span><br><span class="line">&#123;</span><br><span class="line">   UserData *userData = esContext-&gt;userData;</span><br><span class="line"></span><br><span class="line">   glDeleteProgram ( userData-&gt;programObject );</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//应用程序的主入口。ESContext有一个名为userData、类型为void的成员变量，应用程序所需的所有数据保存在userData中</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">esMain</span> <span class="params">( ESContext *esContext )</span></span><br><span class="line">&#123;</span><br><span class="line">   esContext-&gt;userData = <span class="built_in">malloc</span> ( <span class="keyword">sizeof</span> ( UserData ) );<span class="comment">//分配userData</span></span><br><span class="line"></span><br><span class="line">   esCreateWindow ( esContext, <span class="string">&quot;Hello Triangle&quot;</span>, <span class="number">375</span>, <span class="number">667</span>, ES_WINDOW_RGB );<span class="comment">//创建了窗口并初始化绘图回调函数</span></span><br><span class="line">	<span class="comment">//创建顶点着色器和片断着色器,OpenGL ES 3.0程序必须至少有一个顶点着色器和一个片断着色器。</span></span><br><span class="line">   <span class="keyword">if</span> ( !Init ( esContext ) )</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="keyword">return</span> GL_FALSE;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   esRegisterShutdownFunc ( esContext, Shutdown );</span><br><span class="line">   esRegisterDrawFunc ( esContext, Draw );</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> GL_TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>代码分析参见： <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2ce67644eae8">OpenGL ES 3.0 入门 - 简书 (jianshu.com)</a> </p>
-<h2 id="代码流程框架1"><a href="#代码流程框架1" class="headerlink" title="代码流程框架1"></a>代码流程框架1</h2><img src="16.jpg" style="zoom:80%;" />
+<h2 id="代码流程框架1"><a href="#代码流程框架1" class="headerlink" title="代码流程框架1"></a>代码流程框架1</h2><img data-src="16.jpg" style="zoom:80%;" />
 
-<h2 id="代码流程框架2"><a href="#代码流程框架2" class="headerlink" title="代码流程框架2"></a>代码流程框架2</h2><p><img src="/2023/04/14/4-2-OpenGL%20ES/19.jpg"></p>
-<h2 id="代码流程框架3"><a href="#代码流程框架3" class="headerlink" title="代码流程框架3"></a>代码流程框架3</h2><p><img src="/2023/04/14/4-2-OpenGL%20ES/20.jpg"></p>
+<h2 id="代码流程框架2"><a href="#代码流程框架2" class="headerlink" title="代码流程框架2"></a>代码流程框架2</h2><p><img data-src="/2023/04/14/4-2-OpenGL%20ES/19.jpg"></p>
+<h2 id="代码流程框架3"><a href="#代码流程框架3" class="headerlink" title="代码流程框架3"></a>代码流程框架3</h2><p><img data-src="/2023/04/14/4-2-OpenGL%20ES/20.jpg"></p>
 <h1 id="四、OpenGL-ES-3-0-2-0-API查询网站"><a href="#四、OpenGL-ES-3-0-2-0-API查询网站" class="headerlink" title="四、OpenGL-ES 3.0&#x2F;2.0 API查询网站"></a>四、OpenGL-ES 3.0&#x2F;2.0 API查询网站</h1><p>OpenGL-ES 3.0 API：<a target="_blank" rel="noopener" href="https://www.khronos.org/registry/OpenGL-Refpages/es3.0/">https://www.khronos.org/registry/OpenGL-Refpages/es3.0/</a></p>
 <p>OpenGL-ES 2.0 API：<a target="_blank" rel="noopener" href="https://registry.khronos.org/OpenGL-Refpages/es2.0/">https://registry.khronos.org/OpenGL-Refpages/es2.0/</a></p>
 <h1 id="五、坐标系的转换"><a href="#五、坐标系的转换" class="headerlink" title="五、坐标系的转换"></a>五、坐标系的转换</h1><p>1、OpenGL坐标系</p>
 <p>2、纹理坐标系</p>
 <p> 2D纹理是一个图像数据的二维数组。一个纹理单独数据元素称作“纹素”(Texel)。图像中的每个纹素根据基本格式和数据类型指定。如果用2D纹理渲染时，纹理坐标用作图像中的索引。2D纹理的纹理坐标用一对2D坐标(s,t)或者(u,v)来表示，这些坐标用于查找一个纹理贴图的规范化坐标。 </p>
-<p><img src="/2023/04/14/4-2-OpenGL%20ES/18.webp"></p>
+<p><img data-src="/2023/04/14/4-2-OpenGL%20ES/18.webp"></p>
 <p> 纹理图像的左下坐标由(0.0,0.0)决定，右上角坐标由(1.0,1.0)指定。在[0.0,1.0]之外的坐标是允许的，在区间之外的纹理读取行为由纹理包装模式决定。 </p>
 <p>3、屏幕坐标系</p>
-<p><img src="/2023/04/14/4-2-OpenGL%20ES/17%E5%9D%90%E6%A0%87%E7%B3%BB.png"></p>
+<p><img data-src="/2023/04/14/4-2-OpenGL%20ES/17%E5%9D%90%E6%A0%87%E7%B3%BB.png"></p>
 <p>裁剪： 限制纹理坐标的取值范围来实现裁剪的效果 </p>
 <h1 id="六、纹理对象的创建与加载"><a href="#六、纹理对象的创建与加载" class="headerlink" title="六、纹理对象的创建与加载"></a>六、纹理对象的创建与加载</h1><h2 id="1-本地资源"><a href="#1-本地资源" class="headerlink" title="1.本地资源"></a>1.本地资源</h2><p>OpenCv读取，然后绑定纹理</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">LoadTextures</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string name;</span><br><span class="line">    cv::Mat image;</span><br><span class="line">	GLuint LoadingTexture；</span><br><span class="line">        </span><br><span class="line">    name = <span class="built_in">string</span>(<span class="string">&quot;../&quot;</span> + <span class="string">&quot;resource/Loadingpicture-&quot;</span> + <span class="built_in">to_string</span>(<span class="number">1</span>) + <span class="string">&quot;.png&quot;</span>;<span class="comment">//读取UI文件资源路径</span></span><br><span class="line">    image = cv::<span class="built_in">imread</span>(name, cv::IMREAD_UNCHANGED);<span class="comment">//OpenCv读取文件</span></span><br><span class="line">    <span class="keyword">if</span>(image.data == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">PRINT</span>(<span class="string">&quot;%s::%d Load Loadingpicture.png Failed \n&quot;</span>,	__FILE__,  __LINE__);   </span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* Genarate Texture  */</span></span><br><span class="line">    <span class="built_in">glGenTextures</span>(<span class="number">1</span>, &amp;LoadingTexture);<span class="comment">//生成纹理名称</span></span><br><span class="line">    <span class="built_in">glBindTexture</span>(GL_TEXTURE_2D, LoadingTexture);<span class="comment">//绑定指定纹理到目标</span></span><br><span class="line">    <span class="built_in">glTexImage2D</span>(GL_TEXTURE_2D, <span class="number">0</span>, GL_RGBA,image.cols, image.rows, <span class="number">0</span>, GL_RGBA, GL_UNSIGNED_BYTE, image.data);<span class="comment">//指定2D纹理对象（目标纹理GL_TEXTURE_2D）</span></span><br><span class="line">    <span class="comment">/* Linear Filtering */</span></span><br><span class="line">    <span class="built_in">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);</span><br><span class="line">    <span class="built_in">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);</span><br><span class="line">    <span class="built_in">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);</span><br><span class="line">    <span class="built_in">glTexParameteri</span>(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);</span><br><span class="line">    <span class="built_in">glBindTexture</span>(GL_TEXTURE_2D, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
@@ -480,6 +480,70 @@
         <div class="popular-posts-excerpt"><p>OpenGl ES—FBO（Frame Buffer Object帧缓存对象） Overview在OpenGL渲染管线中，几何数据和纹理经过...</p></div>
     </li>
   </ul>
+<!-- ============================================================== -->
+<!-- 一键生成精美极客“技术分享长图 / 金句海报” (Post Share Poster)    -->
+<!-- 挂载位置: source/_data/post-body-end.swig                      -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.postBodyEnd 载入 -->
+<!-- ============================================================== -->
+    
+
+    
+
+    
+
+    <div class="post-poster-trigger-wrapper">
+      <button type="button" class="btn-post-poster" id="btn-post-poster"
+        data-title="OpenGL ES 3.x概述"
+        data-date="2023-04-14"
+        data-url="https://leeyunhe.github.io/2023/04/14/4-2-OpenGL%20ES/"
+        data-category="笔记"
+        data-tags="嵌入式,OpenGL"
+        data-description=""
+        data-author="Leeyunhe"
+        title="一键生成高清技术分享长图与金句海报"
+      >
+        <i class="fa fa-camera-retro"></i>
+        <span>生成技术分享长图</span>
+      </button>
+    </div>
+
+    <!-- 海报预览与保存全屏模态弹窗 -->
+    <div class="post-poster-modal" id="post-poster-modal" style="display: none;" aria-hidden="true">
+      <div class="post-poster-backdrop"></div>
+      <div class="post-poster-dialog" role="dialog" aria-modal="true">
+        <div class="post-poster-header">
+          <div class="post-poster-title">
+            <i class="fa fa-image"></i>
+            <span>技术分享长图 · 金句海报</span>
+          </div>
+          <button type="button" class="post-poster-close" id="post-poster-close-btn" title="关闭 (Esc)">&times;</button>
+        </div>
+        <div class="post-poster-body">
+          <div class="post-poster-loading" id="post-poster-loading">
+            <i class="fa fa-spinner fa-spin"></i>
+            <span>正在排版并即时绘制 Retina 2x 高清海报...</span>
+          </div>
+          <div class="post-poster-preview" id="post-poster-preview" style="display: none;">
+            <img id="post-poster-img" src="" alt="博文技术分享海报预览" />
+          </div>
+        </div>
+        <div class="post-poster-footer">
+          <a id="post-poster-download-btn" href="#" download="post-poster.png" class="btn-poster-action btn-poster-download">
+            <i class="fa fa-download"></i>
+            <span>保存高清长图</span>
+          </a>
+          <button type="button" class="btn-poster-action btn-poster-cancel" id="post-poster-cancel-btn">
+            关闭
+          </button>
+        </div>
+        <div class="post-poster-mobile-hint">
+          <i class="fa fa-mobile-alt"></i>
+          <span>手机端长按海报可直接保存到相册或分发给微信/技术社群好友</span>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/post-poster.js" defer></script>
 
         
 
@@ -642,6 +706,77 @@
   </div>
 
 
+<!-- ============================================================== -->
+<!-- 侧边栏“极客博客运行里程碑”状态徽章栏 (Milestone Badges)        -->
+<!-- 挂载位置: source/_data/sidebar.swig                           -->
+<!-- 说明: 由 source/_data/next.yml 的 custom_file_path.sidebar 载入 -->
+<!-- ============================================================== -->
+
+<div class="geek-milestones motion-element">
+  <div class="milestones-title">
+    <i class="fa fa-tachometer-alt"></i>
+    <span>运行里程碑 · BLOG STATUS</span>
+  </div>
+  <div class="milestones-container">
+    <!-- 运行状态徽章 (带绿光呼吸脉冲) -->
+    <div class="milestone-badge badge-status" title="博客系统健康在线，各项基础设施稳定运行">
+      <span class="badge-label"><i class="badge-pulse-dot"></i> 状态</span>
+      <span class="badge-val val-green">ONLINE · PASSING</span>
+    </div>
+
+    <!-- 运行历程徽章 (建站基准日 2021-01-07 动态累加) -->
+    <div class="milestone-badge badge-runtime" title="自 2021 年建站至今不间断运行">
+      <span class="badge-label"><i class="fa fa-hourglass-half"></i> 历程</span>
+      <span class="badge-val val-orange" id="blog-runtime-val">载入中...</span>
+    </div>
+
+    <!-- 全站篇数徽章 -->
+    <div class="milestone-badge badge-posts" title="全站已公开发表的技术文章总篇数">
+      <span class="badge-label"><i class="fa fa-file-alt"></i> 文章</span>
+      <span class="badge-val val-blue">16 篇技术归档</span>
+    </div>
+
+    <!-- 极客内核架构徽章 -->
+    <div class="milestone-badge badge-version" title="博客静态渲染引擎与主题架构版本">
+      <span class="badge-label"><i class="fa fa-microchip"></i> 内核</span>
+      <span class="badge-val val-purple">Hexo v7 · NexT v7.8</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  function updateBlogRuntime() {
+    var elem = document.getElementById('blog-runtime-val');
+    if (!elem) return;
+
+    // 建站起始时间：2021年1月7日
+    var startDate = new Date('2021/01/07 00:00:00');
+    var now = new Date();
+    var diffMs = now.getTime() - startDate.getTime();
+
+    if (diffMs < 0) {
+      elem.textContent = '1 天';
+      return;
+    }
+
+    var totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    var totalHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    elem.textContent = totalDays + ' 天 ' + totalHours + ' 时';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateBlogRuntime);
+  } else {
+    updateBlogRuntime();
+  }
+
+  // 每小时自动刷新一次运行时长显示
+  setInterval(updateBlogRuntime, 3600000);
+  window.addEventListener('pjax:success', updateBlogRuntime);
+})();
+</script>
 
       </div>
 
@@ -717,6 +852,7 @@
   
   <script src="/lib/anime.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/lozad/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 
@@ -1055,6 +1191,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateThemeButton();
     reloadMermaid();
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: isDark ? 'light' : 'dark' } }));
   }
 
   // 5. Mermaid 架构图深浅主题自适应与动态重绘引擎
@@ -1275,6 +1412,173 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 })();
 </script>
+
+<!-- ============================================================== -->
+<!-- 6. 3D 赛博空间立体球形标签云 (3D Cyber Space TagCanvas)        -->
+<!-- 挂载位置: source/_data/body-end.swig                          -->
+<!-- ============================================================== -->
+<script>
+(function() {
+  function init3DTagCloud() {
+    var tagCloudTags = document.querySelector('.tag-cloud-tags');
+    if (!tagCloudTags) return;
+
+    // 1. 五重隐私安全拦截：过滤剔除私密标签
+    var tagLinks = tagCloudTags.querySelectorAll('a');
+    tagLinks.forEach(function(a) {
+      var text = (a.textContent || '').trim().toLowerCase();
+      if (text === '私密' || text === 'secret' || text === 'private') {
+        a.remove();
+      }
+    });
+
+    if (document.getElementById('tag-canvas-wrap')) return;
+
+    // 2. 插入 Canvas 容器与交互指引
+    var wrap = document.createElement('div');
+    wrap.id = 'tag-canvas-wrap';
+    wrap.className = 'tag-canvas-wrap';
+
+    var tip = document.createElement('div');
+    tip.className = 'tag-canvas-tip';
+    tip.innerHTML = '<i class="fa fa-atom"></i> <span>3D 赛博空间悬浮交互 · 鼠标移入可自由旋转 · 点击标签直达</span>';
+    wrap.appendChild(tip);
+
+    var canvas = document.createElement('canvas');
+    canvas.id = 'tag-canvas';
+    canvas.className = 'tag-canvas';
+    
+    var containerWidth = (tagCloudTags.parentElement.clientWidth || 560) - 20;
+    var canvasWidth = Math.min(520, Math.max(300, containerWidth));
+    var canvasHeight = Math.min(420, Math.max(280, Math.floor(canvasWidth * 0.8)));
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    canvas.innerHTML = '<p>您的浏览器暂不支持 3D Canvas 标签球效果</p>';
+    wrap.appendChild(canvas);
+
+    tagCloudTags.parentElement.insertBefore(wrap, tagCloudTags);
+
+    if (!tagCloudTags.id) {
+      tagCloudTags.id = 'tag-cloud-source-list';
+    }
+
+    // 3. 核心启动与配色适配
+    function runTagCanvas() {
+      if (!window.TagCanvas) return;
+      var isDark = document.documentElement.classList.contains('dark-mode') || 
+                   (localStorage.getItem('theme') === 'dark');
+
+      var options = {
+        textColour: isDark ? '#38bdf8' : '#fc6423',
+        outlineColour: isDark ? 'rgba(56, 189, 248, 0.3)' : 'rgba(252, 100, 35, 0.3)',
+        outlineThickness: 1.5,
+        outlineMethod: 'outline',
+        maxSpeed: 0.035,
+        minSpeed: 0.008,
+        decel: 0.96,
+        depth: 0.92,
+        initial: [0.12, -0.08],
+        wheelZoom: false,
+        fadeIn: 600,
+        reverse: true,
+        activeCursor: 'pointer',
+        pulsateTo: 1.15,
+        pulsateTime: 0.5,
+        weight: true,
+        weightMode: 'both',
+        weightSize: 1.2,
+        clickToFront: 400,
+        shuffleTags: true,
+        minTags: 18,
+        shadow: isDark ? '#0284c7' : '#ff8038',
+        shadowBlur: isDark ? 4 : 2,
+        textHeight: 18,
+        textFont: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+      };
+
+      if (isDark) {
+        options.weightGradient = {
+          0: '#ff8038',
+          0.33: '#38bdf8',
+          0.66: '#34d399',
+          1: '#a78bfa'
+        };
+      } else {
+        options.weightGradient = {
+          0: '#ea580c',
+          0.33: '#fc6423',
+          0.66: '#0284c7',
+          1: '#475569'
+        };
+      }
+
+      try {
+        TagCanvas.Start('tag-canvas', tagCloudTags.id, options);
+        tagCloudTags.classList.add('tag-cloud-hidden');
+      } catch (err) {
+        console.warn('TagCanvas fallback to 2D:', err);
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      }
+    }
+
+    // 4. 按需加载本地 tagcanvas.min.js
+    if (window.TagCanvas) {
+      runTagCanvas();
+    } else {
+      var script = document.createElement('script');
+      script.src = '/lib/tagcanvas/tagcanvas.min.js';
+      script.async = true;
+      script.onload = runTagCanvas;
+      script.onerror = function() {
+        wrap.style.display = 'none';
+        tagCloudTags.classList.remove('tag-cloud-hidden');
+      };
+      document.body.appendChild(script);
+    }
+
+    // 5. 监听深浅主题切换事件，动态重绘 3D 球体配色
+    window.addEventListener('themeChanged', function() {
+      if (window.TagCanvas && document.getElementById('tag-canvas')) {
+        try {
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        } catch (e) {}
+      }
+    });
+
+    // 6. 响应式视口自适应
+    var resizeTimer = null;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        var cvs = document.getElementById('tag-canvas');
+        if (!cvs || !window.TagCanvas) return;
+        var newW = Math.min(520, Math.max(300, (tagCloudTags.parentElement.clientWidth || 560) - 20));
+        var newH = Math.min(420, Math.max(280, Math.floor(newW * 0.8)));
+        if (Math.abs(cvs.width - newW) > 25) {
+          cvs.width = newW;
+          cvs.height = newH;
+          TagCanvas.Delete('tag-canvas');
+          runTagCanvas();
+        }
+      }, 300);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init3DTagCloud);
+  } else {
+    init3DTagCloud();
+  }
+  window.addEventListener('pjax:success', init3DTagCloud);
+})();
+</script>
+
+<!-- 8. 博文段落内嵌单曲 / 播客音频胶囊交互驱动引擎 (Geek Audio Pill) -->
+<script src="/js/audio-pill.js" defer></script>
+
 
 
 
