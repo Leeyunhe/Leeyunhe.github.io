@@ -333,11 +333,11 @@
      data-wpm="抱歉，密码错误，请核对后重新输入！"
      data-whm="抱歉，密码错误，请核对后重新输入！"
      data-salt="d7c2d86fb77d9440d979fe0f048976b6e794f57eb2d1312d3d42c3ece7eaf5b5"
-     data-nonce="c3d3e90fc733b3b43ee7124c"
+     data-nonce="b12010aad4d2a93affa2df42"
      data-kdf-iterations="600000"
      data-auto-save="true">
   <script id="hbeData" type="hbeData">
-    3aaee1661a3d34505cac076bc92d036ee1cf110b550bb3bea2ff4b43bf3816ed30e68d58f8f7046b6d0d252619dba3d11be04771d527efe0dbefa73b3e85dfa14267d1c5005c2a1be2b76e6a67b04253cde02520573b988953c4f5647359f9290162508594fe88829a7f4438369d50b86f76fa4d773bf6f9e49e48381487d089edccb470a6a8a0a52d8842613762c80ccfd6564c6825ec2ef026a43dbfac7192dc8f67011b74159d33393424fa199d8793563872135f774061e41b26761a51eac43505f7016f8dd2a65735b9ff470b917ff95a48057c52fe594a96ae3cb7ab3679a63660b5eae8833fb7819700cef4ba3467514841e4e35312dbcccbaf3618361b506e196a1aa1cbba28ac66b68bdc86acf770be6728db891683929d1b0d4a9903f51bfabb6985e89f457f9b5f4c315558f792937ff2fdf6a87966ef90982782ce5ef759244d42309303aa609e59b6124f604aca52df4e5db1f2d07579af50d6a6de050fd747cffe08436ef688fd57050df59fbf36eac05d4f17a1e62d718782756a70dfddbc6e42ee69de6bcdb45d93d23024725a3ad14b7c6c0ac7e73bce1f4ab1c2e70732b1929f28d258d5cfb9b090a1d10c7250b87b0dd7c6071982a47f7ed347be00c786efd7283ef1e978a7
+    1d6fc9d49aefc70cd6c59b787e1addfbf63b6a69e28b136fc39e3329f17df2251971e5fbde0c262a5bc26802c9cf89fcc0d1c0f5921d088811c335539fc569957d3fd50cd2d1d1839cb352c35291b8cf2f04f8390457c9fb18d313417babf9866c43726eb478aee0f5e2d756ed72704430b163ad0108bbd5833e7b006923d215181107c28fd0b94537b30992a4eb6a6b4a47543c08a69acf7400f13c5bd7809b7cf3c168337eca6731ac22372a9b1202a912053bf79d5a54293452720a966652cc1251d36d86a9af535eb885d38ab3841dfca5536c3e231ade7e70b29b98a36d414f9791516a4d6c49331f694124a00c64336a91c609c3712a01a3b777590823b61716da190b293e5efab935763c983397d3a26a735a67995f2f89e7ee82ca4fe0a00aa96b30812add8ecddac379dfa3fd39d4061751389ab7adfd6317d4345687db11e1e52992f9a1c55f2847f8b1bc9d65ed416b5a513d3b473560e375ff57af96cabe84b5930719e4830b841173ffed5969bd4b538c985dec87f021eef77b0595992b269d43a745ca3b3fb7f763517acdca2b7baa221ea3d8afb343575161ad03c95cbb2fc50196c5c7f21953579322c77201ee253144a03cb92dc592eb0ed21d9aaaafc423bb73c867659755b8
   </script>
   <div class="hbe hbe-content">
     <form id="hbeForm" class="hbe hbe-form" onsubmit="return false">
@@ -932,6 +932,32 @@ if (document.querySelectorAll('pre.mermaid').length) {
 <!-- 1. APlayer & MetingJS 核心依赖 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script>
+// APlayer 歌词默认静默拦截器：在 APlayer 实例化时第一时间隐蔽歌词条并同步按钮状态
+(function() {
+  if (window.APlayer) {
+    var OriginalAPlayer = window.APlayer;
+    window.APlayer = function(options) {
+      var instance = new OriginalAPlayer(options);
+      try {
+        if (instance.lrc && typeof instance.lrc.hide === 'function') {
+          instance.lrc.hide();
+        }
+        if (instance.template && instance.template.lrcButton) {
+          instance.template.lrcButton.classList.add('aplayer-icon-lrc-inactivity');
+        }
+      } catch (e) {}
+      return instance;
+    };
+    window.APlayer.prototype = OriginalAPlayer.prototype;
+    for (var prop in OriginalAPlayer) {
+      if (Object.prototype.hasOwnProperty.call(OriginalAPlayer, prop)) {
+        window.APlayer[prop] = OriginalAPlayer[prop];
+      }
+    }
+  }
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
 
 <!-- 2. 全局吸底播放器挂载 (左下角常驻悬浮小唱片) -->
@@ -961,15 +987,35 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(searchOverlay);
   }
 
-  // B. 默认关闭 APlayer 全站歌词悬浮条 (访客点击播放器上的歌词图标仍可随时开启)
+  // B. 默认关闭 APlayer 全站歌词悬浮条 (双重看门狗守护，访客点击播放器上的歌词图标仍可随时开启)
+  function hideLrcSafely() {
+    var meting = document.querySelector('meting-js');
+    if (meting && meting.aplayer && meting.aplayer.lrc) {
+      try {
+        meting.aplayer.lrc.hide();
+        if (meting.aplayer.template && meting.aplayer.template.lrcButton) {
+          meting.aplayer.template.lrcButton.classList.add('aplayer-icon-lrc-inactivity');
+        }
+      } catch (e) {}
+    }
+    var lrcWrap = document.querySelector('.aplayer.aplayer-fixed .aplayer-lrc');
+    if (lrcWrap && !lrcWrap.classList.contains('aplayer-lrc-hide')) {
+      lrcWrap.classList.add('aplayer-lrc-hide');
+    }
+  }
+
+  hideLrcSafely();
+
   var lrcTimer = setInterval(function() {
     var meting = document.querySelector('meting-js');
     if (meting && meting.aplayer && meting.aplayer.lrc) {
-      meting.aplayer.lrc.hide();
+      hideLrcSafely();
       clearInterval(lrcTimer);
     }
   }, 200);
-  setTimeout(function() { clearInterval(lrcTimer); }, 6000);
+  setTimeout(function() { clearInterval(lrcTimer); }, 20000);
+
+  window.addEventListener('pjax:success', hideLrcSafely);
 });
 </script>
 

@@ -1166,6 +1166,32 @@ if (document.querySelectorAll('pre.mermaid').length) {
 <!-- 1. APlayer & MetingJS 核心依赖 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script>
+// APlayer 歌词默认静默拦截器：在 APlayer 实例化时第一时间隐蔽歌词条并同步按钮状态
+(function() {
+  if (window.APlayer) {
+    var OriginalAPlayer = window.APlayer;
+    window.APlayer = function(options) {
+      var instance = new OriginalAPlayer(options);
+      try {
+        if (instance.lrc && typeof instance.lrc.hide === 'function') {
+          instance.lrc.hide();
+        }
+        if (instance.template && instance.template.lrcButton) {
+          instance.template.lrcButton.classList.add('aplayer-icon-lrc-inactivity');
+        }
+      } catch (e) {}
+      return instance;
+    };
+    window.APlayer.prototype = OriginalAPlayer.prototype;
+    for (var prop in OriginalAPlayer) {
+      if (Object.prototype.hasOwnProperty.call(OriginalAPlayer, prop)) {
+        window.APlayer[prop] = OriginalAPlayer[prop];
+      }
+    }
+  }
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
 
 <!-- 2. 全局吸底播放器挂载 (左下角常驻悬浮小唱片) -->
@@ -1195,15 +1221,35 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(searchOverlay);
   }
 
-  // B. 默认关闭 APlayer 全站歌词悬浮条 (访客点击播放器上的歌词图标仍可随时开启)
+  // B. 默认关闭 APlayer 全站歌词悬浮条 (双重看门狗守护，访客点击播放器上的歌词图标仍可随时开启)
+  function hideLrcSafely() {
+    var meting = document.querySelector('meting-js');
+    if (meting && meting.aplayer && meting.aplayer.lrc) {
+      try {
+        meting.aplayer.lrc.hide();
+        if (meting.aplayer.template && meting.aplayer.template.lrcButton) {
+          meting.aplayer.template.lrcButton.classList.add('aplayer-icon-lrc-inactivity');
+        }
+      } catch (e) {}
+    }
+    var lrcWrap = document.querySelector('.aplayer.aplayer-fixed .aplayer-lrc');
+    if (lrcWrap && !lrcWrap.classList.contains('aplayer-lrc-hide')) {
+      lrcWrap.classList.add('aplayer-lrc-hide');
+    }
+  }
+
+  hideLrcSafely();
+
   var lrcTimer = setInterval(function() {
     var meting = document.querySelector('meting-js');
     if (meting && meting.aplayer && meting.aplayer.lrc) {
-      meting.aplayer.lrc.hide();
+      hideLrcSafely();
       clearInterval(lrcTimer);
     }
   }, 200);
-  setTimeout(function() { clearInterval(lrcTimer); }, 6000);
+  setTimeout(function() { clearInterval(lrcTimer); }, 20000);
+
+  window.addEventListener('pjax:success', hideLrcSafely);
 });
 </script>
 
